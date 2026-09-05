@@ -1,8 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "standalone",
-  distDir: process.env.DIST_DIR || ".next",
 
   rewrites: async () => {
     // On Vercel (VERCEL=1 is set automatically in that environment) the
