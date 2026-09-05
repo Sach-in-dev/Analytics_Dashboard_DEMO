@@ -87,7 +87,7 @@ function FunnelBarTooltip({ active, payload }: any) {
         <div className="bg-white border border-gray-200 shadow-lg rounded-lg px-4 py-3 text-sm">
             <p className="font-semibold text-gray-800">{name}</p>
             <p className="text-gray-500 mt-1">
-                {value.toLocaleString()} users
+                {value?.toLocaleString()} users
             </p>
             {data.percentage !== undefined && (
                 <p className="text-gray-400 text-xs mt-0.5">
@@ -138,10 +138,10 @@ function DeltaLine({ current, previous, kind, lowerIsBetter = false }: {
     const Icon = isNeutral ? Minus : (delta > 0 ? ArrowUp : ArrowDown)
     const color = isNeutral ? "text-gray-400" : isPositive ? "text-emerald-600" : "text-rose-600"
     const fmtPrev =
-        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000).toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000).toFixed(1)}K` : `₹${Math.round(previous).toLocaleString()}`) :
+        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000)?.toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000)?.toFixed(1)}K` : `₹${Math.round(previous)?.toLocaleString()}`) :
         kind === "percent" ? `${previous}%` :
-        kind === "days" ? `${previous.toFixed(1)}d` :
-        previous.toLocaleString()
+        kind === "days" ? `${previous?.toFixed(1)}d` :
+        previous?.toLocaleString()
     return (
         <div className="mt-2 flex items-center gap-2 text-xs">
             <span className={`inline-flex items-center gap-0.5 font-semibold ${color}`}>
@@ -340,7 +340,7 @@ export default function FunnelPage() {
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-extrabold text-indigo-700">
-                            {loading ? "—" : totals.total_users.toLocaleString()}
+                            {loading ? "—" : totals.total_users?.toLocaleString()}
                         </div>
                         <p className="text-xs text-indigo-500/70 mt-1">
                             Base audience entering funnel
@@ -362,7 +362,7 @@ export default function FunnelPage() {
                             {loading ? "—" : `${rates.open_rate}%`}
                         </div>
                         <p className="text-xs text-violet-500/70 mt-1">
-                            {loading ? "" : `${totals.open_users.toLocaleString()} users browsed`}
+                            {loading ? "" : `${totals.open_users?.toLocaleString()} users browsed`}
                         </p>
                         <DeltaLine current={rates.open_rate} previous={cmpRates?.open_rate} kind="percent" />
                     </CardContent>
@@ -381,7 +381,7 @@ export default function FunnelPage() {
                             {loading ? "—" : `${rates.click_rate}%`}
                         </div>
                         <p className="text-xs text-amber-500/70 mt-1">
-                            {loading ? "" : `${totals.click_users.toLocaleString()} users added to cart`}
+                            {loading ? "" : `${totals.click_users?.toLocaleString()} users added to cart`}
                         </p>
                         <DeltaLine current={rates.click_rate} previous={cmpRates?.click_rate} kind="percent" />
                     </CardContent>
@@ -400,7 +400,7 @@ export default function FunnelPage() {
                             {loading ? "—" : `${rates.conversion_rate}%`}
                         </div>
                         <p className="text-xs text-emerald-500/70 mt-1">
-                            {loading ? "" : `${totals.converted_users.toLocaleString()} users purchased`}
+                            {loading ? "" : `${totals.converted_users?.toLocaleString()} users purchased`}
                         </p>
                         <DeltaLine current={rates.conversion_rate} previous={cmpRates?.conversion_rate} kind="percent" />
                     </CardContent>
@@ -420,11 +420,11 @@ export default function FunnelPage() {
                                     Funnel Insight
                                 </h3>
                                 <p className="text-sm text-gray-600 leading-relaxed">
-                                    Of <strong>{totals.total_users.toLocaleString()}</strong> total users,{" "}
-                                    <strong className="text-violet-700">{totals.open_users.toLocaleString()}</strong> ({rates.open_rate}%) browsed the store,{" "}
-                                    <strong className="text-amber-600">{totals.click_users.toLocaleString()}</strong> ({rates.click_rate}%) added items to cart,{" "}
-                                    <strong className="text-rose-600">{totals.payment_failure_users.toLocaleString()}</strong> ({rates.payment_failure_rate}%) failed at payment, and{" "}
-                                    <strong className="text-emerald-700">{totals.converted_users.toLocaleString()}</strong> ({rates.conversion_rate}%) completed a purchase.
+                                    Of <strong>{totals.total_users?.toLocaleString()}</strong> total users,{" "}
+                                    <strong className="text-violet-700">{totals.open_users?.toLocaleString()}</strong> ({rates.open_rate}%) browsed the store,{" "}
+                                    <strong className="text-amber-600">{totals.click_users?.toLocaleString()}</strong> ({rates.click_rate}%) added items to cart,{" "}
+                                    <strong className="text-rose-600">{totals.payment_failure_users?.toLocaleString()}</strong> ({rates.payment_failure_rate}%) failed at payment, and{" "}
+                                    <strong className="text-emerald-700">{totals.converted_users?.toLocaleString()}</strong> ({rates.conversion_rate}%) completed a purchase.
                                     {drop.open_to_click_drop > 50 && (
                                         <span className="text-rose-600">
                                             {" "}The biggest drop-off is from open to click ({drop.open_to_click_drop}%) — consider improving product discovery.
@@ -482,7 +482,7 @@ export default function FunnelPage() {
                                         />
                                         <XAxis
                                             type="number"
-                                            tickFormatter={(v) => v.toLocaleString()}
+                                            tickFormatter={(v) => v?.toLocaleString()}
                                             tick={{ fontSize: 11, fill: "#9ca3af" }}
                                         />
                                         <YAxis
@@ -725,11 +725,11 @@ export default function FunnelPage() {
                                             className={`border-b border-gray-50 hover:bg-gray-50/60 transition-colors ${idx % 2 === 0 ? "bg-white" : "bg-gray-50/30"}`}
                                         >
                                             <td className="py-2.5 px-3 font-medium text-gray-700">{row.date}</td>
-                                            <td className="py-2.5 px-3 text-right text-gray-600">{row.total_users.toLocaleString()}</td>
-                                            <td className="py-2.5 px-3 text-right text-gray-600">{row.open_users.toLocaleString()}</td>
-                                            <td className="py-2.5 px-3 text-right text-gray-600">{row.click_users.toLocaleString()}</td>
-                                            <td className="py-2.5 px-3 text-right text-gray-600">{row.payment_failure_users.toLocaleString()}</td>
-                                            <td className="py-2.5 px-3 text-right text-gray-600">{row.converted_users.toLocaleString()}</td>
+                                            <td className="py-2.5 px-3 text-right text-gray-600">{row.total_users?.toLocaleString()}</td>
+                                            <td className="py-2.5 px-3 text-right text-gray-600">{row.open_users?.toLocaleString()}</td>
+                                            <td className="py-2.5 px-3 text-right text-gray-600">{row.click_users?.toLocaleString()}</td>
+                                            <td className="py-2.5 px-3 text-right text-gray-600">{row.payment_failure_users?.toLocaleString()}</td>
+                                            <td className="py-2.5 px-3 text-right text-gray-600">{row.converted_users?.toLocaleString()}</td>
                                             <td className="py-2.5 px-3 text-right">
                                                 <span className="inline-block bg-violet-50 text-violet-700 rounded px-2 py-0.5 text-xs font-semibold">
                                                     {row.open_rate}%
@@ -808,13 +808,13 @@ function FunnelStage({
             {!isFailure && (
                 <div className="flex items-center gap-1 text-xs text-gray-400">
                     <ArrowDown className="h-3 w-3 text-rose-400" />
-                    <span>{dropped.toLocaleString()} users dropped ({dropPct}%)</span>
+                    <span>{dropped?.toLocaleString()} users dropped ({dropPct}%)</span>
                 </div>
             )}
             {isFailure && (
                 <div className="flex items-center gap-1 text-xs text-gray-400">
                     <ArrowDown className="h-3 w-3 text-rose-400" />
-                    <span>{toCount.toLocaleString()} users failed</span>
+                    <span>{toCount?.toLocaleString()} users failed</span>
                 </div>
             )}
         </div>

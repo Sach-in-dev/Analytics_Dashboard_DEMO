@@ -190,7 +190,7 @@ export const COMPARE_MODE_META: Record<
 }
 
 export const pctChange = (a: number, b: number) =>
-    b === 0 ? 0 : +(((a - b) / b) * 100).toFixed(1)
+    b === 0 ? 0 : +(((a - b) / b) * 100)?.toFixed(1)
 
 export interface CompareRange { start: string; end: string }
 

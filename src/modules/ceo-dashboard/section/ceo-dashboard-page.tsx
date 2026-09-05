@@ -119,15 +119,16 @@ interface CeoDashboardData {
 // HELPERS
 // ═══════════════════════════════════════════════════════════
 function formatCurrency(value: number): string {
-  if (value >= 1_00_00_000) return `₹${(value / 1_00_00_000).toFixed(1)}Cr`
-  if (value >= 1_00_000) return `₹${(value / 1_00_000).toFixed(1)}L`
-  if (value >= 1_000) return `₹${value.toLocaleString("en-IN")}`
+    if (typeof value !== "number" || isNaN(value)) return "₹0";
+  if (value >= 1_00_00_000) return `₹${(value / 1_00_00_000)?.toFixed(1)}Cr`
+  if (value >= 1_00_000) return `₹${(value / 1_00_000)?.toFixed(1)}L`
+  if (value >= 1_000) return `₹${value?.toLocaleString("en-IN")}`
   return `₹${value}`
 }
 
 function formatNumber(value: number): string {
-  if (value >= 1_00_000) return `${(value / 1_000).toFixed(0)}K`
-  if (value >= 1_000) return value.toLocaleString("en-IN")
+  if (value >= 1_00_000) return `${(value / 1_000)?.toFixed(0)}K`
+  if (value >= 1_000) return value?.toLocaleString("en-IN")
   return `${value}`
 }
 
@@ -434,8 +435,8 @@ export default function CeoDashboardPage() {
     },
     {
       label: "Average Order Value",
-      value: `₹${es.aov.current.toLocaleString("en-IN")}`,
-      target: `Target: ≥ ₹${es.aov.target.toLocaleString("en-IN")}`,
+      value: `₹${es.aov.current?.toLocaleString("en-IN")}`,
+      target: `Target: ≥ ₹${es.aov.target?.toLocaleString("en-IN")}`,
       status: es.aov.status,
       isStatic: es.aov.static,
       subtitle: "Higher AOV via bundles & upsells.",
@@ -813,7 +814,7 @@ export default function CeoDashboardPage() {
                   label="Aging Stock (>120d)"
                   current={`${inventory.aging_stock_pct.current}%`}
                   previous={inventory.aging_stock_pct.previous != null ? `prev ${inventory.aging_stock_pct.previous}%` : ""}
-                  delta={inventory.aging_stock_pct.previous != null ? `${(inventory.aging_stock_pct.current - inventory.aging_stock_pct.previous).toFixed(1)} pts` : "—"}
+                  delta={inventory.aging_stock_pct.previous != null ? `${(inventory.aging_stock_pct.current - inventory.aging_stock_pct.previous)?.toFixed(1)} pts` : "—"}
                   direction={inventory.aging_stock_pct.previous != null ? (inventory.aging_stock_pct.current < inventory.aging_stock_pct.previous ? "up" : "down") : "flat"}
                   upIsGood={true}
                   isStatic={inventory.aging_stock_pct.static}
@@ -974,8 +975,8 @@ export default function CeoDashboardPage() {
                   <TableRow key={i} className="hover:bg-gray-50/50">
                     <TableCell className="text-xs uppercase text-gray-400 font-semibold">{row.section}</TableCell>
                     <TableCell className="font-medium text-gray-800">{row.metric}</TableCell>
-                    <TableCell className="text-right tabular-nums font-bold text-gray-800">{typeof row.current === 'number' ? row.current.toLocaleString() : row.current}</TableCell>
-                    <TableCell className="text-right tabular-nums text-gray-500">{typeof row.target === 'number' ? row.target.toLocaleString() : row.target}</TableCell>
+                    <TableCell className="text-right tabular-nums font-bold text-gray-800">{typeof row.current === 'number' ? row.current?.toLocaleString() : row.current}</TableCell>
+                    <TableCell className="text-right tabular-nums text-gray-500">{typeof row.target === 'number' ? row.target?.toLocaleString() : row.target}</TableCell>
                     <TableCell className="text-center">
                       {row.status === "on_track" && <span className="px-3 py-1 rounded-full text-sm font-extrabold bg-emerald-500 text-white border border-emerald-600">On Track</span>}
                       {row.status === "watch" && <span className="px-3 py-1 rounded-full text-sm font-extrabold bg-amber-400 text-amber-950 border border-amber-500">On Watch</span>}
@@ -1001,8 +1002,8 @@ export default function CeoDashboardPage() {
                   <XAxis dataKey="date" tick={{ fontSize: 10, fill: "#9ca3af" }} axisLine={false} tickLine={false}
                     tickFormatter={(v: string) => v.slice(5)} interval="preserveStartEnd" />
                   <YAxis tick={{ fontSize: 10, fill: "#9ca3af" }} axisLine={false} tickLine={false}
-                    tickFormatter={(v: number) => v >= 100000 ? `₹${(v/100000).toFixed(0)}L` : `₹${(v/1000).toFixed(0)}K`} />
-                  <Tooltip formatter={(v: any) => [`₹${Number(v).toLocaleString("en-IN")}`, "GMV"]} labelFormatter={(l: string) => `Date: ${l}`} />
+                    tickFormatter={(v: number) => v >= 100000 ? `₹${(v/100000)?.toFixed(0)}L` : `₹${(v/1000)?.toFixed(0)}K`} />
+                  <Tooltip formatter={(v: any) => [`₹${Number(v)?.toLocaleString("en-IN")}`, "GMV"]} labelFormatter={(l: string) => `Date: ${l}`} />
                   <Area type="monotone" dataKey="gmv" stroke="#6366f1" fill="#e0e7ff" strokeWidth={2} dot={false} />
                 </AreaChart>
               </ResponsiveContainer>
@@ -1042,7 +1043,7 @@ export default function CeoDashboardPage() {
                         <div className="flex-1 h-4 bg-gray-100 rounded-full overflow-hidden">
                           <div className={`h-full rounded-full ${colors[seg]||"bg-blue-400"}`} style={{width:`${pct}%`}} />
                         </div>
-                        <div className="w-20 text-xs text-right font-semibold text-gray-700">{count.toLocaleString()} ({pct}%)</div>
+                        <div className="w-20 text-xs text-right font-semibold text-gray-700">{count?.toLocaleString()} ({pct}%)</div>
                       </div>
                     )
                   })}
@@ -1060,10 +1061,10 @@ export default function CeoDashboardPage() {
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
-                { label: "Total Revenue", value: `₹${((data.contribution_margin.total_revenue||0)/100000).toFixed(1)}L`, color: "text-emerald-600" },
-                { label: "Gross Profit (42%)", value: `₹${((data.contribution_margin.gross_profit||0)/100000).toFixed(1)}L`, color: "text-blue-600" },
-                { label: "Marketing Spend", value: `₹${((data.contribution_margin.marketing_spend||0)/100000).toFixed(1)}L`, color: "text-rose-600" },
-                { label: "Contribution Margin", value: `₹${((data.contribution_margin.contribution_margin||0)/100000).toFixed(1)}L (${data.contribution_margin.contribution_margin_pct||0}%)`, color: (data.contribution_margin.contribution_margin||0) > 0 ? "text-emerald-600 font-bold" : "text-rose-600 font-bold" },
+                { label: "Total Revenue", value: `₹${((data.contribution_margin.total_revenue||0)/100000)?.toFixed(1)}L`, color: "text-emerald-600" },
+                { label: "Gross Profit (42%)", value: `₹${((data.contribution_margin.gross_profit||0)/100000)?.toFixed(1)}L`, color: "text-blue-600" },
+                { label: "Marketing Spend", value: `₹${((data.contribution_margin.marketing_spend||0)/100000)?.toFixed(1)}L`, color: "text-rose-600" },
+                { label: "Contribution Margin", value: `₹${((data.contribution_margin.contribution_margin||0)/100000)?.toFixed(1)}L (${data.contribution_margin.contribution_margin_pct||0}%)`, color: (data.contribution_margin.contribution_margin||0) > 0 ? "text-emerald-600 font-bold" : "text-rose-600 font-bold" },
               ].map(k => (
                 <div key={k.label} className="bg-gray-50 rounded-lg p-4">
                   <p className="text-xs text-gray-500 mb-1">{k.label}</p>
@@ -1092,9 +1093,9 @@ export default function CeoDashboardPage() {
                   {(data.channel_drilldown as any[]).map((ch: any, i: number) => (
                     <tr key={i} className="hover:bg-gray-50">
                       <td className="py-2 font-medium text-gray-700">{ch.source}</td>
-                      <td className="py-2 text-right text-emerald-600 font-semibold">₹{((ch.revenue||0)/100000).toFixed(1)}L</td>
-                      <td className="py-2 text-right text-gray-600">{(ch.orders||0).toLocaleString()}</td>
-                      <td className="py-2 text-right text-gray-500">{(ch.sessions||0).toLocaleString()}</td>
+                      <td className="py-2 text-right text-emerald-600 font-semibold">₹{((ch.revenue||0)/100000)?.toFixed(1)}L</td>
+                      <td className="py-2 text-right text-gray-600">{(ch.orders||0)?.toLocaleString()}</td>
+                      <td className="py-2 text-right text-gray-500">{(ch.sessions||0)?.toLocaleString()}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -1112,7 +1113,7 @@ export default function CeoDashboardPage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
                 { label: "MER", value: `${(data.metric_library as any).mer||0}x`, color: "text-indigo-600" },
-                { label: "Avg CAC", value: `₹${((data.metric_library as any).avg_cac||0).toLocaleString()}`, color: "text-rose-600" },
+                { label: "Avg CAC", value: `₹${((data.metric_library as any).avg_cac||0)?.toLocaleString()}`, color: "text-rose-600" },
                 { label: "LTV:CAC", value: `${(data.metric_library as any).ltv_cac_ratio||0}x`, color: ((data.metric_library as any).ltv_cac_ratio||0) >= 3 ? "text-emerald-600" : "text-amber-600" },
                 { label: "CAC Payback", value: `${(data.metric_library as any).cac_payback_months||0} mo`, color: "text-blue-600" },
               ].map(k => (

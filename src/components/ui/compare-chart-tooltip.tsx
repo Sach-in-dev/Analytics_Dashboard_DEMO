@@ -31,7 +31,7 @@ export function CompareChartTooltip({ active, payload, label, valueFormatter }: 
         if (v == null) return "—"
         const n = Number(v)
         if (!isFinite(n)) return String(v)
-        return valueFormatter ? valueFormatter(n, name) : n.toLocaleString()
+        return valueFormatter ? valueFormatter(n, name) : n?.toLocaleString()
     }
 
     return (

@@ -29,10 +29,10 @@ function DeltaLine({ current, previous, kind, lowerIsBetter = false }: {
     const Icon = isNeutral ? Minus : (delta > 0 ? ArrowUp : ArrowDown)
     const color = isNeutral ? "text-gray-400" : isPositive ? "text-emerald-600" : "text-rose-600"
     const fmtPrev =
-        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000).toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000).toFixed(1)}K` : `₹${Math.round(previous).toLocaleString()}`) :
+        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000)?.toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000)?.toFixed(1)}K` : `₹${Math.round(previous)?.toLocaleString()}`) :
         kind === "percent" ? `${previous}%` :
-        kind === "days" ? `${previous.toFixed(1)}d` :
-        previous.toLocaleString()
+        kind === "days" ? `${previous?.toFixed(1)}d` :
+        previous?.toLocaleString()
     return (
         <div className="mt-2 flex items-center gap-2 text-xs">
             <span className={`inline-flex items-center gap-0.5 font-semibold ${color}`}>
@@ -85,10 +85,10 @@ export default function EngagementPage() {
 
   const kpis = [
     { label: "Avg Session Duration", current: data?.avg_session_duration_seconds, previous: compareData?.avg_session_duration_seconds, kind: "count", value: data?.avg_session_duration_formatted || "—", icon: Clock, color: "from-indigo-50 to-indigo-100/50 border-l-indigo-500 text-indigo-700", sub: `${data?.avg_session_duration_seconds || 0}s per session` },
-    { label: "Sessions", current: data?.sessions, previous: compareData?.sessions, kind: "count", value: data ? (data.sessions as number).toLocaleString() : "—", icon: Activity, color: "from-emerald-50 to-emerald-100/50 border-l-emerald-500 text-emerald-700", sub: "Total user sessions" },
-    { label: "Unique Visitors", current: data?.visitors, previous: compareData?.visitors, kind: "count", value: data ? (data.visitors as number).toLocaleString() : "—", icon: Users, color: "from-blue-50 to-blue-100/50 border-l-blue-500 text-blue-700", sub: "Distinct visitors" },
-    { label: "Pageviews", current: data?.pageviews, previous: compareData?.pageviews, kind: "count", value: data ? (data.pageviews as number).toLocaleString() : "—", icon: Eye, color: "from-amber-50 to-amber-100/50 border-l-amber-500 text-amber-700", sub: "Total page views" },
-    { label: "Pages / Session", current: data?.avg_pages_per_session, previous: compareData?.avg_pages_per_session, kind: "count", value: data ? data.avg_pages_per_session.toFixed(2) : "—", icon: MousePointer, color: "from-violet-50 to-violet-100/50 border-l-violet-500 text-violet-700", sub: "Avg pages per visit" },
+    { label: "Sessions", current: data?.sessions, previous: compareData?.sessions, kind: "count", value: data ? (data.sessions as number)?.toLocaleString() : "—", icon: Activity, color: "from-emerald-50 to-emerald-100/50 border-l-emerald-500 text-emerald-700", sub: "Total user sessions" },
+    { label: "Unique Visitors", current: data?.visitors, previous: compareData?.visitors, kind: "count", value: data ? (data.visitors as number)?.toLocaleString() : "—", icon: Users, color: "from-blue-50 to-blue-100/50 border-l-blue-500 text-blue-700", sub: "Distinct visitors" },
+    { label: "Pageviews", current: data?.pageviews, previous: compareData?.pageviews, kind: "count", value: data ? (data.pageviews as number)?.toLocaleString() : "—", icon: Eye, color: "from-amber-50 to-amber-100/50 border-l-amber-500 text-amber-700", sub: "Total page views" },
+    { label: "Pages / Session", current: data?.avg_pages_per_session, previous: compareData?.avg_pages_per_session, kind: "count", value: data ? data.avg_pages_per_session?.toFixed(2) : "—", icon: MousePointer, color: "from-violet-50 to-violet-100/50 border-l-violet-500 text-violet-700", sub: "Avg pages per visit" },
     { label: "Bounce Rate", current: data?.bounce_rate_pct, previous: compareData?.bounce_rate_pct, kind: "percent", lowerIsBetter: true, value: data ? `${data.bounce_rate_pct}%` : "—", icon: Activity, color: data && data.bounce_rate_pct > 60 ? "from-rose-50 to-rose-100/50 border-l-rose-500 text-rose-700" : "from-emerald-50 to-emerald-100/50 border-l-emerald-500 text-emerald-700", sub: "Sessions with 1 pageview" },
   ]
   const chartData = useMemo(() => {
@@ -135,7 +135,7 @@ export default function EngagementPage() {
             <p className="text-sm text-gray-600 leading-relaxed">
               <strong className="text-gray-800">💡 Insight:</strong>{" "}
               Average session duration is <strong>{data.avg_session_duration_formatted}</strong> with{" "}
-              <strong>{data.avg_pages_per_session.toFixed(2)}</strong> pages per session.{" "}
+              <strong>{data.avg_pages_per_session?.toFixed(2)}</strong> pages per session.{" "}
               {data.bounce_rate_pct > 60
                 ? <span className="text-rose-700">Bounce rate of <strong>{data.bounce_rate_pct}%</strong> is high — consider improving landing page relevance.</span>
                 : <span className="text-emerald-700">Bounce rate of <strong>{data.bounce_rate_pct}%</strong> is within healthy range.</span>
@@ -185,8 +185,8 @@ export default function EngagementPage() {
                           <ComposedChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                               <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 11 }} />
-                              <YAxis yAxisId="left" axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 11 }} tickFormatter={v => v.toLocaleString()} />
-                              <YAxis yAxisId="right" orientation="right" axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 11 }} tickFormatter={v => v.toLocaleString()} />
+                              <YAxis yAxisId="left" axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 11 }} tickFormatter={v => v?.toLocaleString()} />
+                              <YAxis yAxisId="right" orientation="right" axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 11 }} tickFormatter={v => v?.toLocaleString()} />
                               <RechartsTooltip cursor={{ fill: '#f8fafc' }} content={<CompareChartTooltip />} />
                               <Legend wrapperStyle={{ fontSize: 12, paddingTop: '10px' }} />
                               

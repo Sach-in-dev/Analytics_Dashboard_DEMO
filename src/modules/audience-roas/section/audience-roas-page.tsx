@@ -39,10 +39,10 @@ const COLORS = ["#6366f1","#10b981","#f59e0b","#ef4444","#8b5cf6","#14b8a6","#f9
 type SortKey = "roas" | "spend" | "revenue" | "conversion_rate" | "ctr" | "conversions"
 
 function fmt(v: number): string {
-    if (v >= 10000000) return `₹${(v/10000000).toFixed(1)}Cr`
-    if (v >= 100000) return `₹${(v/100000).toFixed(1)}L`
-    if (v >= 1000) return `₹${(v/1000).toFixed(1)}K`
-    return `₹${v.toLocaleString("en-IN")}`
+    if (v >= 10000000) return `₹${(v/10000000)?.toFixed(1)}Cr`
+    if (v >= 100000) return `₹${(v/100000)?.toFixed(1)}L`
+    if (v >= 1000) return `₹${(v/1000)?.toFixed(1)}K`
+    return `₹${v?.toLocaleString("en-IN")}`
 }
 function roasColor(r: number) { if (r >= 3) return "text-emerald-600"; if (r >= 1) return "text-amber-600"; return "text-rose-600" }
 function roasBg(r: number) { if (r >= 3) return "bg-emerald-100 text-emerald-700"; if (r >= 1) return "bg-amber-100 text-amber-700"; return "bg-rose-100 text-rose-700" }
@@ -56,10 +56,10 @@ function ChartTip({ active, payload, label }: any) {
 
         return (<div className="bg-white border border-gray-200 shadow-xl rounded-lg px-4 py-3 text-sm">
         <p className="font-semibold text-gray-800 mb-1 max-w-[240px] truncate">{d?.adset_name || label}</p>
-        <p className="text-gray-600">ROAS: <strong className={roasColor(d?.roas || 0)}>{(d?.roas || 0).toFixed(2)}x</strong></p>
+        <p className="text-gray-600">ROAS: <strong className={roasColor(d?.roas || 0)}>{(d?.roas || 0)?.toFixed(2)}x</strong></p>
         <p className="text-gray-600">Revenue: <strong className="text-emerald-600">{fmt(d?.revenue || 0)}</strong></p>
         <p className="text-gray-600">Spend: <strong className="text-rose-600">{fmt(d?.spend || 0)}</strong></p>
-        <p className="text-gray-600">Conv Rate: <strong className="text-indigo-600">{(d?.conversion_rate || 0).toFixed(2)}%</strong></p>
+        <p className="text-gray-600">Conv Rate: <strong className="text-indigo-600">{(d?.conversion_rate || 0)?.toFixed(2)}%</strong></p>
     </div>)
 }
 
@@ -69,7 +69,7 @@ function ScatterTip({ active, payload }: any) {
     return (<div className="bg-white border border-gray-200 shadow-xl rounded-lg px-4 py-3 text-sm">
         <p className="font-semibold text-gray-800 mb-1 max-w-[240px] truncate">{d?.adset_name}</p>
         <p className="text-gray-600">Spend: <strong>{fmt(d?.spend || 0)}</strong></p>
-        <p className="text-gray-600">ROAS: <strong className={roasColor(d?.roas || 0)}>{(d?.roas || 0).toFixed(2)}x</strong></p>
+        <p className="text-gray-600">ROAS: <strong className={roasColor(d?.roas || 0)}>{(d?.roas || 0)?.toFixed(2)}x</strong></p>
         <p className="text-gray-600">Revenue: <strong className="text-emerald-600">{fmt(d?.revenue || 0)}</strong></p>
     </div>)
 }
@@ -79,7 +79,7 @@ function TrendTip({ active, payload, label }: any) {
     const prevDate = payload[0]?.payload?.prev_date
     return (<div className="bg-white border border-gray-200 shadow-xl rounded-lg px-4 py-3 text-sm">
         <p className="font-semibold text-gray-800 mb-1">{label}</p>
-        {payload.map((p: any) => (<p key={p.name} className="text-gray-600">{p.name}: <strong style={{ color: p.color }}>{p.name === "ROAS" ? `${p.value.toFixed(2)}x` : fmt(p.value)}</strong></p>))}
+        {payload.map((p: any) => (<p key={p.name} className="text-gray-600">{p.name}: <strong style={{ color: p.color }}>{p.name === "ROAS" ? `${p.value?.toFixed(2)}x` : fmt(p.value)}</strong></p>))}
         {prevDate && <p className="mt-1.5 pt-1.5 border-t border-gray-100 text-[11px] text-gray-400">previous-period day: {prevDate}</p>}
     </div>)
 }
@@ -103,10 +103,10 @@ function DeltaLine({ current, previous, kind, lowerIsBetter = false }: {
     const Icon = isNeutral ? Minus : (delta > 0 ? ArrowUp : ArrowDown)
     const color = isNeutral ? "text-gray-400" : isPositive ? "text-emerald-600" : "text-rose-600"
     const fmtPrev =
-        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000).toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000).toFixed(1)}K` : `₹${Math.round(previous).toLocaleString()}`) :
+        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000)?.toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000)?.toFixed(1)}K` : `₹${Math.round(previous)?.toLocaleString()}`) :
         kind === "percent" ? `${previous}%` :
-        kind === "days" ? `${previous.toFixed(1)}d` :
-        previous.toLocaleString()
+        kind === "days" ? `${previous?.toFixed(1)}d` :
+        previous?.toLocaleString()
     return (
         <div className="mt-2 flex items-center gap-2 text-xs">
             <span className={`inline-flex items-center gap-0.5 font-semibold ${color}`}>
@@ -219,13 +219,13 @@ export default function AudienceRoasPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <Card className="bg-gradient-to-br from-indigo-50 to-indigo-100/50 shadow-sm border-l-4 border-l-indigo-500">
                     <CardHeader className="pb-2"><CardTitle className="text-xs font-semibold text-indigo-600 uppercase tracking-widest flex items-center justify-between gap-2">Avg ROAS<TrendingUp className="h-4 w-4 text-indigo-500 shrink-0" /></CardTitle></CardHeader>
-                    <CardContent><div className={`text-3xl font-extrabold ${roasColor(summary?.avg_roas || 0)}`}>{loading ? "—" : `${(summary?.avg_roas || 0).toFixed(2)}x`}</div><p className="text-xs text-indigo-500/70 mt-1">Revenue ÷ Spend</p>
+                    <CardContent><div className={`text-3xl font-extrabold ${roasColor(summary?.avg_roas || 0)}`}>{loading ? "—" : `${(summary?.avg_roas || 0)?.toFixed(2)}x`}</div><p className="text-xs text-indigo-500/70 mt-1">Revenue ÷ Spend</p>
                     <DeltaLine current={summary?.avg_roas} previous={compareSummary?.avg_roas} kind="count" />
                     </CardContent>
                 </Card>
                 <Card className="bg-gradient-to-br from-emerald-50 to-emerald-100/50 shadow-sm border-l-4 border-l-emerald-500">
                     <CardHeader className="pb-2"><CardTitle className="text-xs font-semibold text-emerald-600 uppercase tracking-widest flex items-center justify-between gap-2">Total Revenue<DollarSign className="h-4 w-4 text-emerald-500 shrink-0" /></CardTitle></CardHeader>
-                    <CardContent><div className="text-3xl font-extrabold text-emerald-700">{loading ? "—" : fmt(summary?.total_revenue || 0)}</div><p className="text-xs text-emerald-500/70 mt-1">{!loading && summary ? `${summary.total_conversions.toLocaleString()} conversions` : "—"}</p>
+                    <CardContent><div className="text-3xl font-extrabold text-emerald-700">{loading ? "—" : fmt(summary?.total_revenue || 0)}</div><p className="text-xs text-emerald-500/70 mt-1">{!loading && summary ? `${summary.total_conversions?.toLocaleString()} conversions` : "—"}</p>
                     <DeltaLine current={summary?.total_revenue} previous={compareSummary?.total_revenue} kind="currency" />
                     </CardContent>
                 </Card>
@@ -237,7 +237,7 @@ export default function AudienceRoasPage() {
                 </Card>
                 <Card className="bg-gradient-to-br from-emerald-50/80 to-teal-50/50 shadow-sm border-l-4 border-l-teal-500">
                     <CardHeader className="pb-2"><CardTitle className="text-xs font-semibold text-teal-600 uppercase tracking-widest flex items-center justify-between gap-2">Best Audience<Trophy className="h-4 w-4 text-teal-500 shrink-0" /></CardTitle></CardHeader>
-                    <CardContent><div className="text-lg font-extrabold text-teal-700 truncate max-w-[200px]">{loading ? "—" : (summary?.best_audience || "N/A")}</div><p className="text-xs text-teal-500/70 mt-1">{!loading && summary?.best_audience_roas ? `ROAS: ${summary.best_audience_roas.toFixed(2)}x` : "—"}</p>
+                    <CardContent><div className="text-lg font-extrabold text-teal-700 truncate max-w-[200px]">{loading ? "—" : (summary?.best_audience || "N/A")}</div><p className="text-xs text-teal-500/70 mt-1">{!loading && summary?.best_audience_roas ? `ROAS: ${summary.best_audience_roas?.toFixed(2)}x` : "—"}</p>
                     </CardContent>
                 </Card>
             </div>
@@ -249,9 +249,9 @@ export default function AudienceRoasPage() {
                         <p className="text-sm text-gray-600 leading-relaxed">
                             <strong className="text-gray-800">💡 Insight:</strong>{" "}
                             {summary?.best_audience && summary.best_audience !== "N/A" ? (<>
-                                <strong className="text-emerald-700">{summary.best_audience}</strong> is your top audience with ROAS of <strong className="text-emerald-600">{summary.best_audience_roas.toFixed(2)}x</strong>.
-                                {summary.worst_audience && summary.worst_audience !== "N/A" && summary.worst_audience !== summary.best_audience && (<> Consider reducing budget for <strong className="text-rose-600">{summary.worst_audience}</strong> (ROAS: {summary.worst_audience_roas.toFixed(2)}x).</>)}
-                                {" "}Across {summary.total_audiences} audiences: avg ROAS <strong className={roasColor(summary.avg_roas)}>{summary.avg_roas.toFixed(2)}x</strong>, {summary.total_conversions.toLocaleString()} conversions.
+                                <strong className="text-emerald-700">{summary.best_audience}</strong> is your top audience with ROAS of <strong className="text-emerald-600">{summary.best_audience_roas?.toFixed(2)}x</strong>.
+                                {summary.worst_audience && summary.worst_audience !== "N/A" && summary.worst_audience !== summary.best_audience && (<> Consider reducing budget for <strong className="text-rose-600">{summary.worst_audience}</strong> (ROAS: {summary.worst_audience_roas?.toFixed(2)}x).</>)}
+                                {" "}Across {summary.total_audiences} audiences: avg ROAS <strong className={roasColor(summary.avg_roas)}>{summary.avg_roas?.toFixed(2)}x</strong>, {summary.total_conversions?.toLocaleString()} conversions.
                             </>) : (<>No audience data available. Ensure Meta Ads API is configured.</>)}
                         </p>
                     </CardContent>
@@ -268,7 +268,7 @@ export default function AudienceRoasPage() {
                                 <ResponsiveContainer width="100%" height="100%">
                                     <BarChart data={roasBarData} layout="vertical" margin={{ top: 5, right: 30, left: 10, bottom: 5 }}>
                                         <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                                        <XAxis type="number" tick={{ fontSize: 10, fill: "#9ca3af" }} axisLine={false} tickLine={false} tickFormatter={v => `${v.toFixed(1)}x`} />
+                                        <XAxis type="number" tick={{ fontSize: 10, fill: "#9ca3af" }} axisLine={false} tickLine={false} tickFormatter={v => `${v?.toFixed(1)}x`} />
                                         <YAxis type="category" dataKey="adset_name" width={150} tick={{ fontSize: 11, fill: "#374151" }} axisLine={false} tickLine={false} tickFormatter={v => truncName(v)} />
                                         <Tooltip content={<ChartTip />} /><Bar dataKey="roas" name="ROAS" radius={[0, 6, 6, 0]}>{roasBarData.map((_, i) => (<Cell key={i} fill={COLORS[i % COLORS.length]} />))}</Bar>
                                     </BarChart>
@@ -356,10 +356,10 @@ export default function AudienceRoasPage() {
                                             <td className="py-3 px-3 text-gray-500 truncate max-w-[140px]">{a.campaign_name}</td>
                                             <td className="py-3 px-3 text-right text-rose-600 font-medium">{fmt(a.spend)}</td>
                                             <td className="py-3 px-3 text-right text-emerald-600 font-medium">{fmt(a.revenue)}</td>
-                                            <td className="py-3 px-3 text-right"><span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${roasBg(a.roas)}`}>{a.roas > 0 ? `${a.roas.toFixed(2)}x` : "—"}</span></td>
-                                            <td className="py-3 px-3 text-right text-gray-600">{a.ctr > 0 ? `${a.ctr.toFixed(2)}%` : "—"}</td>
-                                            <td className="py-3 px-3 text-right text-indigo-600 font-medium">{a.conversion_rate > 0 ? `${a.conversion_rate.toFixed(2)}%` : "—"}</td>
-                                            <td className="py-3 px-3 text-right text-gray-600 font-medium">{a.conversions.toLocaleString()}</td>
+                                            <td className="py-3 px-3 text-right"><span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${roasBg(a.roas)}`}>{a.roas > 0 ? `${a.roas?.toFixed(2)}x` : "—"}</span></td>
+                                            <td className="py-3 px-3 text-right text-gray-600">{a.ctr > 0 ? `${a.ctr?.toFixed(2)}%` : "—"}</td>
+                                            <td className="py-3 px-3 text-right text-indigo-600 font-medium">{a.conversion_rate > 0 ? `${a.conversion_rate?.toFixed(2)}%` : "—"}</td>
+                                            <td className="py-3 px-3 text-right text-gray-600 font-medium">{a.conversions?.toLocaleString()}</td>
                                         </tr>)
                                     })}
                                 </tbody>

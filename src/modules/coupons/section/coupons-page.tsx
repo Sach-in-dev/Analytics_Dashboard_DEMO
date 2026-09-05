@@ -75,10 +75,10 @@ function DeltaLine({ current, previous, kind, lowerIsBetter = false }: {
     const Icon = isNeutral ? Minus : (delta > 0 ? ArrowUp : ArrowDown)
     const color = isNeutral ? "text-gray-400" : isPositive ? "text-emerald-600" : "text-rose-600"
     const fmtPrev =
-        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000).toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000).toFixed(1)}K` : `₹${Math.round(previous).toLocaleString()}`) :
+        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000)?.toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000)?.toFixed(1)}K` : `₹${Math.round(previous)?.toLocaleString()}`) :
         kind === "percent" ? `${previous}%` :
-        kind === "days" ? `${previous.toFixed(1)}d` :
-        previous.toLocaleString()
+        kind === "days" ? `${previous?.toFixed(1)}d` :
+        previous?.toLocaleString()
     return (
         <div className="mt-2 flex items-center gap-2 text-xs">
             <span className={`inline-flex items-center gap-0.5 font-semibold ${color}`}>
@@ -316,7 +316,7 @@ export default function CouponsPage() {
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         <Card className="p-6 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
                             <h3 className="text-sm font-semibold text-gray-400">Total Orders</h3>
-                            <div className="mt-4 text-3xl font-bold text-gray-800">{metricData.total_orders.toLocaleString()}</div>
+                            <div className="mt-4 text-3xl font-bold text-gray-800">{metricData.total_orders?.toLocaleString()}</div>
                             <DeltaLine current={metricData.total_orders} previous={cmpMetric?.usage_count} kind="count" />
                         </Card>
                         <Card className="p-6 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
@@ -379,7 +379,7 @@ export default function CouponsPage() {
                                         <TableCell className="font-semibold text-rose-600">{c.coupon_code}</TableCell>
                                         <TableCell className="text-gray-700">{c.coupon_name || 'N/A'}</TableCell>
                                         <TableCell className="text-gray-500 text-xs uppercase">{c.discount_type || '—'}</TableCell>
-                                        <TableCell className="text-right tabular-nums font-medium text-gray-800">{c.usage_count.toLocaleString()}</TableCell>
+                                        <TableCell className="text-right tabular-nums font-medium text-gray-800">{c.usage_count?.toLocaleString()}</TableCell>
                                         <TableCell className="text-right tabular-nums text-gray-600">{formatCurrency(c.total_discount)}</TableCell>
                                         <TableCell className="text-right tabular-nums font-semibold text-emerald-600">{formatCurrency(c.total_revenue)}</TableCell>
                                     </TableRow>

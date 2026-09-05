@@ -57,10 +57,11 @@ interface FlowData {
 
 // ───── Helpers ─────
 function formatCurrency(value: number): string {
-    if (value >= 10000000) return `₹${(value / 10000000).toFixed(2)}Cr`
-    if (value >= 100000) return `₹${(value / 100000).toFixed(2)}L`
-    if (value >= 1000) return `₹${(value / 1000).toFixed(1)}K`
-    return `₹${value.toFixed(0)}`
+    if (typeof value !== "number" || isNaN(value)) return "₹0";
+    if (value >= 10000000) return `₹${(value / 10000000)?.toFixed(2)}Cr`
+    if (value >= 100000) return `₹${(value / 100000)?.toFixed(2)}L`
+    if (value >= 1000) return `₹${(value / 1000)?.toFixed(1)}K`
+    return `₹${value?.toFixed(0)}`
 }
 
 const BAR_COLORS = [
@@ -89,7 +90,7 @@ function ChartTooltip({ active, payload, label }: any) {
             <p className="font-semibold text-gray-800 mb-1 max-w-[300px] truncate">{label}</p>
             {payload.map((p: any, i: number) => (
                 <p key={i} className="text-gray-600">
-                    {p.name}: {p.name === "Revenue" ? formatCurrency(p.value) : p.value.toLocaleString()}
+                    {p.name}: {p.name === "Revenue" ? formatCurrency(p.value) : p.value?.toLocaleString()}
                 </p>
             ))}
         </div>
@@ -115,10 +116,10 @@ function DeltaLine({ current, previous, kind, lowerIsBetter = false }: {
     const Icon = isNeutral ? Minus : (delta > 0 ? ArrowUp : ArrowDown)
     const color = isNeutral ? "text-gray-400" : isPositive ? "text-emerald-600" : "text-rose-600"
     const fmtPrev =
-        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000).toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000).toFixed(1)}K` : `₹${Math.round(previous).toLocaleString()}`) :
+        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000)?.toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000)?.toFixed(1)}K` : `₹${Math.round(previous)?.toLocaleString()}`) :
         kind === "percent" ? `${previous}%` :
-        kind === "days" ? `${previous.toFixed(1)}d` :
-        previous.toLocaleString()
+        kind === "days" ? `${previous?.toFixed(1)}d` :
+        previous?.toLocaleString()
     return (
         <div className="mt-2 flex items-center gap-2 text-xs">
             <span className={`inline-flex items-center gap-0.5 font-semibold ${color}`}>
@@ -332,10 +333,10 @@ export default function FlowAttributionPage() {
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-extrabold text-emerald-700">
-                            {loading ? "—" : (summary?.total_orders || 0).toLocaleString()}
+                            {loading ? "—" : (summary?.total_orders || 0)?.toLocaleString()}
                         </div>
                         <p className="text-xs text-gray-400 mt-1">
-                            {summary.total_unique_flows.toLocaleString()} unique flows
+                            {summary.total_unique_flows?.toLocaleString()} unique flows
                         </p>
                     
                     <DeltaLine current={summary?.total_orders} previous={compareSummary?.total_orders} kind="count" />
@@ -377,7 +378,7 @@ export default function FlowAttributionPage() {
                                     {summary.top_flow.flow_path}
                                 </div>
                                 <p className="text-xs text-gray-400 mt-1">
-                                    {formatCurrency(summary.top_flow.revenue)} · {summary.top_flow.orders.toLocaleString()} orders
+                                    {formatCurrency(summary.top_flow.revenue)} · {summary.top_flow.orders?.toLocaleString()} orders
                                 </p>
                             </>
                         ) : (
@@ -419,7 +420,7 @@ export default function FlowAttributionPage() {
                                         {t.to}
                                     </span>
                                     <span className="ml-auto text-sm font-bold text-gray-700">
-                                        {t.value.toLocaleString()}
+                                        {t.value?.toLocaleString()}
                                     </span>
                                 </div>
                             ))}
@@ -522,8 +523,8 @@ export default function FlowAttributionPage() {
                                                 </div>
                                             </td>
                                             <td className="px-3 py-2 text-center text-gray-600">{flow.steps_count}</td>
-                                            <td className="px-3 py-2 text-center text-gray-700">{flow.users.toLocaleString()}</td>
-                                            <td className="px-3 py-2 text-center text-gray-700">{flow.orders.toLocaleString()}</td>
+                                            <td className="px-3 py-2 text-center text-gray-700">{flow.users?.toLocaleString()}</td>
+                                            <td className="px-3 py-2 text-center text-gray-700">{flow.orders?.toLocaleString()}</td>
                                             <td className="px-3 py-2 text-right font-medium text-blue-700">{formatCurrency(flow.revenue)}</td>
                                             <td className="px-3 py-2 text-center">
                                                 <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-semibold ${

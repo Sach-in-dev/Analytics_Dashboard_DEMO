@@ -156,7 +156,7 @@ function CustomPieTooltip({ active, payload }: any) {
         <div className="bg-white border border-gray-200 shadow-lg rounded-lg px-4 py-3 text-sm">
             <p className="font-semibold text-gray-800">{name}</p>
             <p className="text-gray-500 mt-1">
-                {value.toLocaleString()} customers ({data.percentage}%)
+                {value?.toLocaleString()} customers ({data.percentage}%)
             </p>
         </div>
     )
@@ -181,10 +181,10 @@ function DeltaLine({ current, previous, kind, lowerIsBetter = false }: {
     const Icon = isNeutral ? Minus : (delta > 0 ? ArrowUp : ArrowDown)
     const color = isNeutral ? "text-gray-400" : isPositive ? "text-emerald-600" : "text-rose-600"
     const fmtPrev =
-        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000).toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000).toFixed(1)}K` : `₹${Math.round(previous).toLocaleString()}`) :
+        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000)?.toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000)?.toFixed(1)}K` : `₹${Math.round(previous)?.toLocaleString()}`) :
         kind === "percent" ? `${previous}%` :
-        kind === "days" ? `${previous.toFixed(1)}d` :
-        previous.toLocaleString()
+        kind === "days" ? `${previous?.toFixed(1)}d` :
+        previous?.toLocaleString()
     return (
         <div className="mt-2 flex items-center gap-2 text-xs">
             <span className={`inline-flex items-center gap-0.5 font-semibold ${color}`}>
@@ -399,7 +399,7 @@ export default function RfmPage() {
                         <div className="text-3xl font-extrabold text-gray-800">
                             {summaryLoading
                                 ? "—"
-                                : (summary?.total_customers || 0).toLocaleString()}
+                                : (summary?.total_customers || 0)?.toLocaleString()}
                         </div>
                         <DeltaLine current={summary?.total_customers} previous={compareData?.total_customers} kind="count" />
                     </CardContent>
@@ -430,7 +430,7 @@ export default function RfmPage() {
                                     className="text-3xl font-extrabold"
                                     style={{ color: config.color }}
                                 >
-                                    {summaryLoading ? "—" : (seg?.count || 0).toLocaleString()}
+                                    {summaryLoading ? "—" : (seg?.count || 0)?.toLocaleString()}
                                 </div>
                                 <p className="text-xs text-gray-400 mt-1">
                                     {summaryLoading ? "" : `${seg?.percentage || 0}%`}
@@ -525,7 +525,7 @@ export default function RfmPage() {
                                                         {seg.segment}
                                                     </p>
                                                     <p className="text-xs text-gray-400">
-                                                        {seg.count.toLocaleString()} customers
+                                                        {seg.count?.toLocaleString()} customers
                                                     </p>
                                                 </div>
                                             </div>
@@ -566,7 +566,7 @@ export default function RfmPage() {
                             Customer Details
                             {!tableLoading && (
                                 <span className="ml-2 text-xs font-normal text-gray-400">
-                                    ({total.toLocaleString()} customers)
+                                    ({total?.toLocaleString()} customers)
                                 </span>
                             )}
                         </CardTitle>
@@ -661,7 +661,7 @@ export default function RfmPage() {
                                             {c.email}
                                         </TableCell>
                                         <TableCell className="text-center text-gray-600">
-                                            {c.recency_days.toLocaleString()}
+                                            {c.recency_days?.toLocaleString()}
                                         </TableCell>
                                         <TableCell className="text-center text-gray-600">
                                             {c.frequency}

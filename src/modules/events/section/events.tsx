@@ -397,7 +397,7 @@ function WebsiteEventsView({
     <>
       {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <KPICard title="TOTAL EVENTS" value={totalEvents.toLocaleString()} color="bg-blue-500" />
+        <KPICard title="TOTAL EVENTS" value={totalEvents?.toLocaleString()} color="bg-blue-500" />
         <KPICard title="EVENT TYPES" value={data.length.toString()} color="bg-emerald-500" />
         <KPICard title="PAGEVIEWS" value={stats?.pageviews?.toLocaleString() ?? "—"} color="bg-amber-500" />
         <KPICard title="UNIQUE VISITORS" value={stats?.visitors?.toLocaleString() ?? "—"} color="bg-purple-500" />
@@ -421,7 +421,7 @@ function WebsiteEventsView({
                 axisLine={false}
                 tickLine={false}
                 tick={{ fill: "#94a3b8", fontSize: 12 }}
-                tickFormatter={(v) => v.toLocaleString()}
+                tickFormatter={(v) => v?.toLocaleString()}
               />
               <YAxis
                 dataKey="name"
@@ -438,7 +438,7 @@ function WebsiteEventsView({
                   border: "none",
                   boxShadow: "0 10px 15px -3px rgba(0,0,0,0.1)",
                 }}
-                formatter={(value: number | string | undefined) => [Number(value ?? 0).toLocaleString(), "Events"]}
+                formatter={(value: number | string | undefined) => [Number(value ?? 0)?.toLocaleString(), "Events"]}
               />
               <Bar dataKey="count" radius={[0, 6, 6, 0]} fill="#6366f1" />
             </BarChart>
@@ -452,7 +452,7 @@ function WebsiteEventsView({
           <Activity size={20} />
           <span>Event Breakdown</span>
           <span className="ml-auto text-xs font-medium text-gray-400">
-            {totalEvents.toLocaleString()} total events
+            {totalEvents?.toLocaleString()} total events
           </span>
         </div>
         <div className="p-6 overflow-x-auto">
@@ -481,7 +481,7 @@ function WebsiteEventsView({
                     </div>
                   </TableCell>
                   <TableCell className="text-right tabular-nums font-bold text-blue-600">
-                    {event.count.toLocaleString()}
+                    {event.count?.toLocaleString()}
                   </TableCell>
                   <TableCell className="text-right tabular-nums text-gray-600">
                     {event.percentage}%
@@ -536,22 +536,22 @@ function MetaEventsView({
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <KPICard
           title="TOTAL CONVERSIONS"
-          value={totalEvents.toLocaleString()}
+          value={totalEvents?.toLocaleString()}
           color="bg-blue-500"
         />
         <KPICard
           title="PURCHASES"
-          value={(summary?.purchases ?? 0).toLocaleString()}
+          value={(summary?.purchases ?? 0)?.toLocaleString()}
           color="bg-emerald-500"
         />
         <KPICard
           title="ADD TO CART"
-          value={(summary?.add_to_cart ?? 0).toLocaleString()}
+          value={(summary?.add_to_cart ?? 0)?.toLocaleString()}
           color="bg-amber-500"
         />
         <KPICard
           title="VIEW CONTENT"
-          value={(summary?.view_content ?? 0).toLocaleString()}
+          value={(summary?.view_content ?? 0)?.toLocaleString()}
           color="bg-purple-500"
         />
       </div>
@@ -565,7 +565,7 @@ function MetaEventsView({
             </div>
             <div>
               <p className="text-xs font-bold text-gray-400 tracking-widest uppercase">Total Conversion Value</p>
-              <p className="text-3xl font-bold text-gray-900">₹{(summary?.total_value ?? 0).toLocaleString()}</p>
+              <p className="text-3xl font-bold text-gray-900">₹{(summary?.total_value ?? 0)?.toLocaleString()}</p>
             </div>
             <div className="ml-auto text-xs text-gray-500">
               {summary?.date_range?.start} → {summary?.date_range?.end}
@@ -592,7 +592,7 @@ function MetaEventsView({
                 axisLine={false}
                 tickLine={false}
                 tick={{ fill: "#94a3b8", fontSize: 12 }}
-                tickFormatter={(v) => v.toLocaleString()}
+                tickFormatter={(v) => v?.toLocaleString()}
               />
               <YAxis
                 dataKey="name"
@@ -609,7 +609,7 @@ function MetaEventsView({
                   border: "none",
                   boxShadow: "0 10px 15px -3px rgba(0,0,0,0.1)",
                 }}
-                formatter={(value: any) => [Number(value ?? 0).toLocaleString(), "Events"]}
+                formatter={(value: any) => [Number(value ?? 0)?.toLocaleString(), "Events"]}
               />
               <Bar dataKey="count" radius={[0, 6, 6, 0]} fill="#6366f1" />
             </BarChart>
@@ -623,7 +623,7 @@ function MetaEventsView({
           <Zap size={20} />
           <span>Meta Pixel Events Breakdown</span>
           <span className="ml-auto text-xs font-medium text-gray-400">
-            {totalEvents.toLocaleString()} total conversions
+            {totalEvents?.toLocaleString()} total conversions
           </span>
         </div>
         <div className="p-6 overflow-x-auto">
@@ -653,10 +653,10 @@ function MetaEventsView({
                     </div>
                   </TableCell>
                   <TableCell className="text-right tabular-nums font-bold text-indigo-600">
-                    {event.total_count.toLocaleString()}
+                    {event.total_count?.toLocaleString()}
                   </TableCell>
                   <TableCell className="text-right tabular-nums text-emerald-600 font-medium">
-                    {event.total_value > 0 ? `₹${event.total_value.toLocaleString()}` : "—"}
+                    {event.total_value > 0 ? `₹${event.total_value?.toLocaleString()}` : "—"}
                   </TableCell>
                   <TableCell className="text-right tabular-nums text-gray-600">
                     {event.percentage}%

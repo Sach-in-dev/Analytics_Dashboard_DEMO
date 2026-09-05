@@ -58,9 +58,9 @@ type SortKey = "total_orders" | "rto_rate" | "failure_rate" | "avg_delivery_time
 
 // ───── Helpers ─────
 function formatNum(v: number): string {
-    if (v >= 100000) return `${(v / 100000).toFixed(1)}L`
-    if (v >= 1000) return `${(v / 1000).toFixed(1)}K`
-    return v.toLocaleString()
+    if (v >= 100000) return `${(v / 100000)?.toFixed(1)}L`
+    if (v >= 1000) return `${(v / 1000)?.toFixed(1)}K`
+    return v?.toLocaleString()
 }
 
 // ───── Custom Tooltips ─────
@@ -111,10 +111,10 @@ function DeltaLine({ current, previous, kind, lowerIsBetter = false }: {
     const Icon = isNeutral ? Minus : (delta > 0 ? ArrowUp : ArrowDown)
     const color = isNeutral ? "text-gray-400" : isPositive ? "text-emerald-600" : "text-rose-600"
     const fmtPrev =
-        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000).toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000).toFixed(1)}K` : `₹${Math.round(previous).toLocaleString()}`) :
+        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000)?.toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000)?.toFixed(1)}K` : `₹${Math.round(previous)?.toLocaleString()}`) :
         kind === "percent" ? `${previous}%` :
-        kind === "days" ? `${previous.toFixed(1)}d` :
-        previous.toLocaleString()
+        kind === "days" ? `${previous?.toFixed(1)}d` :
+        previous?.toLocaleString()
     return (
         <div className="mt-2 flex items-center gap-2 text-xs">
             <span className={`inline-flex items-center gap-0.5 font-semibold ${color}`}>
@@ -488,10 +488,10 @@ export default function CourierPerformancePage() {
                                                         {isBest && <span className="text-[9px] bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded-full font-semibold">BEST</span>}
                                                     </div>
                                                 </td>
-                                                <td className="py-3 px-4 text-right text-gray-600 font-medium">{c.total_orders.toLocaleString()}</td>
-                                                <td className="py-3 px-4 text-right text-emerald-600 font-medium">{c.delivered_orders.toLocaleString()}</td>
-                                                <td className="py-3 px-4 text-right text-rose-600">{c.rto_orders.toLocaleString()}</td>
-                                                <td className="py-3 px-4 text-right text-orange-600">{c.failed_orders.toLocaleString()}</td>
+                                                <td className="py-3 px-4 text-right text-gray-600 font-medium">{c.total_orders?.toLocaleString()}</td>
+                                                <td className="py-3 px-4 text-right text-emerald-600 font-medium">{c.delivered_orders?.toLocaleString()}</td>
+                                                <td className="py-3 px-4 text-right text-rose-600">{c.rto_orders?.toLocaleString()}</td>
+                                                <td className="py-3 px-4 text-right text-orange-600">{c.failed_orders?.toLocaleString()}</td>
                                                 <td className="py-3 px-4 text-right">
                                                     <span className={`font-semibold ${c.rto_rate > 10 ? "text-rose-600" : c.rto_rate > 5 ? "text-amber-600" : "text-emerald-600"}`}>
                                                         {c.rto_rate}%

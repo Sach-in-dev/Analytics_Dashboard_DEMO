@@ -46,12 +46,12 @@ const COLORS = ["#6366f1","#10b981","#f59e0b","#ef4444","#8b5cf6","#14b8a6","#f9
 type SortKey = "cac" | "total_spend" | "new_customers" | "total_orders" | "total_revenue"
 
 function fmt(v: number): string {
-    if (v >= 10000000) return `₹${(v/10000000).toFixed(1)}Cr`
-    if (v >= 100000) return `₹${(v/100000).toFixed(1)}L`
-    if (v >= 1000) return `₹${(v/1000).toFixed(1)}K`
-    return `₹${v.toLocaleString("en-IN")}`
+    if (v >= 10000000) return `₹${(v/10000000)?.toFixed(1)}Cr`
+    if (v >= 100000) return `₹${(v/100000)?.toFixed(1)}L`
+    if (v >= 1000) return `₹${(v/1000)?.toFixed(1)}K`
+    return `₹${v?.toLocaleString("en-IN")}`
 }
-function fmtNum(v: number): string { return v >= 1000 ? `${(v/1000).toFixed(1)}K` : v.toLocaleString() }
+function fmtNum(v: number): string { return v >= 1000 ? `${(v/1000)?.toFixed(1)}K` : v?.toLocaleString() }
 function cacColor(c: number) { if (!c) return "text-gray-400"; if (c<=300) return "text-emerald-600"; if (c<=600) return "text-amber-600"; return "text-rose-600" }
 function cacBg(c: number) { if (!c) return "bg-gray-100 text-gray-500"; if (c<=300) return "bg-emerald-100 text-emerald-700"; if (c<=600) return "bg-amber-100 text-amber-700"; return "bg-rose-100 text-rose-700" }
 function truncName(n: string, m=18) { return n.length>m ? n.slice(0,m)+"…" : n }
@@ -99,10 +99,10 @@ function DeltaLine({ current, previous, kind, lowerIsBetter = false }: {
     const Icon = isNeutral ? Minus : (delta > 0 ? ArrowUp : ArrowDown)
     const color = isNeutral ? "text-gray-400" : isPositive ? "text-emerald-600" : "text-rose-600"
     const fmtPrev =
-        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000).toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000).toFixed(1)}K` : `₹${Math.round(previous).toLocaleString()}`) :
+        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000)?.toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000)?.toFixed(1)}K` : `₹${Math.round(previous)?.toLocaleString()}`) :
         kind === "percent" ? `${previous}%` :
-        kind === "days" ? `${previous.toFixed(1)}d` :
-        previous.toLocaleString()
+        kind === "days" ? `${previous?.toFixed(1)}d` :
+        previous?.toLocaleString()
     return (
         <div className="mt-2 flex items-center gap-2 text-xs">
             <span className={`inline-flex items-center gap-0.5 font-semibold ${color}`}>
@@ -242,7 +242,7 @@ export default function CampaignCacPage() {
                         <strong className="text-gray-800">💡 Insight:</strong>{" "}
                         {summary?.best_campaign&&summary.best_campaign!=="N/A"?(
                             <><strong className="text-emerald-700">{summary.best_campaign}</strong> is your most efficient campaign with a CAC of <strong className="text-emerald-600">{fmt(summary.best_campaign_cac)}</strong>.
-                            {summary.worst_campaign&&summary.worst_campaign!=="N/A"&&summary.worst_campaign!==summary.best_campaign?(<> Consider optimizing <strong className="text-rose-600">{summary.worst_campaign}</strong> (CAC: {fmt(summary.worst_campaign_cac)}) — it costs {summary.best_campaign_cac>0?`${(summary.worst_campaign_cac/summary.best_campaign_cac).toFixed(1)}x`:"—"} more per acquisition.</>):null}
+                            {summary.worst_campaign&&summary.worst_campaign!=="N/A"&&summary.worst_campaign!==summary.best_campaign?(<> Consider optimizing <strong className="text-rose-600">{summary.worst_campaign}</strong> (CAC: {fmt(summary.worst_campaign_cac)}) — it costs {summary.best_campaign_cac>0?`${(summary.worst_campaign_cac/summary.best_campaign_cac)?.toFixed(1)}x`:"—"} more per acquisition.</>):null}
                             {" "}Average CAC across {summary.total_campaigns} campaigns: <strong className={cacColor(summary.avg_cac)}>{fmt(summary.avg_cac)}</strong>.</>
                         ):(<>No campaign data with spend available. Ensure Meta Ads API is configured.</>)}
                     </p>
@@ -339,9 +339,9 @@ export default function CampaignCacPage() {
                                         <td className="py-3 px-4 font-medium text-gray-700"><div className="flex items-center gap-2"><div className="w-2.5 h-2.5 rounded-full shrink-0" style={{backgroundColor:COLORS[idx%COLORS.length]}}/><span className="truncate max-w-[200px]">{ch.campaign_name}</span>{isBest&&<span className="text-[9px] bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded-full font-semibold shrink-0">BEST</span>}{isWorst&&<span className="text-[9px] bg-rose-100 text-rose-700 px-1.5 py-0.5 rounded-full font-semibold shrink-0">HIGH</span>}</div></td>
                                         <td className="py-3 px-4 text-right"><span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${cacBg(ch.cac)}`}>{ch.cac>0?fmt(ch.cac):"—"}</span></td>
                                         <td className="py-3 px-4 text-right text-rose-600 font-medium">{fmt(ch.total_spend)}</td>
-                                        <td className="py-3 px-4 text-right text-blue-600 font-medium">{ch.new_customers.toLocaleString()}</td>
+                                        <td className="py-3 px-4 text-right text-blue-600 font-medium">{ch.new_customers?.toLocaleString()}</td>
                                         <td className="py-3 px-4 text-right text-emerald-600 font-medium">{fmt(ch.total_revenue)}</td>
-                                        <td className="py-3 px-4 text-right text-gray-600 font-medium">{ch.total_orders.toLocaleString()}</td>
+                                        <td className="py-3 px-4 text-right text-gray-600 font-medium">{ch.total_orders?.toLocaleString()}</td>
                                     </tr>)
                                 })}
                             </tbody>

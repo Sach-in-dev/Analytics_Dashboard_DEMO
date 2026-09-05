@@ -73,16 +73,16 @@ type SortKey = "roi" | "roas" | "total_revenue" | "total_spend" | "total_orders"
 
 // ───── Helpers ─────
 function fmt(v: number): string {
-    if (v >= 10000000) return `₹${(v / 10000000).toFixed(1)}Cr`
-    if (v >= 100000) return `₹${(v / 100000).toFixed(1)}L`
-    if (v >= 1000) return `₹${(v / 1000).toFixed(1)}K`
-    return `₹${v.toLocaleString("en-IN")}`
+    if (v >= 10000000) return `₹${(v / 10000000)?.toFixed(1)}Cr`
+    if (v >= 100000) return `₹${(v / 100000)?.toFixed(1)}L`
+    if (v >= 1000) return `₹${(v / 1000)?.toFixed(1)}K`
+    return `₹${v?.toLocaleString("en-IN")}`
 }
 
 function fmtNum(v: number): string {
-    if (v >= 100000) return `${(v / 100000).toFixed(1)}L`
-    if (v >= 1000) return `${(v / 1000).toFixed(1)}K`
-    return v.toLocaleString()
+    if (v >= 100000) return `${(v / 100000)?.toFixed(1)}L`
+    if (v >= 1000) return `${(v / 1000)?.toFixed(1)}K`
+    return v?.toLocaleString()
 }
 
 function roiColor(roi: number): string {
@@ -121,8 +121,8 @@ function RoiTooltip({ active, payload, label }: any) {
     return (
         <div className="bg-white border border-gray-200 shadow-xl rounded-lg px-4 py-3 text-sm">
             <p className="font-semibold text-gray-800 mb-1">{d?.channel || label}</p>
-            <p className="text-gray-600">ROI: <strong className={roiColor(d?.roi || 0)}>{(d?.roi || 0).toFixed(2)}x</strong></p>
-            <p className="text-gray-600">ROAS: <strong className="text-blue-600">{(d?.roas || 0).toFixed(2)}x</strong></p>
+            <p className="text-gray-600">ROI: <strong className={roiColor(d?.roi || 0)}>{(d?.roi || 0)?.toFixed(2)}x</strong></p>
+            <p className="text-gray-600">ROAS: <strong className="text-blue-600">{(d?.roas || 0)?.toFixed(2)}x</strong></p>
             <p className="text-gray-600">Revenue: <strong>{fmt(d?.total_revenue || 0)}</strong></p>
         </div>
     )
@@ -137,7 +137,7 @@ function TrendTooltip({ active, payload, label }: any) {
             {payload.map((p: any) => (
                 <p key={p.name} className="text-gray-600">
                     {p.name}: <strong style={{ color: p.color }}>
-                        {p.name === "ROI" ? `${p.value.toFixed(2)}x` : fmt(p.value)}
+                        {p.name === "ROI" ? `${p.value?.toFixed(2)}x` : fmt(p.value)}
                     </strong>
                 </p>
             ))}
@@ -165,10 +165,10 @@ function DeltaLine({ current, previous, kind, lowerIsBetter = false }: {
     const Icon = isNeutral ? Minus : (delta > 0 ? ArrowUp : ArrowDown)
     const color = isNeutral ? "text-gray-400" : isPositive ? "text-emerald-600" : "text-rose-600"
     const fmtPrev =
-        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000).toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000).toFixed(1)}K` : `₹${Math.round(previous).toLocaleString()}`) :
+        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000)?.toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000)?.toFixed(1)}K` : `₹${Math.round(previous)?.toLocaleString()}`) :
         kind === "percent" ? `${previous}%` :
-        kind === "days" ? `${previous.toFixed(1)}d` :
-        previous.toLocaleString()
+        kind === "days" ? `${previous?.toFixed(1)}d` :
+        previous?.toLocaleString()
     return (
         <div className="mt-2 flex items-center gap-2 text-xs">
             <span className={`inline-flex items-center gap-0.5 font-semibold ${color}`}>
@@ -383,10 +383,10 @@ export default function ChannelRoiPage() {
                     </CardHeader>
                     <CardContent>
                         <div className={`text-3xl font-extrabold ${roiColor(summary?.overall_roi || 0)}`}>
-                            {loading ? "—" : `${(summary?.overall_roi || 0).toFixed(2)}x`}
+                            {loading ? "—" : `${(summary?.overall_roi || 0)?.toFixed(2)}x`}
                         </div>
                         <p className="text-xs text-blue-500/70 mt-1">
-                            ROAS: {loading ? "—" : `${(summary?.overall_roas || 0).toFixed(2)}x`}
+                            ROAS: {loading ? "—" : `${(summary?.overall_roas || 0)?.toFixed(2)}x`}
                         </p>
                     
                     <DeltaLine current={summary?.overall_roi} previous={compareSummary?.overall_roi} kind="count" />
@@ -406,7 +406,7 @@ export default function ChannelRoiPage() {
                             {loading ? "—" : summary?.best_channel || "N/A"}
                         </div>
                         <p className="text-xs text-violet-500/70 mt-1">
-                            ROI: {loading ? "—" : `${(summary?.best_channel_roi || 0).toFixed(2)}x`}
+                            ROI: {loading ? "—" : `${(summary?.best_channel_roi || 0)?.toFixed(2)}x`}
                         </p>
                     
                     
@@ -423,9 +423,9 @@ export default function ChannelRoiPage() {
                             {summary?.best_channel && summary.best_channel !== "N/A" ? (
                                 <>
                                     <strong className="text-emerald-700">{summary.best_channel}</strong> is your best performing channel
-                                    with a <strong className={roiColor(summary.best_channel_roi)}>{summary.best_channel_roi.toFixed(2)}x ROI</strong>.
+                                    with a <strong className={roiColor(summary.best_channel_roi)}>{summary.best_channel_roi?.toFixed(2)}x ROI</strong>.
                                     {summary.total_spend > 0 ? (
-                                        <> Overall, for every ₹1 spent on marketing, you're generating <strong className="text-blue-600">₹{(summary.overall_roas || 0).toFixed(2)}</strong> in revenue.</>
+                                        <> Overall, for every ₹1 spent on marketing, you're generating <strong className="text-blue-600">₹{(summary.overall_roas || 0)?.toFixed(2)}</strong> in revenue.</>
                                     ) : (
                                         <> Add spend data via the API to see ROI calculations.</>
                                     )}
@@ -602,11 +602,11 @@ export default function ChannelRoiPage() {
                                                 <td className="py-3 px-4 text-right text-rose-600 font-medium">{fmt(ch.total_spend)}</td>
                                                 <td className="py-3 px-4 text-right">
                                                     <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${roiBg(ch.roi)}`}>
-                                                        {ch.roi.toFixed(2)}x
+                                                        {ch.roi?.toFixed(2)}x
                                                     </span>
                                                 </td>
-                                                <td className="py-3 px-4 text-right font-medium text-blue-600">{ch.roas.toFixed(2)}x</td>
-                                                <td className="py-3 px-4 text-right text-gray-600 font-medium">{ch.total_orders.toLocaleString()}</td>
+                                                <td className="py-3 px-4 text-right font-medium text-blue-600">{ch.roas?.toFixed(2)}x</td>
+                                                <td className="py-3 px-4 text-right text-gray-600 font-medium">{ch.total_orders?.toLocaleString()}</td>
                                             </tr>
                                         )
                                     })}

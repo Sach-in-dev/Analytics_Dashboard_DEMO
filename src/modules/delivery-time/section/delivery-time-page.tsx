@@ -54,7 +54,7 @@ function formatDate(dateStr: string): string {
 
 function formatDays(value: number): string {
     if (value === 0) return "0d"
-    return `${value.toFixed(1)}d`
+    return `${value?.toFixed(1)}d`
 }
 
 // Distribution bucket computation
@@ -126,7 +126,7 @@ function TrendTooltip({ active, payload, label }: any) {
                         className="inline-block w-2.5 h-2.5 rounded-full mr-2"
                         style={{ backgroundColor: entry.color }}
                     />
-                    {entry.name}: {entry.value.toFixed(1)} days
+                    {entry.name}: {entry.value?.toFixed(1)} days
                 </p>
             ))}
         </div>
@@ -139,7 +139,7 @@ function DistributionTooltip({ active, payload, label }: any) {
         <div className="bg-white border border-gray-200 shadow-xl rounded-lg px-4 py-3 text-sm">
             <p className="font-semibold text-gray-800 mb-1">{label}</p>
             <p className="text-gray-600">
-                Orders: <strong>{payload[0].value.toLocaleString()}</strong>
+                Orders: <strong>{payload[0].value?.toLocaleString()}</strong>
             </p>
         </div>
     )
@@ -152,7 +152,7 @@ function BreakdownTooltip({ active, payload }: any) {
         <div className="bg-white border border-gray-200 shadow-xl rounded-lg px-4 py-3 text-sm">
             <p className="font-semibold text-gray-800 mb-1">{payload[0].payload.name}</p>
             <p className="text-red-600 font-medium">
-                Delayed Orders: {payload[0].value.toLocaleString()}
+                Delayed Orders: {payload[0].value?.toLocaleString()}
             </p>
         </div>
     )
@@ -175,10 +175,10 @@ function DeltaLine({ current, previous, kind, lowerIsBetter = false }: {
     const Icon = isNeutral ? Minus : (delta > 0 ? ArrowUp : ArrowDown)
     const color = isNeutral ? "text-gray-400" : isPositive ? "text-emerald-600" : "text-rose-600"
     const fmtPrev =
-        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000).toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000).toFixed(1)}K` : `₹${Math.round(previous).toLocaleString()}`) :
+        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000)?.toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000)?.toFixed(1)}K` : `₹${Math.round(previous)?.toLocaleString()}`) :
         kind === "percent" ? `${previous}%` :
-        kind === "days" ? `${previous.toFixed(1)}d` :
-        previous.toLocaleString()
+        kind === "days" ? `${previous?.toFixed(1)}d` :
+        previous?.toLocaleString()
     return (
         <div className="mt-2 flex items-center gap-2 text-xs">
             <span className={`inline-flex items-center gap-0.5 font-semibold ${color}`}>
@@ -254,7 +254,7 @@ export default function DeliveryTimePage() {
     const isSlow = avgTime > DELAY_THRESHOLD_DAYS
     const distribution = computeDistribution(trend)
     const delayedPct = summary && summary.total_orders > 0
-        ? ((summary.delayed_orders / summary.total_orders) * 100).toFixed(1)
+        ? ((summary.delayed_orders / summary.total_orders) * 100)?.toFixed(1)
         : "0.0"
 
     // Align prev-period series by day index for the trend chart overlay.
@@ -331,7 +331,7 @@ export default function DeliveryTimePage() {
                     </div>
                     <div>
                         <p className="text-sm font-semibold text-amber-800">
-                            Slow Delivery Alert — Avg {avgTime.toFixed(1)} days
+                            Slow Delivery Alert — Avg {avgTime?.toFixed(1)} days
                         </p>
                         <p className="text-xs text-amber-600">
                             Average delivery time exceeds {DELAY_THRESHOLD_DAYS}-day threshold. Review logistics pipeline.
@@ -357,7 +357,7 @@ export default function DeliveryTimePage() {
                     </CardHeader>
                     <CardContent>
                         <div className={`text-4xl font-extrabold ${isSlow ? "text-amber-700" : "text-blue-700"}`}>
-                            {loading ? "—" : `${avgTime.toFixed(1)}d`}
+                            {loading ? "—" : `${avgTime?.toFixed(1)}d`}
                         </div>
                         <p className={`text-xs mt-1 ${isSlow ? "text-amber-500/70" : "text-blue-500/70"}`}>
                             {isSlow ? `⚠ Above ${DELAY_THRESHOLD_DAYS}d threshold` : "✓ Within acceptable range"}
@@ -376,7 +376,7 @@ export default function DeliveryTimePage() {
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-extrabold text-violet-700">
-                            {loading ? "—" : `${(summary?.median_delivery_time || 0).toFixed(1)}d`}
+                            {loading ? "—" : `${(summary?.median_delivery_time || 0)?.toFixed(1)}d`}
                         </div>
                         <p className="text-xs text-gray-400 mt-1">
                             50th percentile delivery time
@@ -395,7 +395,7 @@ export default function DeliveryTimePage() {
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-extrabold text-orange-600">
-                            {loading ? "—" : `${(summary?.p90_delivery_time || 0).toFixed(1)}d`}
+                            {loading ? "—" : `${(summary?.p90_delivery_time || 0)?.toFixed(1)}d`}
                         </div>
                         <p className="text-xs text-gray-400 mt-1">
                             90% of orders delivered within
@@ -414,7 +414,7 @@ export default function DeliveryTimePage() {
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-extrabold text-red-600">
-                            {loading ? "—" : (summary?.delayed_orders || 0).toLocaleString()}
+                            {loading ? "—" : (summary?.delayed_orders || 0)?.toLocaleString()}
                         </div>
                         <p className="text-xs text-gray-400 mt-1">
                             &gt;{DELAY_THRESHOLD_DAYS} days ({delayedPct}% of total)
@@ -441,12 +441,12 @@ export default function DeliveryTimePage() {
                                     Key Insight
                                 </h3>
                                 <p className="text-sm text-gray-600 leading-relaxed">
-                                    Across <strong>{summary.total_orders.toLocaleString()}</strong> delivered orders,
+                                    Across <strong>{summary.total_orders?.toLocaleString()}</strong> delivered orders,
                                     the average delivery time is{" "}
-                                    <strong className="text-blue-600">{avgTime.toFixed(1)} days</strong>{" "}
-                                    (median: <strong className="text-violet-600">{summary.median_delivery_time.toFixed(1)}d</strong>,
-                                    P90: <strong className="text-orange-600">{summary.p90_delivery_time.toFixed(1)}d</strong>).{" "}
-                                    <strong className="text-red-600">{summary.delayed_orders.toLocaleString()}</strong> orders ({delayedPct}%)
+                                    <strong className="text-blue-600">{avgTime?.toFixed(1)} days</strong>{" "}
+                                    (median: <strong className="text-violet-600">{summary.median_delivery_time?.toFixed(1)}d</strong>,
+                                    P90: <strong className="text-orange-600">{summary.p90_delivery_time?.toFixed(1)}d</strong>).{" "}
+                                    <strong className="text-red-600">{summary.delayed_orders?.toLocaleString()}</strong> orders ({delayedPct}%)
                                     took longer than {DELAY_THRESHOLD_DAYS} days.
                                     {isSlow ? (
                                         <span className="text-amber-600 font-medium">
@@ -508,7 +508,7 @@ export default function DeliveryTimePage() {
                                         tickLine={false}
                                         tickFormatter={(v) => `${v}d`}
                                     />
-                                    <Tooltip content={<CompareChartTooltip valueFormatter={(v) => `${v.toFixed(1)} days`} />} />
+                                    <Tooltip content={<CompareChartTooltip valueFormatter={(v) => `${v?.toFixed(1)} days`} />} />
                                     <ReferenceLine
                                         y={DELAY_THRESHOLD_DAYS}
                                         stroke="#ef4444"
@@ -752,7 +752,7 @@ export default function DeliveryTimePage() {
                                                     {formatDate(row.date)}
                                                 </td>
                                                 <td className="py-3 px-4 text-right text-gray-600">
-                                                    {row.total_orders.toLocaleString()}
+                                                    {row.total_orders?.toLocaleString()}
                                                 </td>
                                                 <td className="py-3 px-4 text-right">
                                                     <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold ${
@@ -764,17 +764,17 @@ export default function DeliveryTimePage() {
                                                             ? <ArrowUpRight className="h-3 w-3" />
                                                             : <ArrowDownRight className="h-3 w-3" />
                                                         }
-                                                        {row.avg_delivery_time.toFixed(1)}d
+                                                        {row.avg_delivery_time?.toFixed(1)}d
                                                     </span>
                                                 </td>
                                                 <td className="py-3 px-4 text-right text-violet-600 font-medium">
-                                                    {row.median_delivery_time.toFixed(1)}d
+                                                    {row.median_delivery_time?.toFixed(1)}d
                                                 </td>
                                                 <td className="py-3 px-4 text-right text-orange-600 font-medium">
-                                                    {row.p90_delivery_time.toFixed(1)}d
+                                                    {row.p90_delivery_time?.toFixed(1)}d
                                                 </td>
                                                 <td className="py-3 px-4 text-right text-red-600 font-medium">
-                                                    {row.delayed_orders.toLocaleString()}
+                                                    {row.delayed_orders?.toLocaleString()}
                                                 </td>
                                             </tr>
                                         )

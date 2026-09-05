@@ -24,14 +24,14 @@ interface Props {
 }
 
 const fmtCurrency = (v: number) => {
-    if (v >= 1_00_00_000) return `₹${(v / 1_00_00_000).toFixed(1)}Cr`
-    if (v >= 1_00_000) return `₹${(v / 1_00_000).toFixed(1)}L`
-    if (v >= 1_000) return `₹${(v / 1_000).toFixed(1)}K`
-    return `₹${Math.round(v).toLocaleString()}`
+    if (v >= 1_00_00_000) return `₹${(v / 1_00_00_000)?.toFixed(1)}Cr`
+    if (v >= 1_00_000) return `₹${(v / 1_00_000)?.toFixed(1)}L`
+    if (v >= 1_000) return `₹${(v / 1_000)?.toFixed(1)}K`
+    return `₹${Math.round(v)?.toLocaleString()}`
 }
-const fmtCount = (v: number) => v.toLocaleString()
+const fmtCount = (v: number) => v?.toLocaleString()
 const fmtPercent = (v: number) => `${v}%`
-const fmtDays = (v: number) => `${v.toFixed(1)}d`
+const fmtDays = (v: number) => `${v?.toFixed(1)}d`
 
 const renderValue = (v: number, format: FieldSpec["format"]) => {
     switch (format) {

@@ -48,10 +48,10 @@ function DeltaLine({ current, previous, kind, lowerIsBetter = false }: {
     const Icon = isNeutral ? Minus : (delta > 0 ? ArrowUp : ArrowDown)
     const color = isNeutral ? "text-gray-400" : isPositive ? "text-emerald-600" : "text-rose-600"
     const fmtPrev =
-        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000).toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000).toFixed(1)}K` : `₹${Math.round(previous).toLocaleString()}`) :
+        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000)?.toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000)?.toFixed(1)}K` : `₹${Math.round(previous)?.toLocaleString()}`) :
         kind === "percent" ? `${previous}%` :
-        kind === "days" ? `${previous.toFixed(1)}d` :
-        previous.toLocaleString()
+        kind === "days" ? `${previous?.toFixed(1)}d` :
+        previous?.toLocaleString()
     return (
         <div className="mt-2 flex items-center gap-2 text-xs">
             <span className={`inline-flex items-center gap-0.5 font-semibold ${color}`}>
@@ -238,7 +238,7 @@ export default function ActiveUsersPage() {
                                 <ComposedChart data={chartData} margin={{ top: 0, right: 10, left: 10, bottom: 0 }}>
                                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                                     <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 11 }} />
-                                    <YAxis axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 12 }} tickFormatter={val => val.toLocaleString()} />
+                                    <YAxis axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 12 }} tickFormatter={val => val?.toLocaleString()} />
                                     <Tooltip cursor={{ fill: '#f8fafc' }} content={<CompareChartTooltip />} />
                                     <Legend verticalAlign="top" align="center" iconType="rect" wrapperStyle={{ paddingBottom: '20px' }} />
                                     <Bar dataKey="searches" name="Searches" fill="#f43f5e" radius={[4, 4, 0, 0]} />
@@ -278,7 +278,7 @@ export default function ActiveUsersPage() {
                                                         {row.user_type}
                                                     </span>
                                                 </td>
-                                                <td className="px-5 py-4 text-right tabular-nums font-medium">{(row.brand_searches || 0).toLocaleString()}</td>
+                                                <td className="px-5 py-4 text-right tabular-nums font-medium">{(row.brand_searches || 0)?.toLocaleString()}</td>
                                                 <td className="px-5 py-4 text-right tabular-nums">
                                                     <div className="flex items-center justify-end gap-2">
                                                         <div className="w-16 h-1.5 bg-gray-100 rounded-full overflow-hidden">
@@ -287,7 +287,7 @@ export default function ActiveUsersPage() {
                                                         <span className="font-semibold text-indigo-600">{row.brand_search_pct || 0}%</span>
                                                     </div>
                                                 </td>
-                                                <td className="px-5 py-4 text-right tabular-nums font-medium">{(row.concern_searches || 0).toLocaleString()}</td>
+                                                <td className="px-5 py-4 text-right tabular-nums font-medium">{(row.concern_searches || 0)?.toLocaleString()}</td>
                                                 <td className="px-5 py-4 text-right tabular-nums">
                                                     <div className="flex items-center justify-end gap-2">
                                                         <div className="w-16 h-1.5 bg-gray-100 rounded-full overflow-hidden">
@@ -317,7 +317,7 @@ function MetricCard({ title, value, color, children }: { title: string; value: n
         <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm relative overflow-hidden">
             <div className={`absolute top-0 left-0 w-full h-1.5 ${color}`} />
             <p className="text-xs font-bold text-gray-400 tracking-widest mb-4 uppercase">{title}</p>
-            <p className="text-4xl font-bold text-gray-900 tracking-tight">{value.toLocaleString()}</p>
+            <p className="text-4xl font-bold text-gray-900 tracking-tight">{value?.toLocaleString()}</p>
             {children}
         </div>
     )
@@ -347,9 +347,9 @@ function DataTable({ rows }: { rows: any[] }) {
                         {paginatedRows.map(row => (
                             <tr key={row.date} className="hover:bg-blue-50/20 transition-colors">
                                 <td className="py-4 font-bold text-gray-700">{row.date}</td>
-                                <td className="py-4 text-right tabular-nums text-gray-600">{row.searches.toLocaleString()}</td>
-                                <td className="py-4 text-right tabular-nums text-gray-600">{row.visitors.toLocaleString()}</td>
-                                <td className="py-4 text-right tabular-nums font-bold text-blue-600">{row.orders.toLocaleString()}</td>
+                                <td className="py-4 text-right tabular-nums text-gray-600">{row.searches?.toLocaleString()}</td>
+                                <td className="py-4 text-right tabular-nums text-gray-600">{row.visitors?.toLocaleString()}</td>
+                                <td className="py-4 text-right tabular-nums font-bold text-blue-600">{row.orders?.toLocaleString()}</td>
                             </tr>
                         ))}
                     </tbody>

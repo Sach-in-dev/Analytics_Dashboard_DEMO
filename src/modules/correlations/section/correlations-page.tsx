@@ -51,10 +51,10 @@ function DeltaLine({ current, previous, kind, lowerIsBetter = false }: {
     const Icon = isNeutral ? Minus : (delta > 0 ? ArrowUp : ArrowDown)
     const color = isNeutral ? "text-gray-400" : isPositive ? "text-emerald-600" : "text-rose-600"
     const fmtPrev =
-        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000).toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000).toFixed(1)}K` : `₹${Math.round(previous).toLocaleString()}`) :
+        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000)?.toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000)?.toFixed(1)}K` : `₹${Math.round(previous)?.toLocaleString()}`) :
         kind === "percent" ? `${previous}%` :
-        kind === "days" ? `${previous.toFixed(1)}d` :
-        previous.toLocaleString()
+        kind === "days" ? `${previous?.toFixed(1)}d` :
+        previous?.toLocaleString()
     return (
         <div className="mt-2 flex items-center gap-2 text-xs">
             <span className={`inline-flex items-center gap-0.5 font-semibold ${color}`}>
@@ -198,7 +198,7 @@ export default function CorrelationsPage() {
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-extrabold text-gray-800">
-                            {summary ? summary.total_active_orders.toLocaleString() : "0"}
+                            {summary ? summary.total_active_orders?.toLocaleString() : "0"}
                         </div>
                         <p className="text-xs text-gray-400 mt-1">Found within date bounds</p>
                         <DeltaLine current={summary?.total_active_orders} previous={compareData?.total_active_orders} kind="count" />
@@ -214,7 +214,7 @@ export default function CorrelationsPage() {
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-extrabold text-gray-800">
-                            {summary ? summary.multi_item_orders.toLocaleString() : "0"}
+                            {summary ? summary.multi_item_orders?.toLocaleString() : "0"}
                         </div>
                         <p className="text-xs text-gray-400 mt-1">Carts containing {">"}1 unique item</p>
                         <DeltaLine current={summary?.multi_item_orders} previous={compareData?.multi_item_orders} kind="count" />

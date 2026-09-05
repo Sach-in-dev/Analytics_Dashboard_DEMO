@@ -106,10 +106,10 @@ function DeltaLine({ current, previous, kind, lowerIsBetter = false }: {
     const Icon = isNeutral ? Minus : (delta > 0 ? ArrowUp : ArrowDown)
     const color = isNeutral ? "text-gray-400" : isPositive ? "text-emerald-600" : "text-rose-600"
     const fmtPrev =
-        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000).toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000).toFixed(1)}K` : `₹${Math.round(previous).toLocaleString()}`) :
+        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000)?.toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000)?.toFixed(1)}K` : `₹${Math.round(previous)?.toLocaleString()}`) :
         kind === "percent" ? `${previous}%` :
-        kind === "days" ? `${previous.toFixed(1)}d` :
-        previous.toLocaleString()
+        kind === "days" ? `${previous?.toFixed(1)}d` :
+        previous?.toLocaleString()
     return (
         <div className="mt-2 flex items-center gap-2 text-xs">
             <span className={`inline-flex items-center gap-0.5 font-semibold ${color}`}>
@@ -298,7 +298,7 @@ export default function FailureZonesPage() {
                     </div>
                     <div>
                         <p className="text-sm font-semibold text-red-800">
-                            High Failure Rate Alert — Avg {avgFailure.toFixed(1)}%
+                            High Failure Rate Alert — Avg {avgFailure?.toFixed(1)}%
                         </p>
                         <p className="text-xs text-red-600">
                             Average failure rate exceeds {FAILURE_ALERT_THRESHOLD}% threshold. Review logistics in top failure zones.
@@ -319,7 +319,7 @@ export default function FailureZonesPage() {
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-extrabold text-blue-700">
-                            {loading ? "—" : (summary?.total_orders || 0).toLocaleString()}
+                            {loading ? "—" : (summary?.total_orders || 0)?.toLocaleString()}
                         </div>
                         <p className="text-xs text-blue-500/70 mt-1">
                             All shipped orders across zones
@@ -338,7 +338,7 @@ export default function FailureZonesPage() {
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-extrabold text-red-700">
-                            {loading ? "—" : (summary?.failed_orders || 0).toLocaleString()}
+                            {loading ? "—" : (summary?.failed_orders || 0)?.toLocaleString()}
                         </div>
                         <p className="text-xs text-red-500/70 mt-1">
                             RETURNED + FAILED statuses
@@ -360,7 +360,7 @@ export default function FailureZonesPage() {
                     </CardHeader>
                     <CardContent>
                         <div className={`text-4xl font-extrabold ${isHighFailure ? "text-red-700" : "text-amber-700"}`}>
-                            {loading ? "—" : `${avgFailure.toFixed(1)}%`}
+                            {loading ? "—" : `${avgFailure?.toFixed(1)}%`}
                         </div>
                         <p className={`text-xs mt-1 ${isHighFailure ? "text-red-500/70" : "text-amber-500/70"}`}>
                             {isHighFailure ? `⚠ Above ${FAILURE_ALERT_THRESHOLD}% threshold` : "✓ Within acceptable range"}
@@ -379,7 +379,7 @@ export default function FailureZonesPage() {
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-extrabold text-orange-600">
-                            {loading ? "—" : `${(summary?.avg_rto_rate || 0).toFixed(1)}%`}
+                            {loading ? "—" : `${(summary?.avg_rto_rate || 0)?.toFixed(1)}%`}
                         </div>
                         <p className="text-xs text-gray-400 mt-1">
                             Includes post-delivery returns
@@ -549,18 +549,18 @@ export default function FailureZonesPage() {
                                             >
                                                 <td className="py-3 px-4 font-medium text-gray-700">{zone.city}</td>
                                                 <td className="py-3 px-4 text-gray-500">{zone.state}</td>
-                                                <td className="py-3 px-4 text-right text-gray-600">{zone.total_orders.toLocaleString()}</td>
-                                                <td className="py-3 px-4 text-right text-red-600 font-medium">{zone.failed_orders.toLocaleString()}</td>
+                                                <td className="py-3 px-4 text-right text-gray-600">{zone.total_orders?.toLocaleString()}</td>
+                                                <td className="py-3 px-4 text-right text-red-600 font-medium">{zone.failed_orders?.toLocaleString()}</td>
                                                 <td className="py-3 px-4 text-right">
                                                     <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold ${
                                                         isHigh ? "bg-red-100 text-red-700" : "bg-amber-100 text-amber-700"
                                                     }`}>
                                                         {isHigh ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
-                                                        {zone.failure_rate.toFixed(1)}%
+                                                        {zone.failure_rate?.toFixed(1)}%
                                                     </span>
                                                 </td>
                                                 <td className="py-3 px-4 text-right text-orange-600 font-medium">
-                                                    {zone.rto_rate.toFixed(1)}%
+                                                    {zone.rto_rate?.toFixed(1)}%
                                                 </td>
                                             </tr>
                                         )

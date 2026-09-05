@@ -38,7 +38,7 @@ function randInt(seed: string, min: number, max: number): number {
 
 /** Random float in range, seeded by string. */
 function randFloat(seed: string, min: number, max: number, decimals = 2): number {
-  return parseFloat((pseudoRandom(seed) * (max - min) + min).toFixed(decimals));
+  return parseFloat((pseudoRandom(seed) * (max - min) + min)?.toFixed(decimals));
 }
 
 // ────────────────────────────────────────────────────────────

@@ -63,10 +63,11 @@ type SortKey = "total_revenue" | "total_orders" | "avg_order_value" | "unique_cu
 
 // ───── Helpers ─────
 function formatCurrency(value: number): string {
-    if (value >= 10000000) return `₹${(value / 10000000).toFixed(1)}Cr`
-    if (value >= 100000) return `₹${(value / 100000).toFixed(1)}L`
-    if (value >= 1000) return `₹${(value / 1000).toFixed(1)}K`
-    return `₹${value.toFixed(0)}`
+    if (typeof value !== "number" || isNaN(value)) return "₹0";
+    if (value >= 10000000) return `₹${(value / 10000000)?.toFixed(1)}Cr`
+    if (value >= 100000) return `₹${(value / 100000)?.toFixed(1)}L`
+    if (value >= 1000) return `₹${(value / 1000)?.toFixed(1)}K`
+    return `₹${value?.toFixed(0)}`
 }
 
 // ───── Custom Bar Tooltip ─────
@@ -77,7 +78,7 @@ function BarTooltip({ active, payload }: any) {
         <div className="bg-white border border-gray-200 shadow-xl rounded-lg px-4 py-3 text-sm">
             <p className="font-semibold text-gray-800 mb-1">{d.city}, {d.state}</p>
             <p className="text-gray-600">Revenue: <strong className="text-emerald-700">{formatCurrency(d.total_revenue)}</strong></p>
-            <p className="text-gray-600">Orders: <strong>{d.total_orders.toLocaleString()}</strong></p>
+            <p className="text-gray-600">Orders: <strong>{d.total_orders?.toLocaleString()}</strong></p>
             <p className="text-gray-600">AOV: <strong>{formatCurrency(d.avg_order_value)}</strong></p>
         </div>
     )
@@ -157,10 +158,10 @@ function DeltaLine({ current, previous, kind, lowerIsBetter = false }: {
     const Icon = isNeutral ? Minus : (delta > 0 ? ArrowUp : ArrowDown)
     const color = isNeutral ? "text-gray-400" : isPositive ? "text-emerald-600" : "text-rose-600"
     const fmtPrev =
-        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000).toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000).toFixed(1)}K` : `₹${Math.round(previous).toLocaleString()}`) :
+        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000)?.toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000)?.toFixed(1)}K` : `₹${Math.round(previous)?.toLocaleString()}`) :
         kind === "percent" ? `${previous}%` :
-        kind === "days" ? `${previous.toFixed(1)}d` :
-        previous.toLocaleString()
+        kind === "days" ? `${previous?.toFixed(1)}d` :
+        previous?.toLocaleString()
     return (
         <div className="mt-2 flex items-center gap-2 text-xs">
             <span className={`inline-flex items-center gap-0.5 font-semibold ${color}`}>
@@ -358,7 +359,7 @@ export default function GeographyRevenuePage() {
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-extrabold text-blue-700">
-                            {loading ? "—" : (summary?.total_orders || 0).toLocaleString()}
+                            {loading ? "—" : (summary?.total_orders || 0)?.toLocaleString()}
                         </div>
                         <p className="text-xs text-blue-500/70 mt-1">
                             Paid/completed orders
@@ -508,7 +509,7 @@ export default function GeographyRevenuePage() {
                                                 <td className="py-3 px-4 font-medium text-gray-700">{row.city}</td>
                                                 <td className="py-3 px-4 text-gray-500">{row.state}</td>
                                                 <td className="py-3 px-4 text-right text-gray-600">
-                                                    {row.total_orders.toLocaleString()}
+                                                    {row.total_orders?.toLocaleString()}
                                                 </td>
                                                 <td className="py-3 px-4 text-right">
                                                     <span className="font-semibold text-emerald-700">{formatCurrency(row.total_revenue)}</span>
@@ -517,7 +518,7 @@ export default function GeographyRevenuePage() {
                                                     {formatCurrency(row.avg_order_value)}
                                                 </td>
                                                 <td className="py-3 px-4 text-right text-gray-600">
-                                                    {row.unique_customers.toLocaleString()}
+                                                    {row.unique_customers?.toLocaleString()}
                                                 </td>
                                             </tr>
                                         )

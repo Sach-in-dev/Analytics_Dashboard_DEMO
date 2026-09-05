@@ -40,18 +40,18 @@ interface MCPOData {
 }
 
 function fmt(v: number): string {
-    if (v >= 10000000) return `₹${(v / 10000000).toFixed(1)}Cr`
-    if (v >= 100000) return `₹${(v / 100000).toFixed(1)}L`
-    if (v >= 1000) return `₹${(v / 1000).toFixed(1)}K`
-    return `₹${v.toLocaleString("en-IN", { maximumFractionDigits: 0 })}`
+    if (v >= 10000000) return `₹${(v / 10000000)?.toFixed(1)}Cr`
+    if (v >= 100000) return `₹${(v / 100000)?.toFixed(1)}L`
+    if (v >= 1000) return `₹${(v / 1000)?.toFixed(1)}K`
+    return `₹${v?.toLocaleString("en-IN", { maximumFractionDigits: 0 })}`
 }
 
 function fmtExact(v: number): string {
-    return `₹${v.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+    return `₹${v?.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
 }
 
 function fmtNum(v: number): string {
-    return v >= 1000 ? `${(v / 1000).toFixed(1)}K` : v.toLocaleString()
+    return v >= 1000 ? `${(v / 1000)?.toFixed(1)}K` : v?.toLocaleString()
 }
 
 function cpoColor(c: number) {
@@ -128,10 +128,10 @@ function DeltaLine({ current, previous, kind, lowerIsBetter = false }: {
     const Icon = isNeutral ? Minus : (delta > 0 ? ArrowUp : ArrowDown)
     const color = isNeutral ? "text-gray-400" : isPositive ? "text-emerald-600" : "text-rose-600"
     const fmtPrev =
-        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000).toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000).toFixed(1)}K` : `₹${Math.round(previous).toLocaleString()}`) :
+        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000)?.toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000)?.toFixed(1)}K` : `₹${Math.round(previous)?.toLocaleString()}`) :
         kind === "percent" ? `${previous}%` :
-        kind === "days" ? `${previous.toFixed(1)}d` :
-        previous.toLocaleString()
+        kind === "days" ? `${previous?.toFixed(1)}d` :
+        previous?.toLocaleString()
     return (
         <div className="mt-2 flex items-center gap-2 text-xs">
             <span className={`inline-flex items-center gap-0.5 font-semibold ${color}`}>
@@ -602,7 +602,7 @@ export default function MarketingCostPage() {
                                                     {fmt(row.total_spend)}
                                                 </td>
                                                 <td className="py-3 px-4 text-right text-blue-600 font-medium">
-                                                    {row.total_orders.toLocaleString()}
+                                                    {row.total_orders?.toLocaleString()}
                                                 </td>
                                                 <td className="py-3 px-4 text-right">
                                                     <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${cpoBg(row.cost_per_order)}`}>

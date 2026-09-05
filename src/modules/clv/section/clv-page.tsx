@@ -10,9 +10,9 @@ import {
 } from "lucide-react"
 
 function fmt(v: number) {
-  if (v >= 100000) return `₹${(v / 100000).toFixed(1)}L`
-  if (v >= 1000) return `₹${(v / 1000).toFixed(1)}K`
-  return `₹${v.toLocaleString("en-IN")}`
+  if (v >= 100000) return `₹${(v / 100000)?.toFixed(1)}L`
+  if (v >= 1000) return `₹${(v / 1000)?.toFixed(1)}K`
+  return `₹${v?.toLocaleString("en-IN")}`
 }
 
 export default function ClvPage() {
@@ -55,10 +55,10 @@ export default function ClvPage() {
       {/* Summary KPIs */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { label: "Total Customers", value: s ? s.total_customers.toLocaleString() : "—", icon: Users, color: "from-indigo-50 to-indigo-100/50 border-l-indigo-500 text-indigo-700", sub: "With purchase history" },
+          { label: "Total Customers", value: s ? s.total_customers?.toLocaleString() : "—", icon: Users, color: "from-indigo-50 to-indigo-100/50 border-l-indigo-500 text-indigo-700", sub: "With purchase history" },
           { label: "Total Revenue", value: s ? fmt(s.total_revenue) : "—", icon: DollarSign, color: "from-emerald-50 to-emerald-100/50 border-l-emerald-500 text-emerald-700", sub: "All-time paid orders" },
           { label: "Avg AOV", value: s ? fmt(s.avg_order_value) : "—", icon: ShoppingBag, color: "from-amber-50 to-amber-100/50 border-l-amber-500 text-amber-700", sub: "Average order value" },
-          { label: "Avg Orders / Customer", value: s ? s.avg_orders_per_customer.toFixed(1) : "—", icon: TrendingUp, color: "from-violet-50 to-violet-100/50 border-l-violet-500 text-violet-700", sub: "Purchase frequency" },
+          { label: "Avg Orders / Customer", value: s ? s.avg_orders_per_customer?.toFixed(1) : "—", icon: TrendingUp, color: "from-violet-50 to-violet-100/50 border-l-violet-500 text-violet-700", sub: "Purchase frequency" },
         ].map(k => (
           <Card key={k.label} className={`bg-gradient-to-br ${k.color} shadow-sm border-l-4`}>
             <CardHeader className="pb-2"><CardTitle className="text-xs font-semibold uppercase tracking-widest flex items-center justify-between gap-2">{k.label}<k.icon className="h-4 w-4 shrink-0 opacity-70" /></CardTitle></CardHeader>
@@ -139,7 +139,7 @@ export default function ClvPage() {
       {/* Pagination */}
       {meta && meta.lastPage > 1 && (
         <div className="flex items-center justify-between text-sm text-gray-500">
-          <span>Showing {((page - 1) * limit) + 1}–{Math.min(page * limit, meta.total)} of {meta.total.toLocaleString()} customers</span>
+          <span>Showing {((page - 1) * limit) + 1}–{Math.min(page * limit, meta.total)} of {meta.total?.toLocaleString()} customers</span>
           <div className="flex items-center gap-2">
             <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="p-1.5 rounded border border-gray-200 disabled:opacity-40 hover:bg-gray-50"><ChevronLeft className="h-4 w-4" /></button>
             <span className="font-medium text-gray-700">Page {page} of {meta.lastPage}</span>

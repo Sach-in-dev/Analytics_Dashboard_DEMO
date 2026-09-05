@@ -38,10 +38,10 @@ const COLORS = ["#6366f1","#10b981","#f59e0b","#ef4444","#8b5cf6","#14b8a6","#f9
 type SortKey = "total_orders" | "unique_customers"
 
 function fmtNum(v: number): string {
-    if (v >= 10000000) return `${(v/10000000).toFixed(1)}Cr`
-    if (v >= 100000) return `${(v/100000).toFixed(1)}L`
-    if (v >= 1000) return `${(v/1000).toFixed(1)}K`
-    return v.toLocaleString("en-IN")
+    if (v >= 10000000) return `${(v/10000000)?.toFixed(1)}Cr`
+    if (v >= 100000) return `${(v/100000)?.toFixed(1)}L`
+    if (v >= 1000) return `${(v/1000)?.toFixed(1)}K`
+    return v?.toLocaleString("en-IN")
 }
 function rankBadge(r: number) {
     if (r === 1) return <Crown className="h-4 w-4 text-amber-500" />
@@ -90,10 +90,10 @@ function DeltaLine({ current, previous, kind, lowerIsBetter = false }: {
     const Icon = isNeutral ? Minus : (delta > 0 ? ArrowUp : ArrowDown)
     const color = isNeutral ? "text-gray-400" : isPositive ? "text-emerald-600" : "text-rose-600"
     const fmtPrev =
-        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000).toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000).toFixed(1)}K` : `₹${Math.round(previous).toLocaleString()}`) :
+        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000)?.toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000)?.toFixed(1)}K` : `₹${Math.round(previous)?.toLocaleString()}`) :
         kind === "percent" ? `${previous}%` :
-        kind === "days" ? `${previous.toFixed(1)}d` :
-        previous.toLocaleString()
+        kind === "days" ? `${previous?.toFixed(1)}d` :
+        previous?.toLocaleString()
     return (
         <div className="mt-2 flex items-center gap-2 text-xs">
             <span className={`inline-flex items-center gap-0.5 font-semibold ${color}`}>

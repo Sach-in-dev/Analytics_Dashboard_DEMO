@@ -15,12 +15,12 @@ import { CompareSummary } from "@/components/ui/compare-summary"
 import { CompareChartTooltip } from "@/components/ui/compare-chart-tooltip"
 
 function fmt(v: number) {
-  if (v >= 10000000) return `₹${(v / 10000000).toFixed(1)}Cr`
-  if (v >= 100000) return `₹${(v / 100000).toFixed(1)}L`
-  if (v >= 1000) return `₹${(v / 1000).toFixed(1)}K`
-  return `₹${v.toLocaleString("en-IN")}`
+  if (v >= 10000000) return `₹${(v / 10000000)?.toFixed(1)}Cr`
+  if (v >= 100000) return `₹${(v / 100000)?.toFixed(1)}L`
+  if (v >= 1000) return `₹${(v / 1000)?.toFixed(1)}K`
+  return `₹${v?.toLocaleString("en-IN")}`
 }
-function fmtNum(v: number) { return v >= 1000 ? `${(v / 1000).toFixed(1)}K` : v.toLocaleString() }
+function fmtNum(v: number) { return v >= 1000 ? `${(v / 1000)?.toFixed(1)}K` : v?.toLocaleString() }
 
 interface Summary {
   qualified_sessions: number; total_users: number; session_to_order_rate: number
@@ -45,10 +45,10 @@ function DeltaLine({ current, previous, kind, lowerIsBetter = false }: {
     const Icon = isNeutral ? Minus : (delta > 0 ? ArrowUp : ArrowDown)
     const color = isNeutral ? "text-gray-400" : isPositive ? "text-emerald-600" : "text-rose-600"
     const fmtPrev =
-        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000).toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000).toFixed(1)}K` : `₹${Math.round(previous).toLocaleString()}`) :
+        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000)?.toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000)?.toFixed(1)}K` : `₹${Math.round(previous)?.toLocaleString()}`) :
         kind === "percent" ? `${previous}%` :
-        kind === "days" ? `${previous.toFixed(1)}d` :
-        previous.toLocaleString()
+        kind === "days" ? `${previous?.toFixed(1)}d` :
+        previous?.toLocaleString()
     return (
         <div className="mt-2 flex items-center gap-2 text-xs">
             <span className={`inline-flex items-center gap-0.5 font-semibold ${color}`}>
@@ -107,7 +107,7 @@ export default function GrowthPage() {
   const compareTrend = compareData?.daily_trend || []
   const kpis = [
     { label: "Qualified Sessions", current: summary?.qualified_sessions, previous: compareSummary?.qualified_sessions, kind: "count", value: fmtNum(summary?.qualified_sessions || 0), icon: Zap, color: "indigo", sub: "UTM-attributed sessions" },
-    { label: "MER", current: summary?.mer, previous: compareSummary?.mer, kind: "count", value: summary ? `${summary.mer.toFixed(2)}x` : "—", icon: BarChart2, color: "emerald", sub: "Revenue / Ad Spend" },
+    { label: "MER", current: summary?.mer, previous: compareSummary?.mer, kind: "count", value: summary ? `${summary.mer?.toFixed(2)}x` : "—", icon: BarChart2, color: "emerald", sub: "Revenue / Ad Spend" },
     { label: "New Customers", current: summary?.new_customers_paid, previous: compareSummary?.new_customers_paid, kind: "count", value: fmtNum(summary?.new_customers_paid || 0), icon: Users, color: "blue", sub: "Acquired via paid ads" },
     { label: "Total Revenue", current: summary?.total_revenue, previous: compareSummary?.total_revenue, kind: "currency", value: fmt(summary?.total_revenue || 0), icon: DollarSign, color: "amber", sub: `${fmtNum(summary?.total_orders || 0)} orders` },
     { label: "Total Ad Spend", current: summary?.total_spend, previous: compareSummary?.total_spend, kind: "currency", lowerIsBetter: true, value: fmt(summary?.total_spend || 0), icon: TrendingUp, color: "rose", sub: "Meta Ads total" },
@@ -183,7 +183,7 @@ export default function GrowthPage() {
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                   <XAxis dataKey="date" tick={{ fontSize: 11, fill: "#9ca3af" }} axisLine={false} tickLine={false} />
                   <YAxis tick={{ fontSize: 11, fill: "#9ca3af" }} axisLine={false} tickLine={false} />
-                  <Tooltip content={<CompareChartTooltip valueFormatter={(v) => `${v.toFixed(2)}x`} />} />
+                  <Tooltip content={<CompareChartTooltip valueFormatter={(v) => `${v?.toFixed(2)}x`} />} />
                   <Area type="monotone" dataKey="mer" name="MER" stroke="#6366f1" fill="#e0e7ff" strokeWidth={2} dot={false} />
                   {compare.range && (
                       <Area type="monotone" dataKey="prev_mer" name="MER (previous)" stroke="#94a3b8" strokeDasharray="5 5" strokeWidth={2} fill="transparent" dot={false} connectNulls />

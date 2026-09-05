@@ -117,7 +117,7 @@ export default function InventoryPage() {
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-extrabold text-gray-800">
-                            {summary ? summary.total_tracked_variants.toLocaleString() : "0"}
+                            {summary ? summary.total_tracked_variants?.toLocaleString() : "0"}
                         </div>
                     </CardContent>
                 </Card>
@@ -146,7 +146,7 @@ export default function InventoryPage() {
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-extrabold text-rose-600">
-                            {summary ? summary.dead_stock_variants.toLocaleString() : "0"}
+                            {summary ? summary.dead_stock_variants?.toLocaleString() : "0"}
                         </div>
                         <p className="text-xs text-rose-400 mt-1 opacity-80">
                             Value: {summary ? formatCurrency(summary.dead_stock_value) : "₹0"}
@@ -163,7 +163,7 @@ export default function InventoryPage() {
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-extrabold text-amber-600">
-                            {summary ? summary.total_stock_outs.toLocaleString() : "0"}
+                            {summary ? summary.total_stock_outs?.toLocaleString() : "0"}
                         </div>
                         <p className="text-xs text-amber-500 mt-1 opacity-80">Requires replenishment</p>
                     </CardContent>
@@ -228,7 +228,7 @@ export default function InventoryPage() {
                                             <TableCell className="font-mono text-xs text-gray-500">{row.sku || "N/A"}</TableCell>
                                             <TableCell className="text-right">{row.inventory_quantity} units</TableCell>
                                             <TableCell className="text-right">
-                                                {row.search_demand > 0 ? <span className="text-rose-600 font-semibold">{row.search_demand.toLocaleString()} searches</span> : <span className="text-gray-400">No demand data</span>}
+                                                {row.search_demand > 0 ? <span className="text-rose-600 font-semibold">{row.search_demand?.toLocaleString()} searches</span> : <span className="text-gray-400">No demand data</span>}
                                             </TableCell>
                                         </>}
                                         {activeTab === 'forecast' && <>

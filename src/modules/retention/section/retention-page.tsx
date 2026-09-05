@@ -15,9 +15,9 @@ import { CompareBanner } from "@/components/ui/compare-control"
 import { CompareSummary } from "@/components/ui/compare-summary"
 
 function fmt(v: number) {
-  if (v >= 100000) return `₹${(v / 100000).toFixed(1)}L`
-  if (v >= 1000) return `₹${(v / 1000).toFixed(1)}K`
-  return `₹${v.toLocaleString("en-IN")}`
+  if (v >= 100000) return `₹${(v / 100000)?.toFixed(1)}L`
+  if (v >= 1000) return `₹${(v / 1000)?.toFixed(1)}K`
+  return `₹${v?.toLocaleString("en-IN")}`
 }
 
 const SEG_COLORS: Record<string, string> = {
@@ -41,10 +41,10 @@ function DeltaLine({ current, previous, kind, lowerIsBetter = false }: {
     const Icon = isNeutral ? Minus : (delta > 0 ? ArrowUp : ArrowDown)
     const color = isNeutral ? "text-gray-400" : isPositive ? "text-emerald-600" : "text-rose-600"
     const fmtPrev =
-        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000).toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000).toFixed(1)}K` : `₹${Math.round(previous).toLocaleString()}`) :
+        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000)?.toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000)?.toFixed(1)}K` : `₹${Math.round(previous)?.toLocaleString()}`) :
         kind === "percent" ? `${previous}%` :
-        kind === "days" ? `${previous.toFixed(1)}d` :
-        previous.toLocaleString()
+        kind === "days" ? `${previous?.toFixed(1)}d` :
+        previous?.toLocaleString()
     return (
         <div className="mt-2 flex items-center gap-2 text-xs">
             <span className={`inline-flex items-center gap-0.5 font-semibold ${color}`}>
@@ -113,9 +113,9 @@ export default function RetentionPage() {
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {[
-          { label: "Repeat Purchase Rate", value: s ? `${s.rpr_pct.toFixed(1)}%` : "—", icon: Repeat, color: "from-emerald-50 to-emerald-100/50 border-l-emerald-500 text-emerald-700", sub: "Returning customer %" },
+          { label: "Repeat Purchase Rate", value: s ? `${s.rpr_pct?.toFixed(1)}%` : "—", icon: Repeat, color: "from-emerald-50 to-emerald-100/50 border-l-emerald-500 text-emerald-700", sub: "Returning customer %" },
           { label: "Gross Profit LTV", value: s ? fmt(s.gross_profit_ltv) : "—", icon: DollarSign, color: "from-indigo-50 to-indigo-100/50 border-l-indigo-500 text-indigo-700", sub: "LTV × 42% gross margin" },
-          { label: "LTV:CAC Ratio", value: s ? `${s.ltv_cac_ratio.toFixed(2)}x` : "—", icon: TrendingUp, color: s && s.ltv_cac_ratio >= 3 ? "from-emerald-50 to-emerald-100/50 border-l-emerald-500 text-emerald-700" : "from-amber-50 to-amber-100/50 border-l-amber-500 text-amber-700", sub: "Target ≥ 3x" },
+          { label: "LTV:CAC Ratio", value: s ? `${s.ltv_cac_ratio?.toFixed(2)}x` : "—", icon: TrendingUp, color: s && s.ltv_cac_ratio >= 3 ? "from-emerald-50 to-emerald-100/50 border-l-emerald-500 text-emerald-700" : "from-amber-50 to-amber-100/50 border-l-amber-500 text-amber-700", sub: "Target ≥ 3x" },
           { label: "CAC Payback", value: s ? `${s.cac_payback_months} months` : "—", icon: Calendar, color: "from-blue-50 to-blue-100/50 border-l-blue-500 text-blue-700", sub: "Months to recover CAC" },
           { label: "Loyal Customer %", value: s ? `${s.loyal_customer_pct}%` : "—", icon: Users, color: "from-violet-50 to-violet-100/50 border-l-violet-500 text-violet-700", sub: "Champions + Loyal RFM" },
           { label: "Avg M1 Retention", value: s ? `${s.avg_month1_retention}%` : "—", icon: Target, color: "from-rose-50 to-rose-100/50 border-l-rose-500 text-rose-700", sub: "Month-1 cohort return rate" },
@@ -158,7 +158,7 @@ export default function RetentionPage() {
                       <div className="h-full rounded-full transition-all" style={{ width: `${seg.share_pct}%`, backgroundColor: SEG_COLORS[seg.segment] || "#6366f1" }} />
                     </div>
                     <div className="w-12 text-xs text-right font-semibold text-gray-700">{seg.share_pct}%</div>
-                    <div className="w-16 text-xs text-right text-gray-500">{seg.count.toLocaleString()}</div>
+                    <div className="w-16 text-xs text-right text-gray-500">{seg.count?.toLocaleString()}</div>
                   </div>
                 ))}
               </div>
@@ -204,7 +204,7 @@ export default function RetentionPage() {
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                   <XAxis dataKey="date" tick={{ fontSize: 11, fill: "#9ca3af" }} axisLine={false} tickLine={false} />
                   <YAxis tickFormatter={v => `${v}%`} tick={{ fontSize: 11, fill: "#9ca3af" }} axisLine={false} tickLine={false} />
-                  <Tooltip formatter={(v: any) => [`${Number(v).toFixed(1)}%`, "RPR"]} />
+                  <Tooltip formatter={(v: any) => [`${Number(v)?.toFixed(1)}%`, "RPR"]} />
                   <Area type="monotone" dataKey="rpr_pct" name="RPR %" stroke="#10b981" fill="#d1fae5" strokeWidth={2} dot={false} />
                   {compare.range && (
                       <Area type="monotone" dataKey="prev_rpr_pct" name="RPR % (previous)" stroke="#94a3b8" strokeDasharray="5 5" strokeWidth={2} fill="transparent" dot={false} connectNulls />
@@ -229,7 +229,7 @@ export default function RetentionPage() {
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                   <XAxis dataKey="cohort_month" tick={{ fontSize: 10, fill: "#9ca3af" }} axisLine={false} tickLine={false} />
                   <YAxis tickFormatter={v => `${v}%`} tick={{ fontSize: 10, fill: "#9ca3af" }} axisLine={false} tickLine={false} />
-                  <Tooltip formatter={(v: any) => [`${Number(v).toFixed(1)}%`, "M1 Retention"]} />
+                  <Tooltip formatter={(v: any) => [`${Number(v)?.toFixed(1)}%`, "M1 Retention"]} />
                   <Bar dataKey="month1_retention" name="M1 Retention %" fill="#6366f1" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>

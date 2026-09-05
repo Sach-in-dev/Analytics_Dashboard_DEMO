@@ -44,10 +44,11 @@ const RETURN_ALERT_THRESHOLD = 8 // If Return Rate > 8%, show red alert
 
 // ───── Helpers ─────
 function formatCurrency(value: number): string {
-    if (value >= 10000000) return `₹${(value / 10000000).toFixed(1)}Cr`
-    if (value >= 100000) return `₹${(value / 100000).toFixed(1)}L`
-    if (value >= 1000) return `₹${(value / 1000).toFixed(1)}K`
-    return `₹${value.toFixed(0)}`
+    if (typeof value !== "number" || isNaN(value)) return "₹0";
+    if (value >= 10000000) return `₹${(value / 10000000)?.toFixed(1)}Cr`
+    if (value >= 100000) return `₹${(value / 100000)?.toFixed(1)}L`
+    if (value >= 1000) return `₹${(value / 1000)?.toFixed(1)}K`
+    return `₹${value?.toFixed(0)}`
 }
 
 function formatDate(dateStr: string): string {
@@ -95,10 +96,10 @@ function DeltaLine({ current, previous, kind, lowerIsBetter = false }: {
     const Icon = isNeutral ? Minus : (delta > 0 ? ArrowUp : ArrowDown)
     const color = isNeutral ? "text-gray-400" : isPositive ? "text-emerald-600" : "text-rose-600"
     const fmtPrev =
-        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000).toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000).toFixed(1)}K` : `₹${Math.round(previous).toLocaleString()}`) :
+        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000)?.toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000)?.toFixed(1)}K` : `₹${Math.round(previous)?.toLocaleString()}`) :
         kind === "percent" ? `${previous}%` :
-        kind === "days" ? `${previous.toFixed(1)}d` :
-        previous.toLocaleString()
+        kind === "days" ? `${previous?.toFixed(1)}d` :
+        previous?.toLocaleString()
     return (
         <div className="mt-2 flex items-center gap-2 text-xs">
             <span className={`inline-flex items-center gap-0.5 font-semibold ${color}`}>
@@ -291,7 +292,7 @@ export default function ReturnRatePage() {
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-extrabold text-blue-700">
-                            {loading ? "—" : (summary?.total_delivered_orders || 0).toLocaleString()}
+                            {loading ? "—" : (summary?.total_delivered_orders || 0)?.toLocaleString()}
                         </div>
                         <p className="text-xs text-blue-500/70 mt-1">
                             Successfully delivered in range
@@ -311,7 +312,7 @@ export default function ReturnRatePage() {
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-extrabold text-rose-600">
-                            {loading ? "—" : (summary?.returned_orders || 0).toLocaleString()}
+                            {loading ? "—" : (summary?.returned_orders || 0)?.toLocaleString()}
                         </div>
                         <p className="text-xs text-gray-400 mt-1">
                             Returned after delivery
@@ -359,8 +360,8 @@ export default function ReturnRatePage() {
                                     Key Insight
                                 </h3>
                                 <p className="text-sm text-gray-600 leading-relaxed">
-                                    Out of <strong>{summary.total_delivered_orders.toLocaleString()}</strong> delivered orders,{" "}
-                                    <strong className="text-rose-600">{summary.returned_orders.toLocaleString()}</strong> ({returnRate}%)
+                                    Out of <strong>{summary.total_delivered_orders?.toLocaleString()}</strong> delivered orders,{" "}
+                                    <strong className="text-rose-600">{summary.returned_orders?.toLocaleString()}</strong> ({returnRate}%)
                                     were returned post-delivery, resulting in a revenue loss of{" "}
                                     <strong className="text-amber-600">{formatCurrency(summary.return_revenue_loss)}</strong>.
                                     {isHighReturn ? (
@@ -501,10 +502,10 @@ export default function ReturnRatePage() {
                                                     {formatDate(row.date)}
                                                 </td>
                                                 <td className="py-3 px-4 text-right text-gray-600">
-                                                    {row.total_delivered_orders.toLocaleString()}
+                                                    {row.total_delivered_orders?.toLocaleString()}
                                                 </td>
                                                 <td className="py-3 px-4 text-right text-gray-600">
-                                                    {row.returned_orders.toLocaleString()}
+                                                    {row.returned_orders?.toLocaleString()}
                                                 </td>
                                                 <td className="py-3 px-4 text-right">
                                                     <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold ${

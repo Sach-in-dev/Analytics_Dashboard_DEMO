@@ -68,10 +68,10 @@ function DeltaLine({ current, previous, kind, lowerIsBetter = false }: {
     const Icon = isNeutral ? Minus : (delta > 0 ? ArrowUp : ArrowDown)
     const color = isNeutral ? "text-gray-400" : isPositive ? "text-emerald-600" : "text-rose-600"
     const fmtPrev =
-        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000).toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000).toFixed(1)}K` : `₹${Math.round(previous).toLocaleString()}`) :
+        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000)?.toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000)?.toFixed(1)}K` : `₹${Math.round(previous)?.toLocaleString()}`) :
         kind === "percent" ? `${previous}%` :
-        kind === "days" ? `${previous.toFixed(1)}d` :
-        previous.toLocaleString()
+        kind === "days" ? `${previous?.toFixed(1)}d` :
+        previous?.toLocaleString()
     return (
         <div className="mt-2 flex items-center gap-2 text-xs">
             <span className={`inline-flex items-center gap-0.5 font-semibold ${color}`}>
@@ -233,22 +233,22 @@ export default function SearchesPage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                         <Card className="p-6">
                             <h3 className="text-sm font-medium text-gray-400">Total Searches</h3>
-                            <div className="mt-1 text-2xl font-bold text-gray-800">{totals.total_searches.toLocaleString()}</div>
+                            <div className="mt-1 text-2xl font-bold text-gray-800">{totals.total_searches?.toLocaleString()}</div>
                             <DeltaLine current={totals.total_searches} previous={compareTotals?.total_searches} kind="count" />
                         </Card>
                         <Card className="p-6">
                             <h3 className="text-sm font-medium text-gray-400">Unique Searchers</h3>
-                            <div className="mt-1 text-2xl font-bold text-gray-800">{totals.unique_searchers.toLocaleString()}</div>
+                            <div className="mt-1 text-2xl font-bold text-gray-800">{totals.unique_searchers?.toLocaleString()}</div>
                             <DeltaLine current={totals.unique_searchers} previous={compareTotals?.unique_searchers} kind="count" />
                         </Card>
                         <Card className="p-6">
                             <h3 className="text-sm font-medium text-gray-400">With Results</h3>
-                            <div className="mt-1 text-2xl font-bold text-emerald-600">{totals.with_results.toLocaleString()}</div>
+                            <div className="mt-1 text-2xl font-bold text-emerald-600">{totals.with_results?.toLocaleString()}</div>
                             <DeltaLine current={totals.with_results} previous={compareTotals?.with_results} kind="count" />
                         </Card>
                         <Card className="p-6">
                             <h3 className="text-sm font-medium text-gray-400">Zero Results</h3>
-                            <div className="mt-1 text-2xl font-bold text-rose-500">{totals.zero_results.toLocaleString()}</div>
+                            <div className="mt-1 text-2xl font-bold text-rose-500">{totals.zero_results?.toLocaleString()}</div>
                             <DeltaLine current={totals.zero_results} previous={compareTotals?.zero_results} kind="count" lowerIsBetter />
                         </Card>
                     </div>
@@ -267,7 +267,7 @@ export default function SearchesPage() {
                                             </span>
                                             <span className="font-medium text-sm text-gray-800">{k.keyword}</span>
                                         </div>
-                                        <span className="text-sm text-gray-500 font-medium">{k.count.toLocaleString()}</span>
+                                        <span className="text-sm text-gray-500 font-medium">{k.count?.toLocaleString()}</span>
                                     </div>
                                 )) : (
                                     <div className="col-span-full text-sm text-gray-500 py-4 text-center">No keyword data found</div>
@@ -608,10 +608,10 @@ function SearchDataTable({ rows }: { rows: SearchData[] }) {
                         {paginatedRows.map(row => (
                             <TableRow key={row.date} className="hover:bg-blue-50/20 transition-colors">
                                 <TableCell className="font-bold text-gray-700">{row.date}</TableCell>
-                                <TableCell className="text-right tabular-nums text-gray-600">{row.total_searches.toLocaleString()}</TableCell>
-                                <TableCell className="text-right tabular-nums text-gray-600">{row.unique_searchers.toLocaleString()}</TableCell>
-                                <TableCell className="text-right tabular-nums text-emerald-600 font-medium">{row.with_results.toLocaleString()}</TableCell>
-                                <TableCell className="text-right tabular-nums text-rose-500 font-medium">{row.zero_results.toLocaleString()}</TableCell>
+                                <TableCell className="text-right tabular-nums text-gray-600">{row.total_searches?.toLocaleString()}</TableCell>
+                                <TableCell className="text-right tabular-nums text-gray-600">{row.unique_searchers?.toLocaleString()}</TableCell>
+                                <TableCell className="text-right tabular-nums text-emerald-600 font-medium">{row.with_results?.toLocaleString()}</TableCell>
+                                <TableCell className="text-right tabular-nums text-rose-500 font-medium">{row.zero_results?.toLocaleString()}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

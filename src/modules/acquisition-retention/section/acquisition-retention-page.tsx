@@ -15,9 +15,9 @@ import { CompareControl, CompareBanner } from "@/components/ui/compare-control"
 import { CompareSummary } from "@/components/ui/compare-summary"
 
 function fmt(v: number) {
-  if (v >= 100000) return `₹${(v / 100000).toFixed(1)}L`
-  if (v >= 1000) return `₹${(v / 1000).toFixed(1)}K`
-  return `₹${v.toLocaleString("en-IN")}`
+  if (v >= 100000) return `₹${(v / 100000)?.toFixed(1)}L`
+  if (v >= 1000) return `₹${(v / 1000)?.toFixed(1)}K`
+  return `₹${v?.toLocaleString("en-IN")}`
 }
 
 const COLORS = ["#6366f1", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#14b8a6", "#f97316", "#ec4899"]
@@ -38,10 +38,10 @@ function DeltaLine({ current, previous, kind, lowerIsBetter = false }: {
     const Icon = isNeutral ? Minus : (delta > 0 ? ArrowUp : ArrowDown)
     const color = isNeutral ? "text-gray-400" : isPositive ? "text-emerald-600" : "text-rose-600"
     const fmtPrev =
-        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000).toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000).toFixed(1)}K` : `₹${Math.round(previous).toLocaleString()}`) :
+        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000)?.toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000)?.toFixed(1)}K` : `₹${Math.round(previous)?.toLocaleString()}`) :
         kind === "percent" ? `${previous}%` :
-        kind === "days" ? `${previous.toFixed(1)}d` :
-        previous.toLocaleString()
+        kind === "days" ? `${previous?.toFixed(1)}d` :
+        previous?.toLocaleString()
     return (
         <div className="mt-2 flex items-center gap-2 text-xs">
             <span className={`inline-flex items-center gap-0.5 font-semibold ${color}`}>
@@ -164,7 +164,7 @@ export default function AcquisitionRetentionPage() {
                     <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                     <XAxis dataKey="month_index" tickFormatter={v => `M${v}`} tick={{ fontSize: 11, fill: "#9ca3af" }} axisLine={false} tickLine={false} />
                     <YAxis tickFormatter={v => `${v}%`} tick={{ fontSize: 11, fill: "#9ca3af" }} axisLine={false} tickLine={false} />
-                    <Tooltip formatter={(v: any) => [`${Number(v).toFixed(1)}%`, "Avg Retention"]} labelFormatter={l => `Month ${l}`} />
+                    <Tooltip formatter={(v: any) => [`${Number(v)?.toFixed(1)}%`, "Avg Retention"]} labelFormatter={l => `Month ${l}`} />
                     <Line type="monotone" dataKey="avg_retention_pct" name="Avg Retention %" stroke="#6366f1" strokeWidth={2} dot={{ r: 4, fill: "#6366f1" }} />
                   </LineChart>
                 </ResponsiveContainer>
@@ -188,8 +188,8 @@ export default function AcquisitionRetentionPage() {
                   (data?.source_breakdown || []).map((s: any, i: number) => (
                     <TableRow key={i} className="hover:bg-gray-50">
                       <TableCell><span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium" style={{ backgroundColor: COLORS[i % COLORS.length] + "20", color: COLORS[i % COLORS.length] }}>{s.source}</span></TableCell>
-                      <TableCell className="text-right">{s.sessions.toLocaleString()}</TableCell>
-                      <TableCell className="text-right">{s.orders.toLocaleString()}</TableCell>
+                      <TableCell className="text-right">{s.sessions?.toLocaleString()}</TableCell>
+                      <TableCell className="text-right">{s.orders?.toLocaleString()}</TableCell>
                       <TableCell className="text-right font-semibold text-emerald-600">{fmt(s.revenue)}</TableCell>
                       <TableCell className="text-right">
                         <div className="flex items-center justify-end gap-2">

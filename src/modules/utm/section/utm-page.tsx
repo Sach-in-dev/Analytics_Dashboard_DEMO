@@ -68,10 +68,10 @@ function DeltaLine({ current, previous, kind, lowerIsBetter = false }: {
     const Icon = isNeutral ? Minus : (delta > 0 ? ArrowUp : ArrowDown)
     const color = isNeutral ? "text-gray-400" : isPositive ? "text-emerald-600" : "text-rose-600"
     const fmtPrev =
-        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000).toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000).toFixed(1)}K` : `₹${Math.round(previous).toLocaleString()}`) :
+        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000)?.toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000)?.toFixed(1)}K` : `₹${Math.round(previous)?.toLocaleString()}`) :
         kind === "percent" ? `${previous}%` :
-        kind === "days" ? `${previous.toFixed(1)}d` :
-        previous.toLocaleString()
+        kind === "days" ? `${previous?.toFixed(1)}d` :
+        previous?.toLocaleString()
     return (
         <div className="mt-2 flex items-center gap-2 text-xs">
             <span className={`inline-flex items-center gap-0.5 font-semibold ${color}`}>
@@ -116,7 +116,7 @@ export default function UtmPage() {
                 const totalPageViews = rawData.reduce((sum, item) => sum + item.views, 0)
                 const processed = rawData.map(item => ({
                     ...item,
-                    percentage: totalPageViews > 0 ? Number(((item.views / totalPageViews) * 100).toFixed(1)) : 0
+                    percentage: totalPageViews > 0 ? Number(((item.views / totalPageViews) * 100)?.toFixed(1)) : 0
                 }))
                 
                 setData(processed)
@@ -266,7 +266,7 @@ export default function UtmPage() {
                                             <TableCell className="font-medium text-gray-800">
                                                 {row.key === "None" || !row.key ? "Direct / None" : row.key}
                                             </TableCell>
-                                            <TableCell className="text-right tabular-nums text-gray-600">{row.views.toLocaleString()}</TableCell>
+                                            <TableCell className="text-right tabular-nums text-gray-600">{row.views?.toLocaleString()}</TableCell>
                                             <TableCell className="text-right">
                                                 <span className="bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full text-xs font-semibold">{row.percentage}%</span>
                                             </TableCell>
@@ -288,7 +288,7 @@ export default function UtmPage() {
                                 </ResponsiveContainer>
                                 <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
                                     <span className="text-xs text-gray-400 uppercase">Page Views</span>
-                                    <span className="text-2xl font-bold text-gray-800">{totalViews.toLocaleString()}</span>
+                                    <span className="text-2xl font-bold text-gray-800">{totalViews?.toLocaleString()}</span>
                                 </div>
                             </div>
                             <div className="mt-6 max-h-[280px] overflow-y-auto pr-2 w-full">
@@ -298,7 +298,7 @@ export default function UtmPage() {
                                             <span className="w-3 h-3 rounded-full mt-1 shrink-0" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
                                             <div className="min-w-0">
                                                 <div className="font-medium text-gray-700 truncate" title={item.name}>{item.name}</div>
-                                                <div className="text-xs text-gray-500">{item.value.toLocaleString()} • {item.percentage}%</div>
+                                                <div className="text-xs text-gray-500">{item.value?.toLocaleString()} • {item.percentage}%</div>
                                             </div>
                                         </div>
                                     ))}

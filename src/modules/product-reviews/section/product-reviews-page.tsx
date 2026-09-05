@@ -52,10 +52,10 @@ function DeltaLine({ current, previous, kind, lowerIsBetter = false }: {
     const Icon = isNeutral ? Minus : (delta > 0 ? ArrowUp : ArrowDown)
     const color = isNeutral ? "text-gray-400" : isPositive ? "text-emerald-600" : "text-rose-600"
     const fmtPrev =
-        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000).toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000).toFixed(1)}K` : `₹${Math.round(previous).toLocaleString()}`) :
+        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000)?.toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000)?.toFixed(1)}K` : `₹${Math.round(previous)?.toLocaleString()}`) :
         kind === "percent" ? `${previous}%` :
-        kind === "days" ? `${previous.toFixed(1)}d` :
-        previous.toLocaleString()
+        kind === "days" ? `${previous?.toFixed(1)}d` :
+        previous?.toLocaleString()
     return (
         <div className="mt-2 flex items-center gap-2 text-xs">
             <span className={`inline-flex items-center gap-0.5 font-semibold ${color}`}>
@@ -244,7 +244,7 @@ export default function ReviewsPage() {
                     </CardHeader>
                     <CardContent>
                         <div className="text-4xl font-extrabold text-gray-800">
-                            {summary ? summary.average_rating.toFixed(2) : "0.00"}
+                            {summary ? summary.average_rating?.toFixed(2) : "0.00"}
                         </div>
                         <p className="text-sm text-gray-500 mt-2 font-medium">Average across period</p>
                         <DeltaLine current={summary?.average_rating} previous={compareSummary?.average_rating} kind="count" />
@@ -260,7 +260,7 @@ export default function ReviewsPage() {
                     </CardHeader>
                     <CardContent>
                         <div className="text-4xl font-extrabold text-gray-800">
-                            {summary ? summary.total_reviews.toLocaleString() : "0"}
+                            {summary ? summary.total_reviews?.toLocaleString() : "0"}
                         </div>
                         <p className="text-sm text-gray-500 mt-2 font-medium">Verified submissions</p>
                         <DeltaLine current={summary?.total_reviews} previous={compareSummary?.total_reviews} kind="count" />
@@ -356,7 +356,7 @@ export default function ReviewsPage() {
                                             </TableCell>
                                             <TableCell align="right">
                                                 <div className="flex justify-end items-center gap-1.5 min-w-[50px]">
-                                                    <span className="font-semibold">{p.average_rating.toFixed(1)}</span>
+                                                    <span className="font-semibold">{p.average_rating?.toFixed(1)}</span>
                                                     <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
                                                 </div>
                                             </TableCell>

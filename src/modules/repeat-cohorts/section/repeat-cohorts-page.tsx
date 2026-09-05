@@ -100,10 +100,10 @@ function DeltaLine({ current, previous, kind, lowerIsBetter = false }: {
     const Icon = isNeutral ? Minus : (delta > 0 ? ArrowUp : ArrowDown)
     const color = isNeutral ? "text-gray-400" : isPositive ? "text-emerald-600" : "text-rose-600"
     const fmtPrev =
-        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000).toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000).toFixed(1)}K` : `₹${Math.round(previous).toLocaleString()}`) :
+        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000)?.toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000)?.toFixed(1)}K` : `₹${Math.round(previous)?.toLocaleString()}`) :
         kind === "percent" ? `${previous}%` :
-        kind === "days" ? `${previous.toFixed(1)}d` :
-        previous.toLocaleString()
+        kind === "days" ? `${previous?.toFixed(1)}d` :
+        previous?.toLocaleString()
     return (
         <div className="mt-2 flex items-center gap-2 text-xs">
             <span className={`inline-flex items-center gap-0.5 font-semibold ${color}`}>
@@ -328,7 +328,7 @@ export default function RepeatCohortsPage() {
                                     {formatMonth(summary.best_cohort.month)}
                                 </div>
                                 <p className="text-xs text-gray-400 mt-1">
-                                    {summary.best_cohort.month_1_rate}% month-1 retention · {summary.best_cohort.size.toLocaleString()} customers
+                                    {summary.best_cohort.month_1_rate}% month-1 retention · {summary.best_cohort.size?.toLocaleString()} customers
                                 </p>
                             </>
                         ) : (
@@ -356,7 +356,7 @@ export default function RepeatCohortsPage() {
                                     {formatMonth(summary.worst_cohort.month)}
                                 </div>
                                 <p className="text-xs text-gray-400 mt-1">
-                                    {summary.worst_cohort.month_1_rate}% month-1 retention · {summary.worst_cohort.size.toLocaleString()} customers
+                                    {summary.worst_cohort.month_1_rate}% month-1 retention · {summary.worst_cohort.size?.toLocaleString()} customers
                                 </p>
                             </>
                         ) : (
@@ -444,7 +444,7 @@ export default function RepeatCohortsPage() {
                                                     {formatMonth(cohort.cohort_month)}
                                                 </td>
                                                 <td className="px-3 py-2 text-center font-semibold text-gray-700 border border-gray-200">
-                                                    {cohort.cohort_size.toLocaleString()}
+                                                    {cohort.cohort_size?.toLocaleString()}
                                                 </td>
                                                 {Array.from({ length: maxIndex + 1 }, (_, i) => {
                                                     const dp = rateMap.get(i)
@@ -462,7 +462,7 @@ export default function RepeatCohortsPage() {
                                                         <td
                                                             key={i}
                                                             className={`px-3 py-2 text-center border border-gray-200 font-medium transition-colors ${getHeatmapColor(dp.rate)}`}
-                                                            title={`${dp.users.toLocaleString()} customers (${dp.rate}%)`}
+                                                            title={`${dp.users?.toLocaleString()} customers (${dp.rate}%)`}
                                                         >
                                                             {dp.rate}%
                                                         </td>
@@ -597,10 +597,10 @@ export default function RepeatCohortsPage() {
                                                     {dp.index === 0 ? "Same month" : `Month ${dp.index}`}
                                                 </td>
                                                 <td className="px-3 py-2 text-center text-gray-700 font-medium">
-                                                    {cohort.cohort_size.toLocaleString()}
+                                                    {cohort.cohort_size?.toLocaleString()}
                                                 </td>
                                                 <td className="px-3 py-2 text-center text-gray-700">
-                                                    {dp.users.toLocaleString()}
+                                                    {dp.users?.toLocaleString()}
                                                 </td>
                                                 <td className="px-3 py-2 text-center">
                                                     <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-semibold ${

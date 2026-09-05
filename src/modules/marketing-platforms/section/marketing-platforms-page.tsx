@@ -15,9 +15,9 @@ import { CompareControl, CompareBanner } from "@/components/ui/compare-control"
 import { CompareSummary } from "@/components/ui/compare-summary"
 
 function fmt(v: number) {
-  if (v >= 100000) return `₹${(v / 100000).toFixed(1)}L`
-  if (v >= 1000) return `₹${(v / 1000).toFixed(1)}K`
-  return `₹${v.toLocaleString("en-IN")}`
+  if (v >= 100000) return `₹${(v / 100000)?.toFixed(1)}L`
+  if (v >= 1000) return `₹${(v / 1000)?.toFixed(1)}K`
+  return `₹${v?.toLocaleString("en-IN")}`
 }
 
 const COLORS = ["#6366f1", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#14b8a6", "#f97316"]
@@ -38,10 +38,10 @@ function DeltaLine({ current, previous, kind, lowerIsBetter = false }: {
     const Icon = isNeutral ? Minus : (delta > 0 ? ArrowUp : ArrowDown)
     const color = isNeutral ? "text-gray-400" : isPositive ? "text-emerald-600" : "text-rose-600"
     const fmtPrev =
-        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000).toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000).toFixed(1)}K` : `₹${Math.round(previous).toLocaleString()}`) :
+        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000)?.toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000)?.toFixed(1)}K` : `₹${Math.round(previous)?.toLocaleString()}`) :
         kind === "percent" ? `${previous}%` :
-        kind === "days" ? `${previous.toFixed(1)}d` :
-        previous.toLocaleString()
+        kind === "days" ? `${previous?.toFixed(1)}d` :
+        previous?.toLocaleString()
     return (
         <div className="mt-2 flex items-center gap-2 text-xs">
             <span className={`inline-flex items-center gap-0.5 font-semibold ${color}`}>
@@ -134,7 +134,7 @@ export default function MarketingPlatformsPage() {
         </Card>
         <Card className="bg-gradient-to-br from-amber-50 to-amber-100/50 border-l-4 border-l-amber-500 shadow-sm">
           <CardHeader className="pb-2"><CardTitle className="text-xs font-semibold text-amber-600 uppercase tracking-widest flex items-center justify-between">Influencer Orders<Users className="h-4 w-4 opacity-70" /></CardTitle></CardHeader>
-          <CardContent><div className="text-3xl font-extrabold text-amber-700">{loading ? "—" : (inf?.total_orders || 0).toLocaleString()}</div><p className="text-xs text-amber-500/70 mt-1">UTM-attributed</p><DeltaLine current={inf?.total_orders} previous={compareData?.influencer?.total_orders} kind="count" /></CardContent>
+          <CardContent><div className="text-3xl font-extrabold text-amber-700">{loading ? "—" : (inf?.total_orders || 0)?.toLocaleString()}</div><p className="text-xs text-amber-500/70 mt-1">UTM-attributed</p><DeltaLine current={inf?.total_orders} previous={compareData?.influencer?.total_orders} kind="count" /></CardContent>
         </Card>
       </div>
 
@@ -163,7 +163,7 @@ export default function MarketingPlatformsPage() {
               <strong className="text-gray-800">💡 Insight:</strong>{" "}
               {meta?.top_creatives?.length > 0 ? (
                 <>Top creative <strong className="text-indigo-700">{meta.top_creatives[0].ad_name}</strong> achieves <strong className="text-emerald-600">{meta.top_creatives[0].roas}x ROAS</strong> on ₹{Math.round(meta.top_creatives[0].spend / 1000)}K spend.{" "}
-                Total Meta spend ₹{Math.round((meta.total_spend || 0) / 100000 * 10) / 10}L drove <strong>{(meta.total_orders_attributed || 0).toLocaleString()}</strong> orders with avg CAC of <strong className="text-rose-600">₹{(meta.avg_cac || 0).toLocaleString()}</strong>.</>
+                Total Meta spend ₹{Math.round((meta.total_spend || 0) / 100000 * 10) / 10}L drove <strong>{(meta.total_orders_attributed || 0)?.toLocaleString()}</strong> orders with avg CAC of <strong className="text-rose-600">₹{(meta.avg_cac || 0)?.toLocaleString()}</strong>.</>
               ) : <>No Meta Ads data available for this period.</>}
             </p>
           </CardContent>
@@ -216,7 +216,7 @@ export default function MarketingPlatformsPage() {
                           <TableCell className="font-medium max-w-[200px] truncate" title={c.ad_name}>{c.ad_name}</TableCell>
                           <TableCell className="text-right">{fmt(c.spend)}</TableCell>
                           <TableCell className="text-right text-emerald-600">{fmt(c.revenue)}</TableCell>
-                          <TableCell className="text-right"><span className={`font-semibold ${c.roas >= 2 ? "text-emerald-600" : c.roas >= 1 ? "text-amber-600" : "text-rose-600"}`}>{c.roas.toFixed(2)}x</span></TableCell>
+                          <TableCell className="text-right"><span className={`font-semibold ${c.roas >= 2 ? "text-emerald-600" : c.roas >= 1 ? "text-amber-600" : "text-rose-600"}`}>{c.roas?.toFixed(2)}x</span></TableCell>
                           <TableCell className="text-right">{c.orders}</TableCell>
                           <TableCell className="text-right">{c.ctr}%</TableCell>
                         </TableRow>

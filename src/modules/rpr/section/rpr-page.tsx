@@ -43,7 +43,7 @@ function CustomPieTooltip({ active, payload }: any) {
         <div className="bg-white border border-gray-200 shadow-lg rounded-lg px-4 py-3 text-sm">
             <p className="font-semibold text-gray-800">{name}</p>
             <p className="text-gray-500 mt-1">
-                {value.toLocaleString()} customers ({data.percentage}%)
+                {value?.toLocaleString()} customers ({data.percentage}%)
             </p>
         </div>
     )
@@ -68,10 +68,10 @@ function DeltaLine({ current, previous, kind, lowerIsBetter = false }: {
     const Icon = isNeutral ? Minus : (delta > 0 ? ArrowUp : ArrowDown)
     const color = isNeutral ? "text-gray-400" : isPositive ? "text-emerald-600" : "text-rose-600"
     const fmtPrev =
-        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000).toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000).toFixed(1)}K` : `₹${Math.round(previous).toLocaleString()}`) :
+        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000)?.toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000)?.toFixed(1)}K` : `₹${Math.round(previous)?.toLocaleString()}`) :
         kind === "percent" ? `${previous}%` :
-        kind === "days" ? `${previous.toFixed(1)}d` :
-        previous.toLocaleString()
+        kind === "days" ? `${previous?.toFixed(1)}d` :
+        previous?.toLocaleString()
     return (
         <div className="mt-2 flex items-center gap-2 text-xs">
             <span className={`inline-flex items-center gap-0.5 font-semibold ${color}`}>
@@ -157,13 +157,13 @@ export default function RprPage() {
         {
             name: "Repeat Customers",
             value: repeatCustomers,
-            percentage: rprPercentage.toFixed(1),
+            percentage: rprPercentage?.toFixed(1),
             fill: COLORS.repeat,
         },
         {
             name: "One-Time Customers",
             value: oneTimeCustomers,
-            percentage: oneTimePercentage.toFixed(1),
+            percentage: oneTimePercentage?.toFixed(1),
             fill: COLORS.oneTime,
         },
     ] : []
@@ -263,7 +263,7 @@ export default function RprPage() {
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-extrabold text-gray-800">
-                            {loading ? "—" : totalCustomers.toLocaleString()}
+                            {loading ? "—" : totalCustomers?.toLocaleString()}
                         </div>
                         <p className="text-xs text-gray-400 mt-1">
                             Unique email addresses
@@ -282,7 +282,7 @@ export default function RprPage() {
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-extrabold text-emerald-700">
-                            {loading ? "—" : repeatCustomers.toLocaleString()}
+                            {loading ? "—" : repeatCustomers?.toLocaleString()}
                         </div>
                         <p className="text-xs text-gray-400 mt-1">
                             Placed 2+ orders
@@ -301,7 +301,7 @@ export default function RprPage() {
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-extrabold text-amber-600">
-                            {loading ? "—" : oneTimeCustomers.toLocaleString()}
+                            {loading ? "—" : oneTimeCustomers?.toLocaleString()}
                         </div>
                         <p className="text-xs text-gray-400 mt-1">
                             Placed only 1 order
@@ -416,7 +416,7 @@ export default function RprPage() {
                                             <span className="text-xs font-semibold text-emerald-700">Repeat</span>
                                         </div>
                                         <span className="text-lg font-bold text-emerald-700">
-                                            {repeatCustomers.toLocaleString()}
+                                            {repeatCustomers?.toLocaleString()}
                                         </span>
                                     </div>
                                     <div className="bg-amber-50 rounded-lg p-3 text-center">
@@ -425,7 +425,7 @@ export default function RprPage() {
                                             <span className="text-xs font-semibold text-amber-700">One-Time</span>
                                         </div>
                                         <span className="text-lg font-bold text-amber-700">
-                                            {oneTimeCustomers.toLocaleString()}
+                                            {oneTimeCustomers?.toLocaleString()}
                                         </span>
                                     </div>
                                 </div>
@@ -453,18 +453,18 @@ export default function RprPage() {
                             <TableBody>
                                 <TableRow className="hover:bg-gray-50/50">
                                     <TableCell className="font-medium text-gray-800">Total Customers</TableCell>
-                                    <TableCell className="text-right tabular-nums font-bold text-gray-800">{totalCustomers.toLocaleString()}</TableCell>
+                                    <TableCell className="text-right tabular-nums font-bold text-gray-800">{totalCustomers?.toLocaleString()}</TableCell>
                                     <TableCell className="text-right tabular-nums text-gray-500">100%</TableCell>
                                 </TableRow>
                                 <TableRow className="hover:bg-emerald-50/30">
                                     <TableCell className="font-medium text-emerald-700">Repeat Customers</TableCell>
-                                    <TableCell className="text-right tabular-nums font-bold text-emerald-700">{repeatCustomers.toLocaleString()}</TableCell>
+                                    <TableCell className="text-right tabular-nums font-bold text-emerald-700">{repeatCustomers?.toLocaleString()}</TableCell>
                                     <TableCell className="text-right tabular-nums text-emerald-600">{rprPercentage}%</TableCell>
                                 </TableRow>
                                 <TableRow className="hover:bg-amber-50/30">
                                     <TableCell className="font-medium text-amber-700">One-Time Customers</TableCell>
-                                    <TableCell className="text-right tabular-nums font-bold text-amber-700">{oneTimeCustomers.toLocaleString()}</TableCell>
-                                    <TableCell className="text-right tabular-nums text-amber-600">{oneTimePercentage.toFixed(1)}%</TableCell>
+                                    <TableCell className="text-right tabular-nums font-bold text-amber-700">{oneTimeCustomers?.toLocaleString()}</TableCell>
+                                    <TableCell className="text-right tabular-nums text-amber-600">{oneTimePercentage?.toFixed(1)}%</TableCell>
                                 </TableRow>
                             </TableBody>
                         </Table>

@@ -66,7 +66,7 @@ const getPastDate = (days: number) => {
   const d = new Date(); d.setDate(d.getDate() - days)
   return d.toISOString().split("T")[0]
 }
-const fmt = (v: number) => `₹ ${v.toLocaleString()}`
+const fmt = (v: number) => `₹ ${v?.toLocaleString()}`
 const pctChange = sharedPctChange
 const dayName = (ds: string) => {
   try { return new Date(ds + "T00:00:00").toLocaleDateString("en-IN", { weekday: "short" }) } catch { return "" }
@@ -138,7 +138,7 @@ export default function OrderMetricsPage() {
       const cur = agg ? (agg[f.key] as number) : null
       const prev = compareAgg ? (compareAgg[f.key] as number) : null
       const delta = (cur != null && prev != null) ? pctChange(cur, prev) : null
-      const fmtVal = (v: number) => f.format === "currency" ? fmt(v) : v.toLocaleString()
+      const fmtVal = (v: number) => f.format === "currency" ? fmt(v) : v?.toLocaleString()
       return {
         label: f.label,
         value: cur != null ? fmtVal(cur) : "—",
@@ -340,7 +340,7 @@ function GraphView({ chartData, insights, agg, compareActive }: { chartData: any
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
               <XAxis dataKey="date" tick={{ fontSize: 11 }} />
               <YAxis yAxisId="left" tick={{ fontSize: 11 }} />
-              <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 11 }} tickFormatter={v => `₹${(v / 1000).toFixed(0)}k`} />
+              <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 11 }} tickFormatter={v => `₹${(v / 1000)?.toFixed(0)}k`} />
               <RTooltip content={<CustomTooltip />} />
               <Legend />
               {agg && <ReferenceLine yAxisId="left" y={Math.round(agg.totalOrders / chartData.length)} stroke="#94a3b8" strokeDasharray="6 3" label={{ value: "Avg Orders", fill: "#94a3b8", fontSize: 11, position: "insideTopRight" }} />}
@@ -366,7 +366,7 @@ function GraphView({ chartData, insights, agg, compareActive }: { chartData: any
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
               <XAxis dataKey="date" tick={{ fontSize: 11 }} />
               <YAxis tick={{ fontSize: 11 }} tickFormatter={v => `₹${v}`} />
-              <RTooltip formatter={(v: any, name: any) => [`₹${Number(v).toLocaleString()}`, name]} />
+              <RTooltip formatter={(v: any, name: any) => [`₹${Number(v)?.toLocaleString()}`, name]} />
               <Legend />
               {agg && <ReferenceLine y={agg.aov} stroke="#f59e0b" strokeDasharray="6 3" label={{ value: `Avg ₹${agg.aov}`, fill: "#f59e0b", fontSize: 11, position: "insideTopRight" }} />}
               <Area type="monotone" dataKey="AOV" stroke="#8b5cf6" fill="url(#aovGrad)" strokeWidth={2} name="AOV (current)" />
@@ -387,8 +387,8 @@ function GraphView({ chartData, insights, agg, compareActive }: { chartData: any
             <BarChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
               <XAxis dataKey="date" tick={{ fontSize: 11 }} />
-              <YAxis tick={{ fontSize: 11 }} tickFormatter={v => `₹${(v / 1000).toFixed(0)}k`} />
-              <RTooltip formatter={(v: any) => [`₹${Number(v).toLocaleString()}`]} />
+              <YAxis tick={{ fontSize: 11 }} tickFormatter={v => `₹${(v / 1000)?.toFixed(0)}k`} />
+              <RTooltip formatter={(v: any) => [`₹${Number(v)?.toLocaleString()}`]} />
               <Legend />
               <Bar dataKey="Discount" fill="#f43f5e" radius={[4, 4, 0, 0]} barSize={16} />
               <Bar dataKey="Shipping" fill="#06b6d4" radius={[4, 4, 0, 0]} barSize={16} />
@@ -414,7 +414,7 @@ function CustomTooltip({ active, payload, label }: any) {
           <div key={i} className="flex justify-between gap-4">
             <span className="text-gray-500">{p.name}</span>
             <span className="font-semibold" style={{ color: p.color }}>
-              {isRevenue ? `₹${Number(p.value).toLocaleString()}` : Number(p.value).toLocaleString()}
+              {isRevenue ? `₹${Number(p.value)?.toLocaleString()}` : Number(p.value)?.toLocaleString()}
             </span>
           </div>
         )
@@ -442,7 +442,7 @@ function InsightsPanel({ insights }: { insights: any }) {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
         <InsightCard icon={<ArrowUp size={18} />} color="emerald" label="Best Day" value={`${insights.best.ordersCount} orders`} sub={`${insights.best.date} (${dayName(insights.best.date)})`} />
         <InsightCard icon={<ArrowDown size={18} />} color="rose" label="Worst Day" value={`${insights.worst.ordersCount} orders`} sub={`${insights.worst.date} (${dayName(insights.worst.date)})`} />
-        <InsightCard icon={<Minus size={18} />} color="blue" label="Avg Daily Orders" value={insights.avgOrders.toLocaleString()} sub={`AOV ₹${insights.avgAov.toLocaleString()}`} />
+        <InsightCard icon={<Minus size={18} />} color="blue" label="Avg Daily Orders" value={insights.avgOrders?.toLocaleString()} sub={`AOV ₹${insights.avgAov?.toLocaleString()}`} />
         <InsightCard icon={<BarChart3 size={18} />} color="violet" label="Weekday vs Weekend" value={`${insights.weekdayAvg} vs ${insights.weekendAvg}`} sub={insights.weekdayAvg > insights.weekendAvg ? "Weekdays outperform" : "Weekends outperform"} />
       </div>
 
@@ -507,11 +507,11 @@ function TableView({ tableData }: { tableData: OrderMetricRow[] }) {
           {tableData.map(row => (
             <TableRow key={row.date}>
               <TableCell className="font-medium text-gray-700">{row.date} {row.interval === "monthly" && "(Month)"}</TableCell>
-              <TableCell>{row.ordersCount.toLocaleString()}</TableCell>
+              <TableCell>{row.ordersCount?.toLocaleString()}</TableCell>
               <TableCell>{fmt(row.total)}</TableCell>
               <TableCell>{fmt(row.discountTotal)}</TableCell>
               <TableCell>{fmt(row.shippingTotal)}</TableCell>
-              <TableCell>{row.redeemedPoints.toLocaleString()}</TableCell>
+              <TableCell>{row.redeemedPoints?.toLocaleString()}</TableCell>
               <TableCell className="text-green-600 font-medium">{fmt(row.aov)}</TableCell>
             </TableRow>
           ))}

@@ -116,10 +116,10 @@ const formatCurrency = (val: number) =>
     }).format(val || 0)
 
 const formatCompact = (val: number) => {
-    if (val >= 10000000) return `₹${(val / 10000000).toFixed(2)}Cr`
-    if (val >= 100000) return `₹${(val / 100000).toFixed(2)}L`
-    if (val >= 1000) return `₹${(val / 1000).toFixed(1)}K`
-    return `₹${val.toFixed(0)}`
+    if (val >= 10000000) return `₹${(val / 10000000)?.toFixed(2)}Cr`
+    if (val >= 100000) return `₹${(val / 100000)?.toFixed(2)}L`
+    if (val >= 1000) return `₹${(val / 1000)?.toFixed(1)}K`
+    return `₹${val?.toFixed(0)}`
 }
 
 // ───── Segment Badge ─────
@@ -158,7 +158,7 @@ function CustomPieTooltip({ active, payload }: any) {
         <div className="bg-white border border-gray-200 shadow-lg rounded-lg px-4 py-3 text-sm">
             <p className="font-semibold text-gray-800">{name}</p>
             <p className="text-gray-500 mt-1">
-                {value.toLocaleString()} customers
+                {value?.toLocaleString()} customers
                 {data.percentage ? ` (${data.percentage}%)` : ""}
             </p>
         </div>
@@ -184,10 +184,10 @@ function DeltaLine({ current, previous, kind, lowerIsBetter = false }: {
     const Icon = isNeutral ? Minus : (delta > 0 ? ArrowUp : ArrowDown)
     const color = isNeutral ? "text-gray-400" : isPositive ? "text-emerald-600" : "text-rose-600"
     const fmtPrev =
-        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000).toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000).toFixed(1)}K` : `₹${Math.round(previous).toLocaleString()}`) :
+        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000)?.toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000)?.toFixed(1)}K` : `₹${Math.round(previous)?.toLocaleString()}`) :
         kind === "percent" ? `${previous}%` :
-        kind === "days" ? `${previous.toFixed(1)}d` :
-        previous.toLocaleString()
+        kind === "days" ? `${previous?.toFixed(1)}d` :
+        previous?.toLocaleString()
     return (
         <div className="mt-2 flex items-center gap-2 text-xs">
             <span className={`inline-flex items-center gap-0.5 font-semibold ${color}`}>
@@ -267,7 +267,7 @@ export default function LtvPage() {
     const pieData = (data?.segments || []).map((s) => ({
         name: s.segment,
         value: s.total_customers,
-        percentage: totalCustomers > 0 ? ((s.total_customers / totalCustomers) * 100).toFixed(1) : "0",
+        percentage: totalCustomers > 0 ? ((s.total_customers / totalCustomers) * 100)?.toFixed(1) : "0",
         fill: getSegmentConfig(s.segment).color,
     }))
 
@@ -345,7 +345,7 @@ export default function LtvPage() {
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-extrabold text-gray-800">
-                            {loading ? "—" : (data?.summary?.total_customers || 0).toLocaleString()}
+                            {loading ? "—" : (data?.summary?.total_customers || 0)?.toLocaleString()}
                         </div>
                         <p className="text-xs text-gray-400 mt-1">
                             Across all segments
@@ -537,7 +537,7 @@ export default function LtvPage() {
                                                     {formatCurrency(seg.total_revenue)}
                                                 </span>
                                                 <span className="text-xs text-gray-400 w-12 text-right">
-                                                    {pct.toFixed(1)}%
+                                                    {pct?.toFixed(1)}%
                                                 </span>
                                             </div>
                                         </div>
@@ -604,7 +604,7 @@ export default function LtvPage() {
                             ) : (
                                 sortedSegments.map((seg) => {
                                     const pct = totalRevenue > 0
-                                        ? ((seg.total_revenue / totalRevenue) * 100).toFixed(1)
+                                        ? ((seg.total_revenue / totalRevenue) * 100)?.toFixed(1)
                                         : "0.0"
                                     return (
                                         <TableRow key={seg.id} className="hover:bg-sky-50/20">
@@ -612,7 +612,7 @@ export default function LtvPage() {
                                                 <SegmentBadge segment={seg.segment} />
                                             </TableCell>
                                             <TableCell className="text-center text-gray-600 font-medium">
-                                                {seg.total_customers.toLocaleString()}
+                                                {seg.total_customers?.toLocaleString()}
                                             </TableCell>
                                             <TableCell className="text-right font-medium text-gray-700">
                                                 {formatCurrency(seg.total_revenue)}

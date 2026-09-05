@@ -13,10 +13,10 @@ import { CompareBanner } from "@/components/ui/compare-control"
 import { CompareSummary } from "@/components/ui/compare-summary"
 
 function fmt(v: number) {
-  if (v >= 10000000) return `₹${(v / 10000000).toFixed(1)}Cr`
-  if (v >= 100000) return `₹${(v / 100000).toFixed(1)}L`
-  if (v >= 1000) return `₹${(v / 1000).toFixed(1)}K`
-  return `₹${v.toLocaleString("en-IN")}`
+  if (v >= 10000000) return `₹${(v / 10000000)?.toFixed(1)}Cr`
+  if (v >= 100000) return `₹${(v / 100000)?.toFixed(1)}L`
+  if (v >= 1000) return `₹${(v / 1000)?.toFixed(1)}K`
+  return `₹${v?.toLocaleString("en-IN")}`
 }
 
 interface LibraryData {
@@ -42,10 +42,10 @@ function DeltaLine({ current, previous, kind, lowerIsBetter = false }: {
     const Icon = isNeutral ? Minus : (delta > 0 ? ArrowUp : ArrowDown)
     const color = isNeutral ? "text-gray-400" : isPositive ? "text-emerald-600" : "text-rose-600"
     const fmtPrev =
-        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000).toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000).toFixed(1)}K` : `₹${Math.round(previous).toLocaleString()}`) :
+        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000)?.toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000)?.toFixed(1)}K` : `₹${Math.round(previous)?.toLocaleString()}`) :
         kind === "percent" ? `${previous}%` :
-        kind === "days" ? `${previous.toFixed(1)}d` :
-        previous.toLocaleString()
+        kind === "days" ? `${previous?.toFixed(1)}d` :
+        previous?.toLocaleString()
     return (
         <div className="mt-2 flex items-center gap-2 text-xs">
             <span className={`inline-flex items-center gap-0.5 font-semibold ${color}`}>
@@ -97,18 +97,18 @@ export default function MetricLibraryPage() {
 
 
   const metrics = [
-    { label: "MER", current: data?.mer, previous: compareData?.mer, kind: "count", value: data ? `${data.mer.toFixed(2)}x` : "—", sub: "Marketing Efficiency Ratio", desc: "Revenue ÷ Total Ad Spend", icon: BarChart2Icon, color: "indigo" },
+    { label: "MER", current: data?.mer, previous: compareData?.mer, kind: "count", value: data ? `${data.mer?.toFixed(2)}x` : "—", sub: "Marketing Efficiency Ratio", desc: "Revenue ÷ Total Ad Spend", icon: BarChart2Icon, color: "indigo" },
     { label: "Avg CAC", current: data?.avg_cac, previous: compareData?.avg_cac, kind: "currency", lowerIsBetter: true, value: data ? fmt(data.avg_cac) : "—", sub: "Customer Acquisition Cost", desc: "Ad Spend ÷ New Customers", icon: Target, color: "rose" },
     { label: "Avg AOV", current: data?.avg_aov, previous: compareData?.avg_aov, kind: "currency", value: data ? fmt(data.avg_aov) : "—", sub: "Average Order Value", desc: "Revenue ÷ Total Orders", icon: DollarSign, color: "emerald" },
     { label: "Estimated LTV", current: data?.estimated_ltv, previous: compareData?.estimated_ltv, kind: "currency", value: data ? fmt(data.estimated_ltv) : "—", sub: "Customer Lifetime Value", desc: "AOV ÷ (1 − RPR%)", icon: TrendingUp, color: "blue" },
-    { label: "LTV:CAC", current: data?.ltv_cac_ratio, previous: compareData?.ltv_cac_ratio, kind: "count", value: data ? `${data.ltv_cac_ratio.toFixed(2)}x` : "—", sub: "LTV to CAC Ratio", desc: ">3x is healthy", icon: Repeat, color: data && data.ltv_cac_ratio >= 3 ? "emerald" : data && data.ltv_cac_ratio >= 1 ? "amber" : "rose" },
+    { label: "LTV:CAC", current: data?.ltv_cac_ratio, previous: compareData?.ltv_cac_ratio, kind: "count", value: data ? `${data.ltv_cac_ratio?.toFixed(2)}x` : "—", sub: "LTV to CAC Ratio", desc: ">3x is healthy", icon: Repeat, color: data && data.ltv_cac_ratio >= 3 ? "emerald" : data && data.ltv_cac_ratio >= 1 ? "amber" : "rose" },
     { label: "CAC Payback", current: data?.cac_payback_months, previous: compareData?.cac_payback_months, kind: "count", lowerIsBetter: true, value: data ? `${data.cac_payback_months} mo` : "—", sub: "Months to recover CAC", desc: "CAC ÷ (AOV × Gross Margin)", icon: Calendar, color: data && data.cac_payback_months <= 6 ? "emerald" : data && data.cac_payback_months <= 12 ? "amber" : "rose" },
-    { label: "RPR", current: data?.rpr_pct, previous: compareData?.rpr_pct, kind: "percent", value: data ? `${data.rpr_pct.toFixed(1)}%` : "—", sub: "Repeat Purchase Rate", desc: "Returning buyers %", icon: Users, color: "violet" },
+    { label: "RPR", current: data?.rpr_pct, previous: compareData?.rpr_pct, kind: "percent", value: data ? `${data.rpr_pct?.toFixed(1)}%` : "—", sub: "Repeat Purchase Rate", desc: "Returning buyers %", icon: Users, color: "violet" },
     { label: "Gross Margin", current: data?.gross_margin_pct, previous: compareData?.gross_margin_pct, kind: "percent", value: data ? `${data.gross_margin_pct}%` : "—", sub: "Estimated gross margin", desc: "42% estimated (update w/ COGS)", icon: DollarSign, color: "slate" },
-    { label: "Contribution Margin", current: data?.contribution_margin, previous: compareData?.contribution_margin, kind: "currency", value: data ? fmt(data.contribution_margin) : "—", sub: `${data ? data.contribution_margin_pct.toFixed(1) : "—"}% of revenue`, desc: "Gross Profit − Ad Spend", icon: TrendingUp, color: data && data.contribution_margin > 0 ? "emerald" : "rose" },
+    { label: "Contribution Margin", current: data?.contribution_margin, previous: compareData?.contribution_margin, kind: "currency", value: data ? fmt(data.contribution_margin) : "—", sub: `${data ? data.contribution_margin_pct?.toFixed(1) : "—"}% of revenue`, desc: "Gross Profit − Ad Spend", icon: TrendingUp, color: data && data.contribution_margin > 0 ? "emerald" : "rose" },
     { label: "Runway (days)", current: data?.runway_days, previous: compareData?.runway_days, kind: "count", value: data?.runway_days ? `${data.runway_days}d` : "—", sub: "Contribution Margin ÷ Daily Spend", desc: "Estimated operational runway", icon: Calendar, color: "amber" },
     { label: "Total Revenue", current: data?.total_revenue, previous: compareData?.total_revenue, kind: "currency", value: data ? fmt(data.total_revenue) : "—", sub: `Over ${data?.period_days || 0} days`, desc: "All paid orders", icon: DollarSign, color: "emerald" },
-    { label: "New Customers", current: data?.new_customers, previous: compareData?.new_customers, kind: "count", value: data ? data.new_customers.toLocaleString() : "—", sub: "Paid acquisition", desc: "From campaign CAC pipeline", icon: Users, color: "blue" },
+    { label: "New Customers", current: data?.new_customers, previous: compareData?.new_customers, kind: "count", value: data ? data.new_customers?.toLocaleString() : "—", sub: "Paid acquisition", desc: "From campaign CAC pipeline", icon: Users, color: "blue" },
   ]
 
   const colorMap: Record<string, string> = {
@@ -176,11 +176,11 @@ export default function MetricLibraryPage() {
             <p className="text-sm text-muted-foreground leading-relaxed">
               <strong className="text-foreground">💡 Health Check:</strong>{" "}
               {data.ltv_cac_ratio >= 3
-                ? <span className="text-emerald-700">LTV:CAC of <strong>{data.ltv_cac_ratio.toFixed(2)}x</strong> is healthy (target ≥3x).</span>
-                : <span className="text-amber-700">LTV:CAC of <strong>{data.ltv_cac_ratio.toFixed(2)}x</strong> is below target (3x). Consider reducing CAC or improving retention.</span>
+                ? <span className="text-emerald-700">LTV:CAC of <strong>{data.ltv_cac_ratio?.toFixed(2)}x</strong> is healthy (target ≥3x).</span>
+                : <span className="text-amber-700">LTV:CAC of <strong>{data.ltv_cac_ratio?.toFixed(2)}x</strong> is below target (3x). Consider reducing CAC or improving retention.</span>
               }{" "}
               CAC payback is <strong>{data.cac_payback_months} months</strong>.{" "}
-              MER of <strong>{data.mer.toFixed(2)}x</strong> means every ₹1 in ads returns ₹{data.mer.toFixed(2)} in revenue.
+              MER of <strong>{data.mer?.toFixed(2)}x</strong> means every ₹1 in ads returns ₹{data.mer?.toFixed(2)} in revenue.
             </p>
           </CardContent>
         </Card>

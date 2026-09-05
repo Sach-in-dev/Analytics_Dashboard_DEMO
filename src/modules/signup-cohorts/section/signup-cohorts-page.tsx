@@ -23,7 +23,7 @@ function DeltaLine({ current, previous, kind, lowerIsBetter = false }: {
     const isPositive = lowerIsBetter ? delta < 0 : delta > 0
     const Icon = isNeutral ? Minus : (delta > 0 ? ArrowUp : ArrowDown)
     const color = isNeutral ? "text-gray-400" : isPositive ? "text-emerald-600" : "text-rose-600"
-    const fmtPrev = kind === "percent" ? `${previous}%` : previous.toLocaleString()
+    const fmtPrev = kind === "percent" ? `${previous}%` : previous?.toLocaleString()
     return (
         <div className="mt-2 flex items-center gap-2 text-xs">
             <span className={`inline-flex items-center gap-0.5 font-semibold ${color}`}>
@@ -109,7 +109,7 @@ export default function SignupCohortsPage() {
           { label: "Total Cohorts", current: summary?.total_cohorts, previous: cmpSummary?.total_cohorts, kind: "count" as const, value: summary?.total_cohorts || 0, icon: Calendar, color: "from-indigo-50 to-indigo-100/50 border-l-indigo-500 text-indigo-700", sub: "Registration months" },
           { label: "Avg M1 Retention", current: summary?.avg_month1_retention, previous: cmpSummary?.avg_month1_retention, kind: "percent" as const, value: `${summary?.avg_month1_retention || 0}%`, icon: Repeat2Icon, color: "from-emerald-50 to-emerald-100/50 border-l-emerald-500 text-emerald-700", sub: "Month-after-signup purchase rate" },
           { label: "Best Cohort", value: summary?.best_cohort || "—", icon: Target, color: "from-amber-50 to-amber-100/50 border-l-amber-500 text-amber-700", sub: "Highest M1 retention" },
-          { label: "Cohort Size (avg)", current: cohorts.length > 0 ? Math.round(cohorts.reduce((s: number, c: any) => s + c.cohort_size, 0) / cohorts.length) : undefined, previous: compareData?.cohorts?.length > 0 ? Math.round(compareData.cohorts.reduce((s: number, c: any) => s + c.cohort_size, 0) / compareData.cohorts.length) : undefined, kind: "count" as const, value: cohorts.length > 0 ? Math.round(cohorts.reduce((s: number, c: any) => s + c.cohort_size, 0) / cohorts.length).toLocaleString() : "—", icon: Users, color: "from-violet-50 to-violet-100/50 border-l-violet-500 text-violet-700", sub: "Avg signups per month" },
+          { label: "Cohort Size (avg)", current: cohorts.length > 0 ? Math.round(cohorts.reduce((s: number, c: any) => s + c.cohort_size, 0) / cohorts.length) : undefined, previous: compareData?.cohorts?.length > 0 ? Math.round(compareData.cohorts.reduce((s: number, c: any) => s + c.cohort_size, 0) / compareData.cohorts.length) : undefined, kind: "count" as const, value: cohorts.length > 0 ? Math.round(cohorts.reduce((s: number, c: any) => s + c.cohort_size, 0) / cohorts.length)?.toLocaleString() : "—", icon: Users, color: "from-violet-50 to-violet-100/50 border-l-violet-500 text-violet-700", sub: "Avg signups per month" },
         ].map(k => (
           <Card key={k.label} className={`bg-gradient-to-br ${k.color} shadow-sm border-l-4`}>
             <CardHeader className="pb-2"><CardTitle className="text-xs font-semibold uppercase tracking-widest flex items-center justify-between gap-2">{k.label}<k.icon className="h-4 w-4 shrink-0 opacity-70" /></CardTitle></CardHeader>
@@ -133,7 +133,7 @@ export default function SignupCohortsPage() {
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                   <XAxis dataKey="cohort_index" tickFormatter={v => `M${v}`} tick={{ fontSize: 11, fill: "#9ca3af" }} axisLine={false} tickLine={false} />
                   <YAxis tickFormatter={v => `${v}%`} tick={{ fontSize: 11, fill: "#9ca3af" }} axisLine={false} tickLine={false} domain={[0, 100]} />
-                  <Tooltip formatter={(v: any) => [`${Number(v).toFixed(1)}%`, "Avg Retention"]} labelFormatter={l => `Month ${l} after signup`} />
+                  <Tooltip formatter={(v: any) => [`${Number(v)?.toFixed(1)}%`, "Avg Retention"]} labelFormatter={l => `Month ${l} after signup`} />
                   <Legend wrapperStyle={{ fontSize: 12 }} />
                   <Line type="monotone" dataKey="avg_retention_pct" name="Avg Retention %" stroke="#6366f1" strokeWidth={2.5} dot={{ r: 4, fill: "#6366f1" }} />
                   {compare.range && (
@@ -169,14 +169,14 @@ export default function SignupCohortsPage() {
                     return (
                       <tr key={cohort.signup_cohort} className="border-t border-gray-100">
                         <td className="p-2 font-medium text-gray-700">{cohort.signup_cohort}</td>
-                        <td className="p-2 text-center text-gray-500">{cohort.cohort_size.toLocaleString()}</td>
+                        <td className="p-2 text-center text-gray-500">{cohort.cohort_size?.toLocaleString()}</td>
                         {Array.from({ length: maxIndex + 1 }, (_, i) => {
                           const p = pMap[i]
                           return (
                             <td key={i} className="p-1 text-center">
                               {p ? (
                                 <div className={`${retentionColor(p.retention_pct)} rounded text-white font-semibold py-1 px-1 text-xs`} title={`${cohort.signup_cohort} M${i}: ${p.retention_pct}% (${p.active_customers} customers)`}>
-                                  {p.retention_pct.toFixed(0)}%
+                                  {p.retention_pct?.toFixed(0)}%
                                 </div>
                               ) : <div className="bg-gray-50 rounded py-1 px-1 text-gray-300">—</div>}
                             </td>

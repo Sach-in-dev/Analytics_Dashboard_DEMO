@@ -90,10 +90,11 @@ const FAILURE_ALERT_THRESHOLD = 15 // If Failure Rate > 15%, show red alert
 
 // ───── Helpers ─────
 function formatCurrency(value: number): string {
-    if (value >= 10000000) return `₹${(value / 10000000).toFixed(1)}Cr`
-    if (value >= 100000) return `₹${(value / 100000).toFixed(1)}L`
-    if (value >= 1000) return `₹${(value / 1000).toFixed(1)}K`
-    return `₹${value.toFixed(0)}`
+    if (typeof value !== "number" || isNaN(value)) return "₹0";
+    if (value >= 10000000) return `₹${(value / 10000000)?.toFixed(1)}Cr`
+    if (value >= 100000) return `₹${(value / 100000)?.toFixed(1)}L`
+    if (value >= 1000) return `₹${(value / 1000)?.toFixed(1)}K`
+    return `₹${value?.toFixed(0)}`
 }
 
 function formatDate(dateStr: string): string {
@@ -120,7 +121,7 @@ function CustomTooltip({ active, payload, label }: any) {
                             ? `${entry.value}%`
                             : entry.name === "Lost GMV"
                             ? formatCurrency(entry.value)
-                            : entry.value.toLocaleString()}
+                            : entry.value?.toLocaleString()}
                     </span>
                 </p>
             ))}
@@ -150,10 +151,10 @@ function DeltaLine({ current, previous, kind, lowerIsBetter = false }: {
     const Icon = isNeutral ? Minus : (delta > 0 ? ArrowUp : ArrowDown)
     const color = isNeutral ? "text-gray-400" : isPositive ? "text-emerald-600" : "text-rose-600"
     const fmtPrev =
-        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000).toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000).toFixed(1)}K` : `₹${Math.round(previous).toLocaleString()}`) :
+        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000)?.toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000)?.toFixed(1)}K` : `₹${Math.round(previous)?.toLocaleString()}`) :
         kind === "percent" ? `${previous}%` :
-        kind === "days" ? `${previous.toFixed(1)}d` :
-        previous.toLocaleString()
+        kind === "days" ? `${previous?.toFixed(1)}d` :
+        previous?.toLocaleString()
     return (
         <div className="mt-2 flex items-center gap-2 text-xs">
             <span className={`inline-flex items-center gap-0.5 font-semibold ${color}`}>
@@ -351,7 +352,7 @@ export default function PaymentFailurePage() {
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-extrabold text-gray-800">
-                            {loading ? "—" : (summary?.total_attempts || 0).toLocaleString()}
+                            {loading ? "—" : (summary?.total_attempts || 0)?.toLocaleString()}
                         </div>
                         <p className="text-xs text-gray-400 mt-1">Total orders initiated</p>
                         <DeltaLine current={summary?.total_attempts} previous={compareSummary?.total_attempts} kind="count" />
@@ -368,7 +369,7 @@ export default function PaymentFailurePage() {
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-extrabold text-rose-600">
-                            {loading ? "—" : (summary?.failed_payments || 0).toLocaleString()}
+                            {loading ? "—" : (summary?.failed_payments || 0)?.toLocaleString()}
                         </div>
                         <p className="text-xs text-gray-400 mt-1">Payment not captured</p>
                         <DeltaLine current={summary?.failed_payments} previous={compareSummary?.failed_payments} kind="count" lowerIsBetter />
@@ -402,7 +403,7 @@ export default function PaymentFailurePage() {
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-extrabold text-violet-600">
-                            {loading ? "—" : (summary?.affected_customers || 0).toLocaleString()}
+                            {loading ? "—" : (summary?.affected_customers || 0)?.toLocaleString()}
                         </div>
                         <p className="text-xs text-gray-400 mt-1">Unique customers impacted</p>
                         <DeltaLine current={summary?.affected_customers} previous={compareSummary?.affected_customers} kind="count" lowerIsBetter />
@@ -419,7 +420,7 @@ export default function PaymentFailurePage() {
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-extrabold text-emerald-600">
-                            {loading ? "—" : (summary?.recovered_orders || 0).toLocaleString()}
+                            {loading ? "—" : (summary?.recovered_orders || 0)?.toLocaleString()}
                         </div>
                         <p className="text-xs text-gray-400 mt-1">
                             {loading ? "" : `${summary?.recovery_rate || 0}% of failures retried & paid`}
@@ -445,14 +446,14 @@ export default function PaymentFailurePage() {
                             <div>
                                 <h3 className="text-sm font-semibold text-gray-800 mb-1">Key Insight</h3>
                                 <p className="text-sm text-gray-600 leading-relaxed">
-                                    Out of <strong>{summary.total_attempts.toLocaleString()}</strong> checkout attempts,{" "}
-                                    <strong className="text-rose-600">{summary.failed_payments.toLocaleString()}</strong> ({failureRate}%)
+                                    Out of <strong>{summary.total_attempts?.toLocaleString()}</strong> checkout attempts,{" "}
+                                    <strong className="text-rose-600">{summary.failed_payments?.toLocaleString()}</strong> ({failureRate}%)
                                     were payment failures, resulting in{" "}
                                     <strong className="text-amber-600">{formatCurrency(summary.lost_gmv)}</strong> in lost GMV
-                                    affecting <strong className="text-violet-600">{summary.affected_customers.toLocaleString()}</strong> customers.
+                                    affecting <strong className="text-violet-600">{summary.affected_customers?.toLocaleString()}</strong> customers.
                                     {summary.recovered_orders > 0 && (
                                         <>
-                                            {" "}Of these, <strong className="text-emerald-600">{summary.recovered_orders.toLocaleString()}</strong> orders
+                                            {" "}Of these, <strong className="text-emerald-600">{summary.recovered_orders?.toLocaleString()}</strong> orders
                                             ({summary.recovery_rate}%) were later paid successfully,
                                             recovering <strong className="text-emerald-600">{formatCurrency(summary.recovered_gmv)}</strong>.
                                             {summary.recovery_rate < 30 && (
@@ -636,8 +637,8 @@ export default function PaymentFailurePage() {
                                             <tr key={`${row.provider}-${row.payment_mode}`} className="border-b border-gray-50 hover:bg-gray-50/80">
                                                 <td className="py-3 px-4 font-medium text-gray-700 capitalize">{row.provider}</td>
                                                 <td className="py-3 px-4 text-gray-600">{row.payment_mode}</td>
-                                                <td className="py-3 px-4 text-right text-gray-600">{row.attempts.toLocaleString()}</td>
-                                                <td className="py-3 px-4 text-right text-rose-600 font-medium">{row.failed.toLocaleString()}</td>
+                                                <td className="py-3 px-4 text-right text-gray-600">{row.attempts?.toLocaleString()}</td>
+                                                <td className="py-3 px-4 text-right text-rose-600 font-medium">{row.failed?.toLocaleString()}</td>
                                                 <td className="py-3 px-4 text-right">
                                                     <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold ${
                                                         isHigh ? "bg-red-100 text-red-700" : "bg-emerald-100 text-emerald-700"
@@ -691,7 +692,7 @@ export default function PaymentFailurePage() {
                                         />
                                         <Tooltip
                                             formatter={(value: any, _name: any, props: any) => [
-                                                `${value.toLocaleString()} failures (${props.payload.share_pct}%)`,
+                                                `${value?.toLocaleString()} failures (${props.payload.share_pct}%)`,
                                                 reasonLabel(props.payload.error_code),
                                             ]}
                                         />
@@ -717,7 +718,7 @@ export default function PaymentFailurePage() {
                                                     <div className="font-medium leading-tight">{reasonLabel(row.error_code)}</div>
                                                     <div className="text-[10px] uppercase text-gray-400 tracking-wider">{row.error_code}</div>
                                                 </td>
-                                                <td className="py-2.5 px-3 text-right text-rose-600 font-medium">{row.failed.toLocaleString()}</td>
+                                                <td className="py-2.5 px-3 text-right text-rose-600 font-medium">{row.failed?.toLocaleString()}</td>
                                                 <td className="py-2.5 px-3 text-right text-gray-600">{row.share_pct}%</td>
                                                 <td className="py-2.5 px-3 text-right text-amber-600">{formatCurrency(row.lost_gmv)}</td>
                                             </tr>
@@ -770,10 +771,10 @@ export default function PaymentFailurePage() {
                                                     {formatDate(row.date)}
                                                 </td>
                                                 <td className="py-3 px-4 text-right text-gray-600">
-                                                    {row.total_attempts.toLocaleString()}
+                                                    {row.total_attempts?.toLocaleString()}
                                                 </td>
                                                 <td className="py-3 px-4 text-right text-rose-600 font-medium">
-                                                    {row.failed_payments.toLocaleString()}
+                                                    {row.failed_payments?.toLocaleString()}
                                                 </td>
                                                 <td className="py-3 px-4 text-right">
                                                     <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold ${
@@ -792,7 +793,7 @@ export default function PaymentFailurePage() {
                                                     {formatCurrency(row.lost_gmv)}
                                                 </td>
                                                 <td className="py-3 px-4 text-right text-violet-600">
-                                                    {row.affected_customers.toLocaleString()}
+                                                    {row.affected_customers?.toLocaleString()}
                                                 </td>
                                             </tr>
                                         )

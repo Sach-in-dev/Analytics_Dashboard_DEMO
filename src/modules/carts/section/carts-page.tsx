@@ -59,10 +59,10 @@ function DeltaLine({ current, previous, kind, lowerIsBetter = false }: {
     const Icon = isNeutral ? Minus : (delta > 0 ? ArrowUp : ArrowDown)
     const color = isNeutral ? "text-gray-400" : isPositive ? "text-emerald-600" : "text-rose-600"
     const fmtPrev =
-        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000).toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000).toFixed(1)}K` : `₹${Math.round(previous).toLocaleString()}`) :
+        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000)?.toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000)?.toFixed(1)}K` : `₹${Math.round(previous)?.toLocaleString()}`) :
         kind === "percent" ? `${previous}%` :
-        kind === "days" ? `${previous.toFixed(1)}d` :
-        previous.toLocaleString()
+        kind === "days" ? `${previous?.toFixed(1)}d` :
+        previous?.toLocaleString()
     return (
         <div className="mt-2 flex items-center gap-2 text-xs">
             <span className={`inline-flex items-center gap-0.5 font-semibold ${color}`}>
@@ -194,21 +194,21 @@ export default function CartsPage() {
         }))
     }, [tableData, compareArr])
 
-    const formatNum = (n: number) => n.toLocaleString()
+    const formatNum = (n: number) => n?.toLocaleString()
     const formatCurrency = (value: number) => {
         const rupees = value
-        if (rupees >= 10000000) return `₹${(rupees / 10000000).toFixed(2)} Cr`
-        if (rupees >= 100000) return `₹${(rupees / 100000).toFixed(2)} L`
-        if (rupees >= 1000) return `₹${(rupees / 1000).toFixed(1)}K`
-        return `₹${rupees.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`
+        if (rupees >= 10000000) return `₹${(rupees / 10000000)?.toFixed(2)} Cr`
+        if (rupees >= 100000) return `₹${(rupees / 100000)?.toFixed(2)} L`
+        if (rupees >= 1000) return `₹${(rupees / 1000)?.toFixed(1)}K`
+        return `₹${rupees?.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`
     }
 
     const abandonRate = totals.total_carts > 0 
-        ? ((totals.abandoned_carts / totals.total_carts) * 100).toFixed(2) 
+        ? ((totals.abandoned_carts / totals.total_carts) * 100)?.toFixed(2) 
         : "0.00"
 
     const cmpAbandonRate = compareTotals?.total_carts > 0
-        ? Number(((compareTotals.abandoned_carts / compareTotals.total_carts) * 100).toFixed(2))
+        ? Number(((compareTotals.abandoned_carts / compareTotals.total_carts) * 100)?.toFixed(2))
         : undefined
 
 
@@ -438,9 +438,9 @@ function CartDataTable({ rows, formatCurrency }: { rows: CartData[]; formatCurre
                         {paginatedRows.map(row => (
                             <TableRow key={row.date} className="hover:bg-blue-50/20 transition-colors">
                                 <TableCell className="font-bold text-gray-700">{row.date}</TableCell>
-                                <TableCell className="text-right tabular-nums text-gray-600">{row.total_carts.toLocaleString()}</TableCell>
-                                <TableCell className="text-right tabular-nums text-emerald-600 font-medium">{row.completed_carts.toLocaleString()}</TableCell>
-                                <TableCell className="text-right tabular-nums text-rose-500 font-medium">{row.abandoned_carts.toLocaleString()}</TableCell>
+                                <TableCell className="text-right tabular-nums text-gray-600">{row.total_carts?.toLocaleString()}</TableCell>
+                                <TableCell className="text-right tabular-nums text-emerald-600 font-medium">{row.completed_carts?.toLocaleString()}</TableCell>
+                                <TableCell className="text-right tabular-nums text-rose-500 font-medium">{row.abandoned_carts?.toLocaleString()}</TableCell>
                                 <TableCell className="text-right tabular-nums text-gray-600">{formatCurrency(row.total_cart_value)}</TableCell>
                                 <TableCell className="text-right tabular-nums text-emerald-600">{formatCurrency(row.completed_cart_value)}</TableCell>
                                 <TableCell className="text-right tabular-nums text-rose-500">{formatCurrency(row.abandoned_cart_value)}</TableCell>

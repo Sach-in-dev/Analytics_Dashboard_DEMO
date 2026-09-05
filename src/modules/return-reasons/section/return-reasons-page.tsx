@@ -59,16 +59,16 @@ type SortKey = "total_cases" | "total_revenue_loss" | "percentage"
 
 // ───── Helpers ─────
 function formatCurrency(v: number): string {
-    if (v >= 10000000) return `₹${(v / 10000000).toFixed(1)}Cr`
-    if (v >= 100000) return `₹${(v / 100000).toFixed(1)}L`
-    if (v >= 1000) return `₹${(v / 1000).toFixed(1)}K`
-    return `₹${v.toLocaleString("en-IN")}`
+    if (v >= 10000000) return `₹${(v / 10000000)?.toFixed(1)}Cr`
+    if (v >= 100000) return `₹${(v / 100000)?.toFixed(1)}L`
+    if (v >= 1000) return `₹${(v / 1000)?.toFixed(1)}K`
+    return `₹${v?.toLocaleString("en-IN")}`
 }
 
 function formatNum(v: number): string {
-    if (v >= 100000) return `${(v / 100000).toFixed(1)}L`
-    if (v >= 1000) return `${(v / 1000).toFixed(1)}K`
-    return v.toLocaleString()
+    if (v >= 100000) return `${(v / 100000)?.toFixed(1)}L`
+    if (v >= 1000) return `${(v / 1000)?.toFixed(1)}K`
+    return v?.toLocaleString()
 }
 
 // ───── Custom Tooltips ─────
@@ -110,7 +110,7 @@ function renderCustomLabel({ cx, cy, midAngle, innerRadius, outerRadius, percent
 
     return (
         <text x={x} y={y} fill="#374151" textAnchor={x > cx ? "start" : "end"} dominantBaseline="central" fontSize={11}>
-            {name} ({(percent * 100).toFixed(0)}%)
+            {name} ({(percent * 100)?.toFixed(0)}%)
         </text>
     )
 }
@@ -134,10 +134,10 @@ function DeltaLine({ current, previous, kind, lowerIsBetter = false }: {
     const Icon = isNeutral ? Minus : (delta > 0 ? ArrowUp : ArrowDown)
     const color = isNeutral ? "text-gray-400" : isPositive ? "text-emerald-600" : "text-rose-600"
     const fmtPrev =
-        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000).toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000).toFixed(1)}K` : `₹${Math.round(previous).toLocaleString()}`) :
+        kind === "currency" ? (previous >= 100000 ? `₹${(previous/100000)?.toFixed(1)}L` : previous >= 1000 ? `₹${(previous/1000)?.toFixed(1)}K` : `₹${Math.round(previous)?.toLocaleString()}`) :
         kind === "percent" ? `${previous}%` :
-        kind === "days" ? `${previous.toFixed(1)}d` :
-        previous.toLocaleString()
+        kind === "days" ? `${previous?.toFixed(1)}d` :
+        previous?.toLocaleString()
     return (
         <div className="mt-2 flex items-center gap-2 text-xs">
             <span className={`inline-flex items-center gap-0.5 font-semibold ${color}`}>
@@ -522,7 +522,7 @@ export default function ReturnReasonsPage() {
                                                         {isTopLoss && <span className="text-[9px] bg-rose-100 text-rose-700 px-1.5 py-0.5 rounded-full font-semibold">TOP LOSS</span>}
                                                     </div>
                                                 </td>
-                                                <td className="py-3 px-4 text-right text-gray-600 font-medium">{r.total_cases.toLocaleString()}</td>
+                                                <td className="py-3 px-4 text-right text-gray-600 font-medium">{r.total_cases?.toLocaleString()}</td>
                                                 <td className="py-3 px-4 text-right text-rose-600 font-medium">{formatCurrency(r.total_revenue_loss)}</td>
                                                 <td className="py-3 px-4 text-right">
                                                     <div className="flex items-center justify-end gap-2">
