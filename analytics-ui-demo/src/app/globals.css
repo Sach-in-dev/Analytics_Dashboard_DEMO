@@ -1,0 +1,583 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+ /* 🔴 BEAUTY BARN PRIMARY */
+  --primary: oklch(0.38 0.16 28);          /* #962E3C */
+  --primary-foreground: oklch(0.98 0 0);   /* #F6F6F6 */
+
+  /* 🔴 DISABLED STATE */
+  --muted: oklch(0.96 0 0);                /* #F6F6F6 */
+  --muted-foreground: oklch(0.38 0.16 28); /* #962E3C */
+  /* --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0); */
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  /* ── BeautyBarn Dark Theme ── */
+  --background:             oklch(0.13 0.008 240);     /* #121318 — deep dark blue-gray */
+  --foreground:             oklch(0.94 0.006 240);     /* #EEF0F4 — near-white text */
+
+  --card:                   oklch(0.21 0.012 240);     /* elevated card surface — lifted further off bg for clear separation */
+  --card-foreground:        oklch(0.94 0.006 240);
+
+  --popover:                oklch(0.20 0.010 240);     /* #212430 — popover */
+  --popover-foreground:     oklch(0.94 0.006 240);
+
+  /* BeautyBarn red kept in dark mode — slightly brighter for contrast */
+  --primary:                oklch(0.55 0.19 22);       /* #C0404F — brighter BB red */
+  --primary-foreground:     oklch(0.98 0 0);           /* white */
+
+  --secondary:              oklch(0.24 0.010 240);     /* #272B36 — subtle button bg */
+  --secondary-foreground:   oklch(0.94 0.006 240);
+
+  --muted:                  oklch(0.24 0.010 240);
+  --muted-foreground:       oklch(0.60 0.010 240);     /* #8A8FA0 — subdued text */
+
+  --accent:                 oklch(0.28 0.012 240);     /* #2D3244 — hover surface */
+  --accent-foreground:      oklch(0.94 0.006 240);
+
+  --destructive:            oklch(0.65 0.21 22);       /* bright red for errors */
+  --border:                 oklch(1 0 0 / 14%);        /* visible divider — lifted from 8% so card edges read clearly */
+  --input:                  oklch(1 0 0 / 10%);
+  --ring:                   oklch(0.55 0.19 22);       /* BB red ring */
+
+  /* Charts — vivid palette for dark backgrounds */
+  --chart-1: oklch(0.60 0.22 22);      /* BB red */
+  --chart-2: oklch(0.70 0.17 163);     /* teal-green */
+  --chart-3: oklch(0.78 0.19 70);      /* amber */
+  --chart-4: oklch(0.63 0.26 304);     /* violet */
+  --chart-5: oklch(0.50 0.24 264);     /* blue */
+
+  /* Sidebar — slightly lighter than bg */
+  --sidebar:                   oklch(0.16 0.009 240);
+  --sidebar-foreground:        oklch(0.94 0.006 240);
+  --sidebar-primary:           oklch(0.55 0.19 22);   /* BB red highlight */
+  --sidebar-primary-foreground:oklch(0.98 0 0);
+  --sidebar-accent:            oklch(0.22 0.010 240);
+  --sidebar-accent-foreground: oklch(0.94 0.006 240);
+  --sidebar-border:            oklch(1 0 0 / 7%);
+  --sidebar-ring:              oklch(0.55 0.19 22);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    /* Smooth theme transition */
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+  /* Smooth only top-level chrome/surfaces on theme switch — NOT every div/table
+     row/cell, which on data-heavy pages (thousands of nodes) makes the switch
+     visibly lag. Cards etc. inherit color changes instantly via CSS vars;
+     they don't need their own transition to look smooth. */
+  aside, header, footer, nav, input, textarea, select,
+  .card, [class*="bg-card"], [class*="bg-sidebar"], [class*="bg-popover"] {
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   DARK MODE — Global overrides for hardcoded Tailwind color utilities.
+   All 40+ dashboard pages use bg-white / bg-gray-* / text-gray-* directly.
+   Rather than editing each file, we remap those utilities here when .dark
+   is applied to the root. This is the single source of truth for dark theming.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Card definition: black accent border is invisible on a dark bg,
+   and shadow-sm all but disappears — give cards a visible outline instead. */
+.dark .border-l-black {
+  border-left-color: oklch(0.55 0.19 22) !important; /* BB red accent, visible on dark bg */
+}
+.dark .shadow-sm {
+  box-shadow: 0 0 0 1px oklch(1 0 0 / 10%), 0 1px 3px oklch(0 0 0 / 40%) !important;
+}
+
+/* ── Backgrounds ── */
+.dark .bg-white                  { background-color: oklch(0.21 0.012 240) !important; }
+.dark .bg-gray-50                { background-color: oklch(0.16 0.009 240) !important; }
+.dark .bg-gray-100               { background-color: oklch(0.20 0.010 240) !important; }
+.dark .bg-gray-200               { background-color: oklch(0.26 0.011 240) !important; }
+.dark .bg-gray-300               { background-color: oklch(0.32 0.011 240) !important; }
+.dark .bg-gray-400               { background-color: oklch(0.40 0.012 240) !important; }
+.dark .bg-gray-900               { background-color: oklch(0.11 0.007 240) !important; }
+.dark .bg-slate-50               { background-color: oklch(0.16 0.009 240) !important; }
+.dark .bg-slate-100              { background-color: oklch(0.20 0.010 240) !important; }
+
+/* ── Gradient KPI Cards — the root cause of invisible text on 52+ cards ──
+      Gradient "from-white to-gray-50/50" creates a silver/white surface in dark mode.
+      We remap every gradient stop to dark-theme equivalents so the card surface is dark
+      and the coloured text (text-gray-800, text-emerald-700 etc) sits on a readable bg. ── */
+.dark .from-white      { --tw-gradient-from: oklch(0.18 0.010 240) !important; }
+.dark .to-white        { --tw-gradient-to: oklch(0.18 0.010 240) !important; }
+.dark .to-gray-50\/50,
+.dark .to-gray-50      { --tw-gradient-to: oklch(0.20 0.010 240 / 0.5) !important; }
+.dark .from-gray-50    { --tw-gradient-from: oklch(0.16 0.009 240) !important; }
+.dark .from-slate-50   { --tw-gradient-from: oklch(0.16 0.009 240) !important; }
+.dark .to-slate-100    { --tw-gradient-to: oklch(0.20 0.010 240) !important; }
+
+/* Coloured gradient stops → dark tint versions */
+.dark .from-emerald-50,
+.dark .from-emerald-50\/80,
+.dark .from-emerald-50\/50,
+.dark .from-emerald-50\/30  { --tw-gradient-from: oklch(0.18 0.03 163) !important; }
+.dark .to-emerald-100   { --tw-gradient-to:   oklch(0.20 0.03 163) !important; }
+.dark .to-teal-50,
+.dark .to-teal-50\/50,
+.dark .to-teal-50\/30   { --tw-gradient-to:   oklch(0.20 0.03 180) !important; }
+.dark .from-rose-50\/80,
+.dark .from-rose-50\/50,
+.dark .from-rose-50\/30 { --tw-gradient-from: oklch(0.18 0.03 10) !important; }
+.dark .to-red-50,
+.dark .to-red-50\/50,
+.dark .to-red-50\/30    { --tw-gradient-to:   oklch(0.20 0.03 22) !important; }
+.dark .from-amber-50\/80,
+.dark .from-amber-50\/50 { --tw-gradient-from: oklch(0.18 0.03 75) !important; }
+.dark .from-blue-50\/80,
+.dark .from-blue-50\/50 { --tw-gradient-from: oklch(0.18 0.03 250) !important; }
+.dark .from-violet-50\/80,
+.dark .from-violet-50\/50 { --tw-gradient-from: oklch(0.18 0.03 290) !important; }
+.dark .from-indigo-50\/80,
+.dark .from-indigo-50\/50 { --tw-gradient-from: oklch(0.18 0.03 270) !important; }
+.dark .from-blue-50     { --tw-gradient-from: oklch(0.18 0.03 250) !important; }
+.dark .to-blue-100      { --tw-gradient-to:   oklch(0.20 0.03 250) !important; }
+.dark .from-rose-50     { --tw-gradient-from: oklch(0.18 0.03 10) !important; }
+.dark .to-rose-100      { --tw-gradient-to:   oklch(0.20 0.03 10) !important; }
+.dark .from-amber-50    { --tw-gradient-from: oklch(0.18 0.03 75) !important; }
+.dark .to-amber-100     { --tw-gradient-to:   oklch(0.20 0.03 75) !important; }
+.dark .from-indigo-50   { --tw-gradient-from: oklch(0.18 0.03 270) !important; }
+.dark .to-indigo-100    { --tw-gradient-to:   oklch(0.20 0.03 270) !important; }
+.dark .from-violet-50   { --tw-gradient-from: oklch(0.18 0.03 290) !important; }
+.dark .to-violet-100    { --tw-gradient-to:   oklch(0.20 0.03 290) !important; }
+.dark .from-red-50      { --tw-gradient-from: oklch(0.18 0.03 22) !important; }
+.dark .to-red-100       { --tw-gradient-to:   oklch(0.20 0.03 22) !important; }
+.dark .from-green-50    { --tw-gradient-from: oklch(0.18 0.03 160) !important; }
+.dark .to-green-100     { --tw-gradient-to:   oklch(0.20 0.03 160) !important; }
+.dark .from-yellow-50   { --tw-gradient-from: oklch(0.18 0.03 85) !important; }
+.dark .to-yellow-100    { --tw-gradient-to:   oklch(0.20 0.03 85) !important; }
+.dark .from-orange-50   { --tw-gradient-from: oklch(0.18 0.03 50) !important; }
+.dark .to-orange-100    { --tw-gradient-to:   oklch(0.20 0.03 50) !important; }
+.dark .from-purple-50   { --tw-gradient-from: oklch(0.18 0.03 300) !important; }
+.dark .to-purple-100    { --tw-gradient-to:   oklch(0.20 0.03 300) !important; }
+.dark .from-cyan-50     { --tw-gradient-from: oklch(0.18 0.03 200) !important; }
+.dark .to-cyan-100      { --tw-gradient-to:   oklch(0.20 0.03 200) !important; }
+.dark .from-teal-50     { --tw-gradient-from: oklch(0.18 0.03 180) !important; }
+.dark .to-teal-100      { --tw-gradient-to:   oklch(0.20 0.03 180) !important; }
+.dark .from-sky-50      { --tw-gradient-from: oklch(0.18 0.03 230) !important; }
+.dark .to-sky-100       { --tw-gradient-to:   oklch(0.20 0.03 230) !important; }
+.dark .from-pink-50     { --tw-gradient-from: oklch(0.18 0.03 0) !important; }
+.dark .to-pink-100      { --tw-gradient-to:   oklch(0.20 0.03 0) !important; }
+.dark .from-lime-50     { --tw-gradient-from: oklch(0.18 0.03 130) !important; }
+.dark .to-lime-100      { --tw-gradient-to:   oklch(0.20 0.03 130) !important; }
+
+/* Gradient to higher numbered stops (used in some insight cards) */
+.dark .to-emerald-600   { --tw-gradient-to: oklch(0.55 0.18 163) !important; }
+.dark .to-violet-600    { --tw-gradient-to: oklch(0.55 0.22 290) !important; }
+.dark .to-rose-600      { --tw-gradient-to: oklch(0.55 0.22 10) !important; }
+.dark .to-blue-600      { --tw-gradient-to: oklch(0.55 0.18 250) !important; }
+
+/* ── Text ── */
+.dark .text-gray-300             { color: oklch(0.72 0.008 240) !important; }
+.dark .text-gray-400             { color: oklch(0.62 0.010 240) !important; }
+.dark .text-gray-500             { color: oklch(0.60 0.010 240) !important; }
+.dark .text-gray-600             { color: oklch(0.72 0.008 240) !important; }
+.dark .text-gray-700             { color: oklch(0.82 0.007 240) !important; }
+.dark .text-gray-800             { color: oklch(0.88 0.006 240) !important; }
+.dark .text-gray-900             { color: oklch(0.94 0.006 240) !important; }
+.dark .text-slate-400            { color: oklch(0.62 0.010 240) !important; }
+.dark .text-slate-700            { color: oklch(0.82 0.007 240) !important; }
+
+/* ── Borders ── */
+.dark .border-gray-50            { border-color: oklch(1 0 0 / 5%) !important; }
+.dark .border-gray-100           { border-color: oklch(1 0 0 / 7%) !important; }
+.dark .border-gray-200           { border-color: oklch(1 0 0 / 10%) !important; }
+.dark .border-gray-300           { border-color: oklch(1 0 0 / 14%) !important; }
+.dark .border-slate-100          { border-color: oklch(1 0 0 / 7%) !important; }
+.dark .border-slate-200          { border-color: oklch(1 0 0 / 10%) !important; }
+
+/* ── Divide utilities (table row dividers) ── */
+.dark .divide-gray-100 > * + *   { border-color: oklch(1 0 0 / 7%) !important; }
+.dark .divide-gray-200 > * + *   { border-color: oklch(1 0 0 / 10%) !important; }
+
+/* ── Recharts chart surfaces ── */
+.dark .recharts-wrapper          { background: transparent !important; }
+.dark .recharts-surface          { background: transparent !important; }
+.dark .recharts-tooltip-wrapper .recharts-default-tooltip {
+  background-color: oklch(0.22 0.012 240) !important;
+  border-color: oklch(1 0 0 / 10%) !important;
+  color: oklch(0.94 0.006 240) !important;
+}
+.dark .recharts-cartesian-axis-tick-value { fill: oklch(0.62 0.010 240) !important; }
+.dark .recharts-legend-item-text         { color: oklch(0.72 0.008 240) !important; }
+.dark .recharts-reference-line-label     { fill: oklch(0.72 0.008 240) !important; }
+
+/* ── Scrollbar (Webkit) ── */
+.dark ::-webkit-scrollbar              { width: 6px; height: 6px; }
+.dark ::-webkit-scrollbar-track        { background: oklch(0.16 0.009 240); }
+.dark ::-webkit-scrollbar-thumb        { background: oklch(0.32 0.011 240); border-radius: 3px; }
+.dark ::-webkit-scrollbar-thumb:hover  { background: oklch(0.42 0.012 240); }
+
+/* ── Input / Select placeholder ── */
+.dark input::placeholder    { color: oklch(0.50 0.008 240) !important; }
+.dark textarea::placeholder { color: oklch(0.50 0.008 240) !important; }
+.dark select option         { background-color: oklch(0.22 0.012 240); color: oklch(0.94 0.006 240); }
+
+/* ── Table striping & hover — make row hover use a TRANSPARENT tint
+     so text stays readable (the old opaque bg was hiding text) ── */
+.dark .hover\:bg-gray-50:hover  { background-color: oklch(1 0 0 / 6%) !important; }
+.dark .hover\:bg-gray-100:hover { background-color: oklch(1 0 0 / 8%) !important; }
+
+/* shadcn TableRow uses hover:bg-muted/50 — force a known dark hover ── */
+.dark tr:hover,
+.dark [data-slot="table-row"]:hover {
+  background-color: oklch(0.24 0.012 240) !important;
+}
+.dark tr:hover td,
+.dark [data-slot="table-row"]:hover td {
+  color: oklch(0.94 0.006 240) !important;
+}
+.dark tr:hover .text-gray-400,
+.dark tr:hover .text-gray-500,
+.dark tr:hover .text-gray-600,
+.dark [data-slot="table-row"]:hover .text-gray-400,
+.dark [data-slot="table-row"]:hover .text-gray-500,
+.dark [data-slot="table-row"]:hover .text-gray-600 { color: oklch(0.90 0.006 240) !important; }
+
+/* Keep colored values (revenue, ROAS badges) visible on hover */
+.dark tr:hover .text-emerald-600,
+.dark tr:hover .text-emerald-500 { color: oklch(0.80 0.17 163) !important; }
+.dark tr:hover .text-rose-600,
+.dark tr:hover .text-rose-500    { color: oklch(0.80 0.20 10)  !important; }
+.dark tr:hover .text-amber-600,
+.dark tr:hover .text-amber-500   { color: oklch(0.85 0.17 75)  !important; }
+.dark tr:hover .text-blue-600,
+.dark tr:hover .text-blue-500    { color: oklch(0.80 0.17 250) !important; }
+.dark tr:hover .text-purple-600,
+.dark tr:hover .text-violet-600  { color: oklch(0.80 0.19 290) !important; }
+.dark tr:hover .text-indigo-600  { color: oklch(0.80 0.19 270) !important; }
+
+/* ── Table header row backgrounds ── */
+.dark .bg-gray-50\/50   { background-color: oklch(0.16 0.009 240 / 0.5) !important; }
+.dark .bg-gray-50\/80   { background-color: oklch(0.16 0.009 240 / 0.8) !important; }
+.dark .bg-gray-50\/60   { background-color: oklch(0.16 0.009 240 / 0.6) !important; }
+.dark .bg-gray-100\/80  { background-color: oklch(0.20 0.010 240 / 0.8) !important; }
+.dark .bg-gray-100\/60  { background-color: oklch(0.20 0.010 240 / 0.6) !important; }
+
+/* Coloured partial-opacity backgrounds (insight / alert card tints) */
+.dark .bg-emerald-50\/30 { background-color: oklch(0.18 0.03 163 / 0.3) !important; }
+.dark .bg-red-50\/30     { background-color: oklch(0.18 0.03 22 / 0.3)  !important; }
+.dark .bg-amber-50\/30   { background-color: oklch(0.18 0.03 75 / 0.3)  !important; }
+.dark .bg-amber-50\/50   { background-color: oklch(0.18 0.03 75 / 0.5)  !important; }
+.dark .bg-rose-50\/50    { background-color: oklch(0.18 0.03 10 / 0.5)  !important; }
+.dark .bg-rose-50\/30    { background-color: oklch(0.18 0.03 10 / 0.3)  !important; }
+.dark .bg-violet-50\/50  { background-color: oklch(0.18 0.03 290 / 0.5) !important; }
+.dark .bg-indigo-50\/50  { background-color: oklch(0.18 0.03 270 / 0.5) !important; }
+.dark .bg-indigo-50\/30  { background-color: oklch(0.18 0.03 270 / 0.3) !important; }
+.dark .bg-blue-50\/50    { background-color: oklch(0.18 0.03 250 / 0.5) !important; }
+.dark .bg-blue-50\/30    { background-color: oklch(0.18 0.03 250 / 0.3) !important; }
+.dark .bg-cyan-50\/50    { background-color: oklch(0.18 0.03 200 / 0.5) !important; }
+.dark .bg-teal-50\/50    { background-color: oklch(0.18 0.03 180 / 0.5) !important; }
+.dark .bg-purple-50\/50  { background-color: oklch(0.18 0.03 300 / 0.5) !important; }
+
+/* ── -100/-200 tinted badge/chip backgrounds ── */
+.dark .bg-emerald-100 { background-color: oklch(0.22 0.04 163) !important; }
+.dark .bg-rose-100    { background-color: oklch(0.22 0.04 10)  !important; }
+.dark .bg-amber-100   { background-color: oklch(0.22 0.05 75)  !important; }
+.dark .bg-red-100     { background-color: oklch(0.22 0.04 22)  !important; }
+.dark .bg-blue-100    { background-color: oklch(0.22 0.04 250) !important; }
+.dark .bg-indigo-100  { background-color: oklch(0.22 0.04 270) !important; }
+.dark .bg-violet-100  { background-color: oklch(0.22 0.04 290) !important; }
+.dark .bg-yellow-100  { background-color: oklch(0.22 0.05 85)  !important; }
+.dark .bg-orange-100  { background-color: oklch(0.22 0.05 50)  !important; }
+.dark .bg-purple-100  { background-color: oklch(0.22 0.04 300) !important; }
+.dark .bg-green-200   { background-color: oklch(0.24 0.04 160) !important; }
+.dark .bg-blue-200    { background-color: oklch(0.24 0.04 250) !important; }
+.dark .bg-rose-200    { background-color: oklch(0.24 0.04 10)  !important; }
+.dark .bg-emerald-200 { background-color: oklch(0.24 0.04 163) !important; }
+
+/* ── Badge / status chip backgrounds (all -50 tints) ── */
+.dark .bg-green-50    { background-color: oklch(0.20 0.04 160) !important; }
+.dark .bg-emerald-50  { background-color: oklch(0.20 0.04 163) !important; }
+.dark .bg-red-50      { background-color: oklch(0.20 0.04 22)  !important; }
+.dark .bg-rose-50     { background-color: oklch(0.20 0.04 10)  !important; }
+.dark .bg-pink-50     { background-color: oklch(0.20 0.04 0)   !important; }
+.dark .bg-yellow-50   { background-color: oklch(0.22 0.05 85)  !important; }
+.dark .bg-amber-50    { background-color: oklch(0.22 0.05 70)  !important; }
+.dark .bg-orange-50   { background-color: oklch(0.21 0.05 50)  !important; }
+.dark .bg-blue-50     { background-color: oklch(0.20 0.04 250) !important; }
+.dark .bg-sky-50      { background-color: oklch(0.20 0.04 230) !important; }
+.dark .bg-cyan-50     { background-color: oklch(0.20 0.04 200) !important; }
+.dark .bg-teal-50     { background-color: oklch(0.20 0.04 180) !important; }
+.dark .bg-indigo-50   { background-color: oklch(0.20 0.04 270) !important; }
+.dark .bg-purple-50   { background-color: oklch(0.20 0.04 300) !important; }
+.dark .bg-violet-50   { background-color: oklch(0.20 0.04 290) !important; }
+.dark .bg-fuchsia-50  { background-color: oklch(0.20 0.04 330) !important; }
+.dark .bg-lime-50     { background-color: oklch(0.22 0.05 130) !important; }
+
+/* ── Text colour overrides — -600 range ── */
+.dark .text-green-600   { color: oklch(0.72 0.17 160) !important; }
+.dark .text-emerald-600 { color: oklch(0.72 0.17 163) !important; }
+.dark .text-red-600     { color: oklch(0.70 0.21 22)  !important; }
+.dark .text-rose-600    { color: oklch(0.70 0.21 10)  !important; }
+.dark .text-pink-600    { color: oklch(0.72 0.20 0)   !important; }
+.dark .text-yellow-600  { color: oklch(0.78 0.18 85)  !important; }
+.dark .text-amber-600   { color: oklch(0.78 0.18 75)  !important; }
+.dark .text-orange-600  { color: oklch(0.75 0.18 50)  !important; }
+.dark .text-blue-600    { color: oklch(0.70 0.18 250) !important; }
+.dark .text-sky-600     { color: oklch(0.72 0.17 230) !important; }
+.dark .text-cyan-600    { color: oklch(0.72 0.17 200) !important; }
+.dark .text-teal-600    { color: oklch(0.72 0.16 180) !important; }
+.dark .text-indigo-600  { color: oklch(0.70 0.20 270) !important; }
+.dark .text-purple-600  { color: oklch(0.72 0.20 300) !important; }
+.dark .text-violet-600  { color: oklch(0.72 0.21 290) !important; }
+.dark .text-fuchsia-600 { color: oklch(0.72 0.21 330) !important; }
+.dark .text-lime-600    { color: oklch(0.78 0.18 130) !important; }
+.dark .text-slate-600   { color: oklch(0.78 0.010 240) !important; }
+
+/* ── Text colour overrides — -700/-800/-900 (used on light-tint card backgrounds)
+       In dark mode the bg becomes dark, so dark text becomes invisible — brighten ── */
+.dark .text-green-700,   .dark .text-green-800,   .dark .text-green-900   { color: oklch(0.80 0.16 160) !important; }
+.dark .text-emerald-700, .dark .text-emerald-800, .dark .text-emerald-900 { color: oklch(0.80 0.16 163) !important; }
+.dark .text-red-700,     .dark .text-red-800,     .dark .text-red-900     { color: oklch(0.78 0.19 22)  !important; }
+.dark .text-rose-700,    .dark .text-rose-800,    .dark .text-rose-900    { color: oklch(0.78 0.19 10)  !important; }
+.dark .text-pink-700,    .dark .text-pink-800,    .dark .text-pink-900    { color: oklch(0.80 0.18 0)   !important; }
+.dark .text-yellow-700,  .dark .text-yellow-800,  .dark .text-yellow-900  { color: oklch(0.85 0.16 85)  !important; }
+.dark .text-amber-700,   .dark .text-amber-800,   .dark .text-amber-900   { color: oklch(0.85 0.16 75)  !important; }
+.dark .text-orange-700,  .dark .text-orange-800,  .dark .text-orange-900  { color: oklch(0.82 0.16 50)  !important; }
+.dark .text-blue-700,    .dark .text-blue-800,    .dark .text-blue-900    { color: oklch(0.78 0.16 250) !important; }
+.dark .text-sky-700,     .dark .text-sky-800,     .dark .text-sky-900     { color: oklch(0.80 0.15 230) !important; }
+.dark .text-cyan-700,    .dark .text-cyan-800,    .dark .text-cyan-900    { color: oklch(0.80 0.15 200) !important; }
+.dark .text-teal-700,    .dark .text-teal-800,    .dark .text-teal-900    { color: oklch(0.80 0.14 180) !important; }
+.dark .text-indigo-700,  .dark .text-indigo-800,  .dark .text-indigo-900  { color: oklch(0.78 0.18 270) !important; }
+.dark .text-purple-700,  .dark .text-purple-800,  .dark .text-purple-900  { color: oklch(0.80 0.18 300) !important; }
+.dark .text-violet-700,  .dark .text-violet-800,  .dark .text-violet-900  { color: oklch(0.80 0.19 290) !important; }
+.dark .text-fuchsia-700, .dark .text-fuchsia-800, .dark .text-fuchsia-900 { color: oklch(0.80 0.19 330) !important; }
+.dark .text-lime-700,    .dark .text-lime-800,    .dark .text-lime-900    { color: oklch(0.85 0.16 130) !important; }
+.dark .text-slate-700,   .dark .text-slate-800,   .dark .text-slate-900   { color: oklch(0.88 0.007 240) !important; }
+.dark .text-stone-700,   .dark .text-stone-800,   .dark .text-stone-900   { color: oklch(0.88 0.005 60)  !important; }
+.dark .text-zinc-700,    .dark .text-zinc-800,    .dark .text-zinc-900    { color: oklch(0.88 0.005 240) !important; }
+.dark .text-neutral-700, .dark .text-neutral-800, .dark .text-neutral-900 { color: oklch(0.88 0 0)       !important; }
+.dark .text-black        { color: oklch(0.94 0.006 240) !important; }
+
+/* ── Borders for tinted cards (matching alert/insight cards) ── */
+.dark .border-green-200, .dark .border-green-100   { border-color: oklch(0.40 0.10 160 / 40%) !important; }
+.dark .border-emerald-200, .dark .border-emerald-100 { border-color: oklch(0.40 0.10 163 / 40%) !important; }
+.dark .border-red-200,   .dark .border-red-100     { border-color: oklch(0.40 0.12 22  / 40%) !important; }
+.dark .border-rose-200,  .dark .border-rose-100    { border-color: oklch(0.40 0.12 10  / 40%) !important; }
+.dark .border-amber-200, .dark .border-amber-100   { border-color: oklch(0.42 0.10 75  / 40%) !important; }
+.dark .border-yellow-200,.dark .border-yellow-100  { border-color: oklch(0.42 0.10 85  / 40%) !important; }
+.dark .border-orange-200,.dark .border-orange-100  { border-color: oklch(0.42 0.10 50  / 40%) !important; }
+.dark .border-blue-200,  .dark .border-blue-100    { border-color: oklch(0.40 0.10 250 / 40%) !important; }
+.dark .border-indigo-200,.dark .border-indigo-100  { border-color: oklch(0.40 0.10 270 / 40%) !important; }
+.dark .border-purple-200,.dark .border-purple-100  { border-color: oklch(0.40 0.10 300 / 40%) !important; }
+.dark .border-violet-200,.dark .border-violet-100  { border-color: oklch(0.40 0.10 290 / 40%) !important; }
+
+/* ── Ring / focus ── */
+.dark .ring-gray-200  { --tw-ring-color: oklch(1 0 0 / 10%); }
+
+/* ── Prose / headings that use black ── */
+.dark h1, .dark h2, .dark h3, .dark h4 { color: oklch(0.94 0.006 240); }
+
+/* ── Partial-opacity backgrounds ── */
+.dark .bg-gray-50\/30   { background-color: oklch(0.16 0.009 240 / 0.3) !important; }
+.dark .bg-white\/80     { background-color: oklch(0.21 0.012 240 / 0.8) !important; }
+.dark .bg-white\/50     { background-color: oklch(0.21 0.012 240 / 0.5) !important; }
+
+/* ── Inventory / any tab bar: inactive tabs need readable text ── */
+.dark button[class*="hover:bg-gray-100"][class*="hover:text-gray-700"] {
+  color: oklch(0.55 0.010 240) !important;
+}
+.dark button[class*="hover:bg-gray-100"][class*="hover:text-gray-700"]:hover {
+  background-color: oklch(0.22 0.010 240) !important;
+  color: oklch(0.82 0.008 240) !important;
+}
+
+/* ── Insight / alert cards: ALL text inside gradient cards must be light ── */
+.dark [class*="bg-gradient-to-"] .text-sm.text-gray-600,
+.dark [class*="bg-gradient-to-"] .text-sm.text-gray-500,
+.dark [class*="bg-gradient-to-"] .text-gray-600.leading-relaxed,
+.dark [class*="bg-gradient-to-"] .text-gray-600 {
+  color: oklch(0.75 0.008 240) !important;
+}
+.dark [class*="bg-gradient-to-"] .text-gray-800,
+.dark [class*="bg-gradient-to-"] .text-gray-700,
+.dark [class*="bg-gradient-to-"] .font-semibold.text-gray-800 {
+  color: oklch(0.94 0.006 240) !important;
+}
+.dark [class*="bg-gradient-to-"] strong.text-gray-800 {
+  color: oklch(0.94 0.006 240) !important;
+}
+/* Numbers / values inside gradient cards */
+.dark [class*="bg-gradient-to-"] .text-gray-700.font-bold,
+.dark [class*="bg-gradient-to-"] .font-bold.text-gray-700 {
+  color: oklch(0.90 0.006 240) !important;
+}
+/* Coloured strong text inside insight cards — keep their colour but brighten */
+.dark [class*="bg-gradient-to-"] strong.text-emerald-700 { color: oklch(0.78 0.16 163) !important; }
+.dark [class*="bg-gradient-to-"] strong.text-indigo-700  { color: oklch(0.76 0.18 270) !important; }
+.dark [class*="bg-gradient-to-"] strong.text-blue-700    { color: oklch(0.76 0.16 250) !important; }
+.dark [class*="bg-gradient-to-"] strong.text-rose-700    { color: oklch(0.76 0.19 10)  !important; }
+.dark [class*="bg-gradient-to-"] strong.text-violet-700  { color: oklch(0.78 0.19 290) !important; }
+
+/* ── KPI card titles (UPPERCASE labels like "TOTAL TRACKED SKUS") ── */
+.dark .uppercase.tracking-wider { color: oklch(0.62 0.010 240); }
+.dark .text-xs.font-semibold.uppercase { color: oklch(0.62 0.010 240); }
+
+/* ── Card body text — paragraphs/spans without explicit color classes ── */
+.dark [class*="CardContent"] p:not([class*="text-"]) { color: oklch(0.72 0.008 240); }
+.dark [class*="CardContent"] span:not([class*="text-"]) { color: oklch(0.82 0.008 240); }
+.dark [class*="CardHeader"] .text-gray-700 { color: oklch(0.82 0.007 240) !important; }
+
+/* ── font-mono (table cells like SKU codes) ── */
+.dark .font-mono.text-xs { color: oklch(0.60 0.010 240); }
+
+/* ── Flow Attribution step transitions: the count number at end ── */
+.dark [class*="bg-gradient-to-"] .font-bold.text-gray-700,
+.dark [class*="bg-gradient-to-"] .text-sm.font-bold.text-gray-700 {
+  color: oklch(0.90 0.006 240) !important;
+}
+
+/* ──────────────────────────────────────────────────────────────────
+   Coloured cards with same-tint text — force near-white for contrast.
+   Example: BEST CREATIVE card uses bg-gradient with from-emerald-50/80
+   AND text-emerald-800 for the main name. In dark mode both became the
+   same emerald shade → text disappeared. Make these main labels white.
+   ────────────────────────────────────────────────────────────────── */
+.dark .from-emerald-50\/80    .text-emerald-800,
+.dark .from-emerald-50\/80   ~ .text-emerald-800,
+.dark [class*="from-emerald"] .text-emerald-800,
+.dark [class*="from-emerald"] .font-bold.text-emerald-800 {
+  color: oklch(0.96 0.02 163) !important;
+}
+.dark [class*="from-rose"]    .text-rose-800,
+.dark [class*="from-rose"]    .font-bold.text-rose-800 {
+  color: oklch(0.96 0.02 10) !important;
+}
+.dark [class*="from-red"]     .text-red-800,
+.dark [class*="from-red"]     .font-bold.text-red-800 {
+  color: oklch(0.96 0.02 22) !important;
+}
+.dark [class*="from-amber"]   .text-amber-800,
+.dark [class*="from-amber"]   .font-bold.text-amber-800 {
+  color: oklch(0.96 0.02 75) !important;
+}
+.dark [class*="from-blue"]    .text-blue-800,
+.dark [class*="from-blue"]    .font-bold.text-blue-800 {
+  color: oklch(0.96 0.02 250) !important;
+}
+.dark [class*="from-violet"]  .text-violet-800,
+.dark [class*="from-violet"]  .font-bold.text-violet-800 {
+  color: oklch(0.96 0.02 290) !important;
+}
+.dark [class*="from-indigo"]  .text-indigo-800 {
+  color: oklch(0.96 0.02 270) !important;
+}
+
+/* Smaller -600 labels inside same-tint cards: keep the colour but brighten */
+.dark [class*="from-emerald"] .text-emerald-600,
+.dark [class*="from-emerald"] .text-emerald-700 { color: oklch(0.84 0.16 163) !important; }
+.dark [class*="from-rose"]    .text-rose-600,
+.dark [class*="from-rose"]    .text-rose-700    { color: oklch(0.84 0.18 10)  !important; }
+.dark [class*="from-amber"]   .text-amber-600,
+.dark [class*="from-amber"]   .text-amber-700   { color: oklch(0.88 0.16 75)  !important; }
+.dark [class*="from-violet"]  .text-violet-600  { color: oklch(0.84 0.20 290) !important; }
+.dark [class*="from-blue"]    .text-blue-600    { color: oklch(0.84 0.16 250) !important; }
+.dark [class*="from-indigo"]  .text-indigo-600  { color: oklch(0.84 0.18 270) !important; }
+
+/* Icon colors inside coloured tint cards — also brighten */
+.dark [class*="from-emerald"] .text-emerald-500 { color: oklch(0.80 0.18 163) !important; }
+.dark [class*="from-rose"]    .text-rose-500    { color: oklch(0.78 0.21 10)  !important; }
+
+/* ── Dark-mode gradient card backgrounds — make cards visible against dark bg ── */
+.dark [class*="from-indigo-50"]   { --tw-gradient-from: oklch(0.22 0.04 270) !important; --tw-gradient-to: oklch(0.18 0.02 270 / 0.4) !important; }
+.dark [class*="from-emerald-50"]  { --tw-gradient-from: oklch(0.22 0.04 163) !important; --tw-gradient-to: oklch(0.18 0.02 163 / 0.4) !important; }
+.dark [class*="from-blue-50"]     { --tw-gradient-from: oklch(0.22 0.04 250) !important; --tw-gradient-to: oklch(0.18 0.02 250 / 0.4) !important; }
+.dark [class*="from-amber-50"]    { --tw-gradient-from: oklch(0.22 0.04 75)  !important; --tw-gradient-to: oklch(0.18 0.02 75 / 0.4)  !important; }
+.dark [class*="from-rose-50"]     { --tw-gradient-from: oklch(0.22 0.04 10)  !important; --tw-gradient-to: oklch(0.18 0.02 10 / 0.4)  !important; }
+.dark [class*="from-red-50"]      { --tw-gradient-from: oklch(0.22 0.04 22)  !important; --tw-gradient-to: oklch(0.18 0.02 22 / 0.4)  !important; }
+.dark [class*="from-violet-50"]   { --tw-gradient-from: oklch(0.22 0.04 290) !important; --tw-gradient-to: oklch(0.18 0.02 290 / 0.4) !important; }
+.dark [class*="from-slate-50"]    { --tw-gradient-from: oklch(0.22 0.01 240) !important; --tw-gradient-to: oklch(0.18 0.01 240 / 0.4) !important; }
+.dark [class*="from-green-50"]    { --tw-gradient-from: oklch(0.22 0.04 145) !important; --tw-gradient-to: oklch(0.18 0.02 145 / 0.4) !important; }
+.dark [class*="from-purple-50"]   { --tw-gradient-from: oklch(0.22 0.04 300) !important; --tw-gradient-to: oklch(0.18 0.02 300 / 0.4) !important; }
+.dark [class*="from-orange-50"]   { --tw-gradient-from: oklch(0.22 0.04 50)  !important; --tw-gradient-to: oklch(0.18 0.02 50 / 0.4)  !important; }
+.dark [class*="from-yellow-50"]   { --tw-gradient-from: oklch(0.22 0.04 85)  !important; --tw-gradient-to: oklch(0.18 0.02 85 / 0.4)  !important; }
+
+/* ── Login page ── */
+.dark .login-card { background-color: oklch(0.18 0.010 240) !important; }
