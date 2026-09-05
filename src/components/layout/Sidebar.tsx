@@ -251,7 +251,7 @@ export const menuItems = [
     href: "/marketing-platforms",
   },
   {
-    label: "Customer LTV",
+    label: "Customer LTV Explorer",
     icon: UserSearch,
     href: "/clv",
   },
@@ -321,7 +321,7 @@ export function AppSidebar() {
                 const active = pathname === item.href
 
                 return (
-                    <SidebarMenuItem key={item.label}>
+                    <SidebarMenuItem key={item.href}>
                       <SidebarMenuButton
                         asChild
                         isActive={active}
