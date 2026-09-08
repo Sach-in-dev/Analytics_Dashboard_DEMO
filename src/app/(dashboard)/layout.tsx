@@ -24,12 +24,15 @@
 
 import Header from "@/components/layout/Header"
 import { AppSidebar } from "@/components/layout/Sidebar"
+import { MobileNotice } from "@/components/layout/MobileNotice"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AuthProvider } from "@/contexts/AuthContext"
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <AuthProvider>
+      {/* Mobile-only full-screen notice (md:hidden — no effect on desktop) */}
+      <MobileNotice />
       <SidebarProvider>
         <AppSidebar />
         <main className="relative flex min-h-screen flex-1 flex-col min-w-0 overflow-x-hidden">
